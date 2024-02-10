@@ -5,6 +5,7 @@ import cors from "cors"
 import mongoose from "mongoose"
 import promptsRouter from "./routes/promptsRoute"
 
+// TODO: set up dotenv for connection string and other things
 const uri =
   "mongodb+srv://shawnballay1:UlQOgDRFZ3vB2sRc@cluster0.lseriug.mongodb.net/?retryWrites=true&w=majority"
 

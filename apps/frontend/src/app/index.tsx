@@ -1,5 +1,6 @@
 import * as React from "react"
-import "./styles.css"
+// import "./styles.css"
+import "../../styles/global.css"
 import { CounterButton, Link } from "@repo/ui"
 
 function App(): JSX.Element {
@@ -42,7 +43,9 @@ function App(): JSX.Element {
           Vite
         </Link>
       </p>
-      <button onClick={testServer}>Test Send Prompt</button>
+      <button className="text-purple-700 p-6 m-4" onClick={testServer}>
+        Test Send Prompt
+      </button>
     </div>
   )
 }
