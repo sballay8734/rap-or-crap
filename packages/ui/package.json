@@ -11,11 +11,11 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup src/index.tsx --format esm,cjs --dts --external react",
+    "build": "tsup index.tsx --format esm,cjs --dts --external react",
     "clean": "rm -rf dist",
-    "dev": "tsup src/index.tsx --format esm,cjs --watch --dts --external react",
+    "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src/",
+    "lint": "eslint ./",
     "test": "jest"
   },
   "jest": {
@@ -33,6 +33,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "tailwind-config": "*"
   }
 }
