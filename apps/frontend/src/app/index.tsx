@@ -41,7 +41,10 @@ function App(): JSX.Element {
           Vite
         </Link>
       </p>
-      <button className="text-purple-700 p-6 m-4" onClick={testServer}>
+      <button
+        className="text-purple-700 font-bold p-6 m-4"
+        onClick={testServer}
+      >
         Test Send Prompt
       </button>
     </div>
