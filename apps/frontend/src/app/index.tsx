@@ -28,7 +28,7 @@ function App(): JSX.Element {
     <div className="container">
       <h1 className="title">
         Admin <br />
-        <span>Kitchen Sink</span>
+        <span className="font-bold">Kitchen Sink</span>
       </h1>
       <CounterButton />
       <p className="description">
@@ -41,10 +41,7 @@ function App(): JSX.Element {
           Vite
         </Link>
       </p>
-      <button
-        className="text-purple-700 font-bold p-6 m-4"
-        onClick={testServer}
-      >
+      <button className="text-green-700 font-bold p-6 m-4" onClick={testServer}>
         Test Send Prompt
       </button>
     </div>
