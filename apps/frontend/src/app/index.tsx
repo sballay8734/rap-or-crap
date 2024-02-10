@@ -1,5 +1,3 @@
-import * as React from "react"
-// import "./styles.css"
 import "../../styles/global.css"
 import { CounterButton, Link } from "@repo/ui"
 
