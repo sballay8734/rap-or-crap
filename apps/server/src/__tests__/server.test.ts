@@ -1,5 +1,5 @@
-import supertest from "supertest";
-import { createServer } from "../server";
+import supertest from "supertest"
+import { createServer } from "../serverConfig"
 
 describe("Server", () => {
   it("health check returns 200", async () => {
@@ -7,16 +7,16 @@ describe("Server", () => {
       .get("/status")
       .expect(200)
       .then((res) => {
-        expect(res.ok).toBe(true);
-      });
-  });
+        expect(res.ok).toBe(true)
+      })
+  })
 
   it("message endpoint says hello", async () => {
     await supertest(createServer())
       .get("/message/jared")
       .expect(200)
       .then((res) => {
-        expect(res.body).toEqual({ message: "hello jared" });
-      });
-  });
-});
+        expect(res.body).toEqual({ message: "hello jared" })
+      })
+  })
+})
