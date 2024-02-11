@@ -26,22 +26,10 @@ function App(): JSX.Element {
 
   return (
     <div className="container">
-      <h1 className="title">
-        Admin <br />
-        <span className="font-thin">Kitchen Sink</span>
-      </h1>
-      <CounterButton />
-      <p className="description">
-        Built With{" "}
-        <Link href="https://turbo.build/repo" newTab>
-          Turborepo
-        </Link>
-        {" & "}
-        <Link href="https://vitejs.dev/" newTab>
-          Vite
-        </Link>
-      </p>
-      <button className="text-green-700 font-bold p-6 m-4" onClick={testServer}>
+      <button
+        className="text-green-700 font-bold p-6 m-4 border-2 border-red-400"
+        onClick={testServer}
+      >
         Test Send Prompt
       </button>
     </div>
