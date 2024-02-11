@@ -30,7 +30,7 @@ export function CounterButton(): JSX.Element {
             setCount((c) => c + 1)
           }}
           style={{
-            background: "red",
+            background: "orange",
             color: "white",
             border: "none",
             padding: "0.5rem 1rem",
