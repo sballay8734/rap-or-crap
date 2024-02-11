@@ -3,7 +3,10 @@
   "compilerOptions": {
     "lib": ["dom", "ES2015"],
     "types": ["jest", "node"],
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "module": "ESNext"
   },
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]

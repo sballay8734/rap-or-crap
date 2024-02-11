@@ -1,4 +1,4 @@
 import "./styles/index.css"
 
-export { Link } from "./Link"
-export { CounterButton } from "./CounterButton"
+export { Link } from "./Components/Link"
+export { CounterButton } from "./Components/CounterButton"

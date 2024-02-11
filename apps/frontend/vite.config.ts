@@ -1,14 +1,15 @@
+// vite.config.js in apps/frontend
 import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import path from "path"
 
-export default defineConfig({
+export default {
   plugins: [react()],
   resolve: {
     alias: [
       {
-        find: "@",
-        replacement: "@/ui/dist/index.mjs"
+        find: "@fs",
+        replacement: path.resolve(__dirname, "../../packages/ui/dist")
       }
     ]
   }
-})
+}
