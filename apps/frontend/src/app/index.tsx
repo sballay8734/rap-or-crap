@@ -1,6 +1,9 @@
 import "../../styles/global.css"
 import { CounterButton, Link } from "@repo/ui"
 
+// DEPLOYMENT ONLY WORKS IF YOU RUN SERVER LOCALLY
+// You'll probably have to deploy server on vercel somehow to
+
 function App(): JSX.Element {
   const testObject = {
     artistName: "Bob Dillon",
