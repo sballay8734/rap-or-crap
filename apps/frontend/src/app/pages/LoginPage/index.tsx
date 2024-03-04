@@ -1,4 +1,5 @@
 // TODO: Flex grow and other not working as expected. NEED TO FINALIZE
+// TODO: Bring in React Hook Form
 
 export default function LoginPage() {
   return (
@@ -10,13 +11,13 @@ export default function LoginPage() {
       {/* TODO: Replace this with React Hook Form  */}
       <form action="submit" className="flex w-full flex-grow flex-col">
         <input
-          className="border-grey-500 mb-4 h-12 rounded-sm border-[2px] bg-gray-500 opacity-20"
+          className="border-grey-500 mb-4 h-12 rounded-sm border-[2px] bg-gray-500 px-2 opacity-20"
           type="text"
           name=""
           id=""
         />
         <input
-          className="border-grey-500 mb-4 h-12 rounded-sm border-[2px] bg-gray-500 opacity-20"
+          className="border-grey-500 mb-4 h-12 rounded-sm border-[2px] bg-gray-500 px-2 opacity-20"
           type="text"
           name=""
           id=""
