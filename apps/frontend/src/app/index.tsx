@@ -1,8 +1,5 @@
 import "../../styles/global.css";
-import { CounterButton, Link } from "@repo/ui";
-
-// DEPLOYMENT ONLY WORKS IF YOU RUN SERVER LOCALLY
-// You'll probably have to deploy server on vercel somehow to
+import LoginPage from "./pages/LoginPage";
 
 function App(): JSX.Element {
   const testObject = {
@@ -10,6 +7,8 @@ function App(): JSX.Element {
     lyric: "Oh baby baby what are you doing and where did you go?",
     youtubeUrl: "string",
   };
+
+  const testUserLoggedIn = false;
 
   async function testServer() {
     const res = await fetch("http://localhost:5001/api/prompts/create-prompt", {
@@ -27,8 +26,11 @@ function App(): JSX.Element {
     console.log(data);
   }
 
+  // show LoginPage if there is no user logged in
+  if (!testUserLoggedIn) return <LoginPage />;
+
   return (
-    <div className="container">
+    <div className="container flex h-full w-full items-center justify-center">
       <button
         className="bg-sky-700 px-4 py-2 text-white hover:bg-sky-800 sm:px-8 sm:py-3"
         onClick={testServer}
