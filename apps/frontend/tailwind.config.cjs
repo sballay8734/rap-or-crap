@@ -21,6 +21,7 @@ module.exports = {
       "gray-light": "#d3dce6",
     },
     fontFamily: {
+      display: "Lexend",
       sans: ["Graphik", "sans-serif"],
       serif: ["Merriweather", "serif"],
     },

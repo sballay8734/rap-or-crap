@@ -1,11 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: "Lexend", sans-serif;
 }
 
 html {
@@ -34,11 +36,22 @@ html {
     0,
     0,
     0,
-    0.85
+    0.88
   ); /* Adjust the alpha value for darkness */
 }
 
 body {
   width: 100%;
   margin: 0;
+}
+
+input {
+  outline: none;
+  border: none;
+}
+
+input:active,
+input:focus {
+  outline: none;
+  border: none;
 }
