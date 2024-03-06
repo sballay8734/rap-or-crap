@@ -24,8 +24,25 @@ export default function SignupPage() {
 
   const watchPassword = watch("password", "");
 
-  const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-    console.log("SUBMITTED:", data);
+  // TODO: Extract this logic to redux
+  const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
+    const res = await fetch("http://localhost:5001/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(signupData),
+    });
+
+    const data = await res.json();
+
+    // TODO: Standardize error response from server
+    if (!data) {
+      console.log("ERROR");
+      return;
+    }
+
+    console.log(data);
     navigate("/");
   };
 

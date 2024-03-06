@@ -5,7 +5,9 @@ export const signup = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const formData = req.body;
   console.log("HIT SIGNUP");
+  return res.status(200).json(formData);
 };
 
 export const login = async (
@@ -13,5 +15,7 @@ export const login = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const formData = req.body;
   console.log("HIT LOGIN");
+  return res.status(200).json(formData);
 };

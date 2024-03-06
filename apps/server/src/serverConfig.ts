@@ -38,5 +38,7 @@ export const createServer = (): Express => {
   app.use("/api/prompts", promptsRouter);
   app.use("/api/auth", authRouter);
 
+  // TODO: Add error handle here
+
   return app;
 };

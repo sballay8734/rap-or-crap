@@ -19,10 +19,26 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-    console.log("SUBMITTED:", data);
+  // TODO: Extract this logic to redux
+  const onSubmit: SubmitHandler<FormData> = async (loginData: FormData) => {
+    const res = await fetch("http://localhost:5001/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
+
+    const data = await res.json();
+
+    // TODO: Standardize error response from server
+    if (!data) {
+      console.log("ERROR");
+      return;
+    }
+
+    console.log(data);
     navigate("/home");
-    // Add your form submission logic here
   };
 
   return (
