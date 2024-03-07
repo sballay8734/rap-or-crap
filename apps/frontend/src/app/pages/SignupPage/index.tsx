@@ -46,9 +46,11 @@ export default function SignupPage() {
     navigate("/");
   };
 
+  // TODO: Move text up a bit (pb-10 worked but not a good solution)
+
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white">
-      <div className="top-8 flex h-1/6 items-center text-center text-4xl">
+      <div className="flex h-1/6 items-center text-center text-4xl">
         Sign Up
       </div>
       <form

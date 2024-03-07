@@ -11,7 +11,9 @@
     "lint": "eslint src/"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.1",
     "@repo/ui": "*",
+    "@types/react-redux": "^7.1.33",
     "@types/react-router-dom": "^5.3.3",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
@@ -19,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.0",
     "react-icons": "^5.0.1",
+    "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.2",
     "sort-by": "^1.2.0"
   },

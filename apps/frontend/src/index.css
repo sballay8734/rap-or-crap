@@ -55,3 +55,19 @@ input:focus {
   outline: none;
   border: none;
 }
+
+#modal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+button {
+  opacity: 1;
+  transition: all 100ms;
+}
+
+button:active {
+  opacity: 0.8;
+  transition: all 100ms;
+}
