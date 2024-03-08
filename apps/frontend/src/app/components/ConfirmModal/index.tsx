@@ -3,17 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { RootState } from "../../redux/store";
-import { hideModal } from "../../redux/ConfirmModalSlice";
+import { hideConfirmModal } from "../../redux/ConfirmModalSlice";
 import { IoMdCloseCircle } from "react-icons/io";
 
 export default function ConfirmModal() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const modalIsShown = useSelector((state: RootState) => state.modal.showModal);
-  const modalMessage = useSelector((state: RootState) => state.modal.message);
+  const modalIsShown = useSelector(
+    (state: RootState) => state.confirmModal.showConfirmModal,
+  );
+  const modalMessage = useSelector(
+    (state: RootState) => state.confirmModal.message,
+  );
+  const modalDetails = useSelector(
+    (state: RootState) => state.confirmModal.details,
+  );
 
   function closeModal() {
-    dispatch(hideModal());
+    dispatch(hideConfirmModal());
   }
 
   function handleInitializeGame() {
@@ -48,11 +55,15 @@ export default function ConfirmModal() {
             <IoMdCloseCircle size={30} className="text-white" />
           </button>
         </div>
-        <div className="flex flex-[1_0_67%] flex-col items-center justify-between py-4">
+        <div className="flex flex-[1_0_67%] flex-col items-center justify-between px-4 py-4">
           <h2 className="text-2xl font-bold">Hang On a Sec!</h2>
-          <p className="w-3/4 text-center text-xs opacity-50">{modalMessage}</p>
+          {modalDetails.length > 0 && (
+            <p className="w-3/4 text-center text-xs opacity-50">
+              {modalDetails}
+            </p>
+          )}
           <p className="rounded-md bg-red-200 px-3 py-1 text-center text-sm font-bold text-red-500 opacity-90">
-            Are you sure you want to start a new game?
+            {modalMessage}
           </p>
           <div className="flex gap-6">
             <button

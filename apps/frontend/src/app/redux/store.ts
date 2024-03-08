@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import modalReducer from "./ConfirmModalSlice";
+import confirmModalReducer from "./ConfirmModalSlice";
+import errorModalReducer from "./ErrorModalSlice";
 
 export const store = configureStore({
   reducer: {
-    modal: modalReducer,
+    confirmModal: confirmModalReducer,
+    errorModal: errorModalReducer,
   },
 });
 

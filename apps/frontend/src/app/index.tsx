@@ -6,7 +6,9 @@ import ConfirmModal from "./components/ConfirmModal";
 function App(): JSX.Element {
   // TODO: Need to use React Router. This is just a temporary solution
   const isUserLoggedIn = true;
-  const modalIsShown = useSelector((state: RootState) => state.modal.showModal);
+  const confirmModalIsShown = useSelector(
+    (state: RootState) => state.confirmModal.showConfirmModal,
+  );
 
   return (
     <div className="container flex h-full w-full items-center justify-center">
@@ -21,7 +23,7 @@ function App(): JSX.Element {
           <Outlet />
         </>
       )}
-      {modalIsShown && <ConfirmModal />}
+      {confirmModalIsShown && <ConfirmModal />}
     </div>
   );
 }

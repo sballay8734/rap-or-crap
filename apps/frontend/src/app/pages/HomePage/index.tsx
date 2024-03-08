@@ -4,7 +4,7 @@ import { IoMdSettings } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import { ImSpinner11 } from "react-icons/im";
 import { useDispatch } from "react-redux";
-import { showModal } from "../../redux/ConfirmModalSlice";
+import { showConfirmModal } from "../../redux/ConfirmModalSlice";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -17,9 +17,11 @@ export default function HomePage() {
   function handleNewGame() {
     if (activeGame) {
       dispatch(
-        showModal(
-          "Starting a new game will delete your previous game forever!",
-        ),
+        showConfirmModal({
+          details:
+            "Starting a new game will delete your previous game forever!",
+          message: "Are you sure you want to start a new game?",
+        }),
       );
       return;
     }

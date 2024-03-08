@@ -11,6 +11,7 @@ import SignupPage from "./app/pages/SignupPage";
 import "./index.css";
 import HomePage from "./app/pages/HomePage";
 import GameSetupPage from "./app/pages/GameSetupPage";
+import ErrorModal from "./app/components/ErrorModal";
 
 // TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
 
@@ -48,6 +49,7 @@ if (el) {
     <React.StrictMode>
       <Provider store={store}>
         <RouterProvider router={router} />
+        <ErrorModal />
       </Provider>
     </React.StrictMode>,
   );

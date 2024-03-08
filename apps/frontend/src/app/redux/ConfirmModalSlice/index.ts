@@ -1,34 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-
-const defaultHeader = "Hang On a Sec!";
-const defaultFooter = "Are you sure you want to do this?";
 
 export interface ConfirmModalState {
+  details: string;
   message: string;
-  showModal: boolean;
+  showConfirmModal: boolean;
 }
 
 const initialState: ConfirmModalState = {
+  details: "",
   message: "",
-  showModal: false,
+  showConfirmModal: false,
 };
 
 const confirmModalSlice = createSlice({
   name: "confirm",
   initialState,
   reducers: {
-    showModal: (state, action: PayloadAction<string>) => {
-      console.log("From Slice: SHOWN");
-      state.showModal = true;
-      state.message = action.payload;
+    showConfirmModal: (
+      state,
+      action: PayloadAction<{ details: string; message: string }>,
+    ) => {
+      state.showConfirmModal = true;
+      state.details = action.payload.details;
+      state.message = action.payload.message;
     },
-    hideModal: (state) => {
-      console.log("From Slice: HIDDEN");
-      state.showModal = false;
+    hideConfirmModal: (state) => {
+      state.showConfirmModal = false;
     },
   },
 });
 
-export const { showModal, hideModal } = confirmModalSlice.actions;
+export const { showConfirmModal, hideConfirmModal } = confirmModalSlice.actions;
 export default confirmModalSlice.reducer;
