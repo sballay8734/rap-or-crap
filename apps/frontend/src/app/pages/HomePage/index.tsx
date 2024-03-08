@@ -14,6 +14,7 @@ export default function HomePage() {
   const activeGame = true;
   const userName = "Shawn";
 
+  // TODO: NEED TO LINK THE SELECTION OF "I'm Sure" to somehow start game
   function handleNewGame() {
     if (activeGame) {
       dispatch(
