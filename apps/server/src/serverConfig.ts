@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 
 import promptsRouter from "./routes/promptsRoute";
 import authRouter from "./routes/authRoute";
+import gameRouter from "./routes/gameRoute";
 
 // TODO: set up dotenv for connection string and other things
 const uri =
@@ -37,6 +38,7 @@ export const createServer = (): Express => {
 
   app.use("/api/prompts", promptsRouter);
   app.use("/api/auth", authRouter);
+  app.use("/api/game", gameRouter);
 
   // TODO: Add error handle here
 

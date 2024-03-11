@@ -19,7 +19,7 @@ function App(): JSX.Element {
         </>
       ) : (
         <>
-          <Navigate to="/login" replace />
+          <Navigate to="/signin" replace />
           <Outlet />
         </>
       )}

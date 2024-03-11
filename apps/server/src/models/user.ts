@@ -6,8 +6,8 @@ interface IUser {
   password: string;
   activeGameId: string;
 
-  // should be an array of IDs
-  friends: string[];
+  // TODO: should be an array of IDs
+  friends?: string[];
 }
 
 const UserSchema = new Schema({

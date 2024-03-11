@@ -2,11 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import confirmModalReducer from "./ConfirmModalSlice";
 import errorModalReducer from "./ErrorModalSlice";
+import { gameHandlingApi } from "./GameHandling/gameHandlingApi";
 
 export const store = configureStore({
   reducer: {
     confirmModal: confirmModalReducer,
     errorModal: errorModalReducer,
+    [gameHandlingApi.reducerPath]: gameHandlingApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(gameHandlingApi.middleware);
   },
 });
 

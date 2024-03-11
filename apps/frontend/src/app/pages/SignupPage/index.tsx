@@ -146,8 +146,8 @@ export default function SignupPage() {
       </form>
       <p className="absolute bottom-8 flex-grow">
         Already have an account?{" "}
-        <Link to="/login" className="text-green-700">
-          Login
+        <Link to="/signin" className="text-green-700">
+          Sign in
         </Link>
       </p>
     </div>

@@ -10,12 +10,12 @@ export const signup = async (
   return res.status(200).json(formData);
 };
 
-export const login = async (
+export const signin = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const formData = req.body;
-  console.log("HIT LOGIN");
+  console.log("HIT SIGNIN");
   return res.status(200).json(formData);
 };

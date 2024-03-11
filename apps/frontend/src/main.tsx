@@ -6,12 +6,13 @@ import { Provider } from "react-redux";
 
 import App from "./app";
 import ErrorPage from "./app/pages/ErrorPage";
-import LoginPage from "./app/pages/LoginPage";
+import SigninPage from "./app/pages/SigninPage";
 import SignupPage from "./app/pages/SignupPage";
-import "./index.css";
+import GamePage from "./app/pages/GamePage";
 import HomePage from "./app/pages/HomePage";
 import GameSetupPage from "./app/pages/GameSetupPage";
 import ErrorModal from "./app/components/ErrorModal";
+import "./index.css";
 
 // TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
 
@@ -22,8 +23,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "login",
-        element: <LoginPage />,
+        path: "signin",
+        element: <SigninPage />,
       },
       {
         path: "signup",
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "game-setup",
         element: <GameSetupPage />,
+      },
+      {
+        path: "game",
+        element: <GamePage />,
       },
     ],
   },

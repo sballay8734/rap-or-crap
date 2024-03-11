@@ -1,15 +1,26 @@
 import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { setError } from "../../redux/ErrorModalSlice";
 import { IoIosAdd, IoIosClose } from "react-icons/io";
 import { FaCheckCircle } from "react-icons/fa";
 import { formatNameFirstLastName } from "../../helpers/formattingStrings";
 import { showConfirmModal } from "../../redux/ConfirmModalSlice";
+import {
+  IGameInstance,
+  useLazyInitializeGameMutation,
+} from "../../redux/GameHandling/gameHandlingApi";
 
 const MAX_PLAYERS = 10;
+// TODO: Set up auth routes and login behavior
+const tempUserId = "asdlkjf2398u298ugasd";
 
 export default function GameSetupPage() {
+  const [trigger, { isError, isLoading, isSuccess }] =
+    useLazyInitializeGameMutation();
+
+  const navigate = useNavigate();
   // TODO: Ask if it's better to declare dispatch outside component
   const dispatch = useDispatch();
   const [players, setPlayers] = useState<string[]>([]);
@@ -63,16 +74,44 @@ export default function GameSetupPage() {
     return null;
   }
 
-  function handleStartGame() {
-    if (players.length < 2) {
-      dispatch(
-        showConfirmModal({
-          message: "Are you sure you want to start a game by yourself?",
-          details: "",
-        }),
-      );
+  async function handleStartGame() {
+    const playersObject = Object.fromEntries(
+      players.map((player) => [
+        player,
+        {
+          // c = current
+          // l will be for lifetime (but this is handled on server)
+          cCorrect: 0,
+          cWrong: 0,
+          cDrinksTaken: 0,
+          cDrinksGiven: 0,
+          cCorrectStreak: 0,
+          cWrongStreak: 0,
+        },
+      ]),
+    );
+
+    const fullGameObject: IGameInstance = {
+      playersObject: { ...playersObject },
+      userId: tempUserId,
+      gameStartDate: new Date().toISOString(),
+    };
+
+    console.log(fullGameObject);
+
+    // TODO: Replace this with API
+    // FIXME: Need to fix TS bug
+    const response = await trigger(fullGameObject);
+    console.log(response);
+    return;
+
+    if (players.length < 1) {
+      dispatch(setError("At least one player is required."));
+      return;
     }
-    console.log("Game Started");
+    // TODO: Clear previous game
+    // TODO: Initialize current game in db
+    navigate("/game");
   }
 
   return (

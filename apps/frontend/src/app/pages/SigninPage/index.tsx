@@ -11,7 +11,7 @@ interface FormData {
   rememberMe: boolean;
 }
 
-export default function LoginPage() {
+export default function SigninPage() {
   const navigate = useNavigate();
   const {
     register,
@@ -20,13 +20,13 @@ export default function LoginPage() {
   } = useForm<FormData>();
 
   // TODO: Extract this logic to redux
-  const onSubmit: SubmitHandler<FormData> = async (loginData: FormData) => {
-    const res = await fetch("http://localhost:5001/api/auth/login", {
+  const onSubmit: SubmitHandler<FormData> = async (signinData: FormData) => {
+    const res = await fetch("http://localhost:5001/api/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(loginData),
+      body: JSON.stringify(signinData),
     });
 
     const data = await res.json();
