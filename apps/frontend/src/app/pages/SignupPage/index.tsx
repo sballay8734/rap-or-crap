@@ -1,10 +1,13 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import { MdOutlineMail } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
 import { IoIosClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
+import { setError } from "../../redux/ErrorModalSlice";
 
 interface FormData {
   email: string;
@@ -13,7 +16,9 @@ interface FormData {
   confirmPassword: string;
 }
 
+// !FIXME: Form validation is not quite working properly. It only works after form has been submitted but not initially.
 export default function SignupPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     watch,
@@ -22,7 +27,7 @@ export default function SignupPage() {
     formState: { errors },
   } = useForm<FormData>();
 
-  const watchPassword = watch("password", "");
+  const watchPassword = watch("password", undefined);
 
   // TODO: Extract this logic to redux
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
@@ -37,25 +42,24 @@ export default function SignupPage() {
     const data = await res.json();
 
     // TODO: Standardize error response from server
-    if (!data) {
-      console.log("ERROR");
+    if (data.success === false) {
+      // FIXME: Request results should render in different modal
+      dispatch(setError(data.message));
+      console.log(data);
       return;
     }
 
+    // do something with data
     console.log(data);
-    navigate("/");
+    navigate("/home");
   };
-
-  // TODO: Move text up a bit (pb-10 worked but not a good solution)
 
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white">
-      <div className="flex h-1/6 items-center text-center text-4xl">
-        Sign Up
-      </div>
+      <div className="flex h-1/6 items-start text-center text-4xl">Sign Up</div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex h-2/5 w-full flex-col"
+        className="flex h-3/6 w-full flex-col"
       >
         {/* EMAIL */}
         <div

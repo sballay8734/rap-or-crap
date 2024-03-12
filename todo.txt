@@ -1,2 +1,3 @@
-1. Set up auth (signin, signout, client user State)
+1. Set up userslice, redux persist, and logout functionality
+1. Set up sign route
 2. Set up middleware (initialize-game -> verifyUser -> initializeGame)

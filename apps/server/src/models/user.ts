@@ -1,14 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-
-interface IUser {
-  email: string;
-  displayName: string;
-  password: string;
-  activeGameId: string;
-
-  // TODO: should be an array of IDs
-  friends?: string[];
-}
+import { IUserRequest } from "../types/authTypes";
 
 const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
@@ -17,6 +8,6 @@ const UserSchema = new Schema({
   activeGameId: { type: String, default: "" },
 });
 
-const User = mongoose.model<IUser>("user", UserSchema);
+const User = mongoose.model<IUserRequest>("user", UserSchema);
 
 export default User;

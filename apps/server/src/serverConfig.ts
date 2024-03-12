@@ -3,10 +3,12 @@ import express, { type Express } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
+import { Request, Response, NextFunction } from "express";
 
 import promptsRouter from "./routes/promptsRoute";
 import authRouter from "./routes/authRoute";
 import gameRouter from "./routes/gameRoute";
+import { Err } from "./types/error";
 
 // TODO: set up dotenv for connection string and other things
 const uri =
@@ -40,7 +42,15 @@ export const createServer = (): Express => {
   app.use("/api/auth", authRouter);
   app.use("/api/game", gameRouter);
 
-  // TODO: Add error handle here
+  app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal server error";
+    return res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message,
+    });
+  });
 
   return app;
 };
