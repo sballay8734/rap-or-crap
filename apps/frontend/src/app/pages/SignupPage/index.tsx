@@ -36,21 +36,23 @@ export default function SignupPage() {
 
   // TODO: Extract this logic to redux Api
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
-    // const res = await fetch("http://localhost:5001/api/auth/signup", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(signupData),
-    // });
+    const res = await fetch("http://localhost:5001/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(signupData),
+    });
 
-    const data: ApiResponse<CreatedUser> = await trigger(signupData);
+    const data = await res.json();
+
+    // const data: ApiResponse<CreatedUser> = await trigger(signupData);
 
     // TODO: NEED TO TRANSFORM RESPONSE in authApi BEFORE IT COMES BACK!!
     // TODO: Success = data.data.payload
     // TODO: Fail = data.data.message
-    console.log(data);
-    return;
+    // console.log(data);
+    // return;
 
     const { success, message } = data;
 

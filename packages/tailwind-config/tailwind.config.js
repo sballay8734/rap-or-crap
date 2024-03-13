@@ -7,10 +7,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      animation: {
-        fadeIn: "fadeIn 1s ease-in",
-        fadeOut: "fadeOut 1s ease-out",
-      },
       keyFrames: {
         fadeIn: {
           "0%": { opacity: 0 },
@@ -20,6 +16,10 @@ module.exports = {
           "0%": { opacity: 1 },
           "100%": { opacity: 0 },
         },
+      },
+      animation: {
+        fadeIn: "fadeIn 1s ease-in",
+        fadeOut: "fadeOut 1s ease-out",
       },
       spacing: {
         128: "32rem",

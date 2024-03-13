@@ -11,6 +11,8 @@ export default function ResponseModal() {
     (state: RootState) => state.serverResponseSlice,
   );
 
+  const testValue = true;
+
   // * handle styling based on success or fail
   const bgColor = successResult === false ? "bg-red-700" : "bg-green-700";
   const status = successResult === false ? "Error" : "Success!";
@@ -48,7 +50,7 @@ export default function ResponseModal() {
   const children = (
     <div
       onClick={handleCloseResponseModal}
-      className={`modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/95 px-4`}
+      className={`modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4 ${testValue && "animate-fadeIn"}`}
     >
       <div
         onClick={(e) => e.stopPropagation()}

@@ -33,7 +33,7 @@ export default function ConfirmModal() {
   const children = (
     <div
       onClick={closeModal}
-      className="modal-background absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/95 px-4"
+      className="modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4"
     >
       <div
         onClick={(e) => e.stopPropagation()}
