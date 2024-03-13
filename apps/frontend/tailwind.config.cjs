@@ -2,31 +2,18 @@
 const sharedConfig = require("../../packages/tailwind-config/tailwind.config.js");
 
 module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "../ui/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
-    screens: {
-      sm: "480px",
-      md: "768px",
-      lg: "976px",
-      xl: "1440px",
-    },
-    colors: {
-      blue: "#1fb6ff",
-      purple: "#7e5bef",
-      pink: "#ff49db",
-      orange: "#ff7849",
-      green: "#13ce66",
-      yellow: "#ffc82c",
-      "gray-dark": "#273444",
-      gray: "#8492a6",
-      "gray-light": "#d3dce6",
-    },
-    fontFamily: {
-      display: "Lexend",
-      sans: ["Graphik", "sans-serif"],
-      serif: ["Merriweather", "serif"],
-    },
     extend: {
-      keyFrames: {
+      colors: {
+        "blah-light": "#FF0000",
+        "blah-dark": "#8b0000",
+      },
+      keyframes: {
         fadeIn: {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
@@ -37,18 +24,9 @@ module.exports = {
         },
       },
       animation: {
-        fadeIn: "fadeIn 1s ease-in",
+        fadeIn: "fadeIn 200ms ease-in",
         fadeOut: "fadeOut 1s ease-out",
-      },
-      spacing: {
-        128: "32rem",
-        144: "36rem",
-      },
-      borderRadius: {
-        "4xl": "2rem",
       },
     },
   },
-  ...sharedConfig,
-  content: ["./src/**/*.{js,ts,tsx,jsx}", "./index.html"],
 };

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createPortal } from "react-dom";
 
@@ -10,8 +9,6 @@ export default function ResponseModal() {
   const { successResult, responseMessage } = useSelector(
     (state: RootState) => state.serverResponseSlice,
   );
-
-  const testValue = true;
 
   // * handle styling based on success or fail
   const bgColor = successResult === false ? "bg-red-700" : "bg-green-700";
@@ -50,7 +47,7 @@ export default function ResponseModal() {
   const children = (
     <div
       onClick={handleCloseResponseModal}
-      className={`modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4 ${testValue && "animate-fadeIn"}`}
+      className={`modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4 ${successResult !== null ? "animate-fadeIn" : "animate-fadeOut"}`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
