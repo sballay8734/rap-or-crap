@@ -28,14 +28,13 @@ export const signup = async (
   // !FIXME: Need to lowercase email!
   const existingUser = await User.findOne({ email });
   console.log(existingUser);
-  if (existingUser)
-    return next(errorHandler(409, "That email already exists."));
+  if (existingUser) return next(errorHandler(409, "That user already exists."));
 
   try {
     const newUser = await User.create({
       email,
       displayName,
-      // !TODO: Move salt value to dotenv file
+      // TODO: Move salt value to dotenv file
       password: bcrypt.hashSync(password, 13),
     });
 

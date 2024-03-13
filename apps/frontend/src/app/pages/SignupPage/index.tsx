@@ -7,7 +7,8 @@ import { CiLock } from "react-icons/ci";
 import { IoIosClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
-import { setError } from "../../redux/ErrorModalSlice";
+import { setResponseMessage } from "../../redux/serverResponseSlice";
+import { setUser } from "../../redux/UserSlice";
 
 interface FormData {
   email: string;
@@ -29,7 +30,7 @@ export default function SignupPage() {
 
   const watchPassword = watch("password", undefined);
 
-  // TODO: Extract this logic to redux
+  // TODO: Extract this logic to redux Api
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
     const res = await fetch("http://localhost:5001/api/auth/signup", {
       method: "POST",
@@ -44,13 +45,13 @@ export default function SignupPage() {
     // TODO: Standardize error response from server
     if (data.success === false) {
       // FIXME: Request results should render in different modal
-      dispatch(setError(data.message));
+      dispatch(setResponseMessage(data.message));
       console.log(data);
       return;
     }
 
     // do something with data
-    console.log(data);
+    dispatch(setUser(data.payload));
     navigate("/home");
   };
 

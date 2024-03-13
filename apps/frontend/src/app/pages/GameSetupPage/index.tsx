@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { setError } from "../../redux/ErrorModalSlice";
+import { setResponseMessage } from "../../redux/serverResponseSlice";
 import { IoIosAdd, IoIosClose } from "react-icons/io";
 import { FaCheckCircle } from "react-icons/fa";
 import { formatNameFirstLastName } from "../../helpers/formattingStrings";
@@ -34,7 +34,7 @@ export default function GameSetupPage() {
       setPlayers((prevPlayers) => [...prevPlayers, input.toLocaleLowerCase()]);
       setInput("");
     } else {
-      dispatch(setError(error));
+      dispatch(setResponseMessage({ successResult: false, message: error }));
     }
   }
 
@@ -106,7 +106,12 @@ export default function GameSetupPage() {
     return;
 
     if (players.length < 1) {
-      dispatch(setError("At least one player is required."));
+      dispatch(
+        setResponseMessage({
+          successResult: false,
+          message: "At least one player is required.",
+        }),
+      );
       return;
     }
     // TODO: Clear previous game

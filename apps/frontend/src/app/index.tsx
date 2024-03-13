@@ -5,7 +5,10 @@ import ConfirmModal from "./components/ConfirmModal";
 
 function App(): JSX.Element {
   // TODO: Need to use React Router. This is just a temporary solution
-  const isUserLoggedIn = false;
+  const user = useSelector((state: RootState) => state.userSlice.user);
+
+  const isUserLoggedIn = user !== null;
+
   const confirmModalIsShown = useSelector(
     (state: RootState) => state.confirmModal.showConfirmModal,
   );

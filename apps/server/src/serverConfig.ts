@@ -45,9 +45,12 @@ export const createServer = (): Express => {
   app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal server error";
+
+    if (message.length > 50)
+      console.log(`RES MSG IS TOO LONG! MSG: ${message}`);
+
     return res.status(statusCode).json({
       success: false,
-      statusCode,
       message,
     });
   });

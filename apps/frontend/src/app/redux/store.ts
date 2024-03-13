@@ -11,13 +11,16 @@ import {
 import storage from "redux-persist/lib/storage";
 
 import confirmModalReducer from "./ConfirmModalSlice";
-import errorModalReducer from "./ErrorModalSlice";
+// TODO: Change to "requestModalReducer" (should handle err AND success)
+import serverResponseReducer from "./serverResponseSlice";
+import userSliceReducer from "./UserSlice";
 import { gameHandlingApi } from "./GameHandling/gameHandlingApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 const rootReducer = combineReducers({
   confirmModal: confirmModalReducer,
-  errorModal: errorModalReducer,
+  serverResponseSlice: serverResponseReducer,
+  userSlice: userSliceReducer,
   [gameHandlingApi.reducerPath]: gameHandlingApi.reducer,
 });
 

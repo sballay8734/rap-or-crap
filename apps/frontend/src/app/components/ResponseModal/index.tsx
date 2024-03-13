@@ -3,39 +3,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPortal } from "react-dom";
 
 import { RootState } from "../../redux/store";
-import { clearError } from "../../redux/ErrorModalSlice";
+import { clearResponseMessage } from "../../redux/serverResponseSlice";
 import { IoIosClose } from "react-icons/io";
 
-export default function ErrorModal() {
+export default function ResponseModal() {
   const dispatch = useDispatch();
-  const errorMessage = useSelector(
-    (state: RootState) => state.errorModal.message,
+  const responseMessage = useSelector(
+    (state: RootState) => state.serverResponseSlice.responseMessage,
   );
 
   useEffect(() => {
-    if (errorMessage) {
+    if (responseMessage) {
       const modalShowDuration =
-        errorMessage.length > 50
+        responseMessage.length > 50
           ? 4000
-          : errorMessage.length > 100
+          : responseMessage.length > 100
             ? 5000
             : 3000;
       const timeoutId = setTimeout(() => {
-        dispatch(clearError());
+        dispatch(clearResponseMessage());
       }, modalShowDuration);
 
       return () => {
         clearTimeout(timeoutId);
       };
     }
-  }, [errorMessage, dispatch]);
+  }, [responseMessage, dispatch]);
 
   function handleCloseErrorModal() {
-    dispatch(clearError());
+    dispatch(clearResponseMessage());
   }
 
   // if no error, show nothing
-  if (!errorMessage) return null;
+  if (!responseMessage) return null;
 
   console.log("SHOWING ERROR!");
 
@@ -60,7 +60,7 @@ export default function ErrorModal() {
         <div className="flex flex-[1_0_67%] flex-col items-center justify-between py-4">
           <h2 className="text-2xl font-bold">Error</h2>
           <p className="rounded-md bg-red-200 px-3 py-1 text-center text-sm font-bold text-red-500 opacity-90">
-            {errorMessage}
+            {responseMessage}
           </p>
           <div className="flex gap-6">
             <button
@@ -82,5 +82,5 @@ export default function ErrorModal() {
   const modalContainer = document.getElementById("modal-container")!;
 
   // Render it only if modalIsShown === true
-  return errorMessage && createPortal(children, modalContainer);
+  return responseMessage && createPortal(children, modalContainer);
 }

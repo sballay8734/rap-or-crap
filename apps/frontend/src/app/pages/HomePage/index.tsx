@@ -5,6 +5,7 @@ import { FaPlay } from "react-icons/fa";
 import { ImSpinner11 } from "react-icons/im";
 import { useDispatch } from "react-redux";
 import { showConfirmModal } from "../../redux/ConfirmModalSlice";
+import { signOutUser } from "../../redux/UserSlice";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -54,6 +55,12 @@ export default function HomePage() {
           <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3">
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
+          <button
+            onClick={() => dispatch(signOutUser())}
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-red-900/90 px-4 py-3"
+          >
+            TEMP (Signout)
+          </button>
         </div>
       ) : (
         <div className="flex w-full flex-col items-center gap-4">
@@ -65,6 +72,13 @@ export default function HomePage() {
           </button>
           <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3">
             Rules <IoMdSettings size={18} className="absolute right-4" />
+          </button>
+          <button
+            onClick={() => dispatch(signOutUser())}
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3"
+          >
+            TEMP (Signout){" "}
+            <IoMdSettings size={18} className="absolute right-4" />
           </button>
         </div>
       )}

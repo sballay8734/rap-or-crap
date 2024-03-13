@@ -31,6 +31,6 @@ const gameHandlingApi = createApi({
   }),
 });
 
-// TODO: This is an annoying TS bug apparently
-export const { useLazyInitializeGameMutation } = gameHandlingApi;
+// ! FIXME: Ideally this should not be "any" but as of now it prevents TS error
+export const { useLazyInitializeGameMutation } = gameHandlingApi as any;
 export { gameHandlingApi };
