@@ -1,8 +1,8 @@
-// TODO: Modal animation
-// TODO: Modal should accept a duration so you can more easily control it
 // TODO: Move requests to Api to handle loading states (trigger)
-// TODO: Write login logic
+// TODO: Modal animation
 // ! TODO: Fix BACKGROUND SHIFTING WHEN MODAL SHOWS!!
+// TODO: Modal should accept a duration so you can more easily control it
+// TODO: Write login logic
 
 import { useNavigate } from "react-router-dom";
 
