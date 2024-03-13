@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Outlet, Navigate } from "react-router-dom";
 import { RootState } from "./redux/store";
 import ConfirmModal from "./components/ConfirmModal";
+import ResponseModal from "./components/ResponseModal";
 
 function App(): JSX.Element {
   // TODO: Need to use React Router. This is just a temporary solution
@@ -27,6 +28,7 @@ function App(): JSX.Element {
         </>
       )}
       {confirmModalIsShown && <ConfirmModal />}
+      <ResponseModal />
     </div>
   );
 }

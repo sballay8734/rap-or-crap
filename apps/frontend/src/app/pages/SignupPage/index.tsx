@@ -11,6 +11,7 @@ import { setResponseMessage } from "../../redux/serverResponseSlice";
 import { setUser } from "../../redux/UserSlice";
 import { ApiResponse } from "../../../types/responsesFromServer";
 import { CreatedUser } from "../../../types/responsesFromServer";
+import { useLazySignupMutation } from "../../redux/auth/authApi";
 
 interface FormData {
   email: string;
@@ -21,6 +22,7 @@ interface FormData {
 
 // !FIXME: Form validation is not quite working properly. It only works after form has been submitted but not initially.
 export default function SignupPage() {
+  const [trigger, { isLoading, isError }] = useLazySignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -34,15 +36,21 @@ export default function SignupPage() {
 
   // TODO: Extract this logic to redux Api
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
-    const res = await fetch("http://localhost:5001/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(signupData),
-    });
+    // const res = await fetch("http://localhost:5001/api/auth/signup", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(signupData),
+    // });
 
-    const data: ApiResponse<CreatedUser> = await res.json();
+    const data: ApiResponse<CreatedUser> = await trigger(signupData);
+
+    // TODO: NEED TO TRANSFORM RESPONSE in authApi BEFORE IT COMES BACK!!
+    // TODO: Success = data.data.payload
+    // TODO: Fail = data.data.message
+    console.log(data);
+    return;
 
     const { success, message } = data;
 

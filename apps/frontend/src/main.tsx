@@ -56,7 +56,6 @@ if (el) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={router} />
-          <ResponseModal />
         </PersistGate>
       </Provider>
     </React.StrictMode>,

@@ -48,7 +48,7 @@ export default function ResponseModal() {
   const children = (
     <div
       onClick={handleCloseResponseModal}
-      className={`modal-background absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/95 px-4 ${responseMessage ? "animate-fadeIn" : "animate-fadeOut"}`}
+      className={`modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/95 px-4`}
     >
       <div
         onClick={(e) => e.stopPropagation()}

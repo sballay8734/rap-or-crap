@@ -26,20 +26,6 @@ module.exports = {
       serif: ["Merriweather", "serif"],
     },
     extend: {
-      animation: {
-        fadeIn: "fadeIn 300ms ease-in",
-        fadeOut: "fadeOut 300ms ease-in",
-      },
-      keyFrames: {
-        fadeIn: {
-          "0%": { opacity: 0 },
-          "100%": { opacity: 1 },
-        },
-        fadeOut: {
-          "0%": { opacity: 1 },
-          "100%": { opacity: 0 },
-        },
-      },
       spacing: {
         128: "32rem",
         144: "36rem",

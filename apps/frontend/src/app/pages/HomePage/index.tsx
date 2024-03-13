@@ -2,6 +2,7 @@
 // TODO: Modal should accept a duration so you can more easily control it
 // TODO: Move requests to Api to handle loading states (trigger)
 // TODO: Write login logic
+// ! TODO: Fix BACKGROUND SHIFTING WHEN MODAL SHOWS!!
 
 import { useNavigate } from "react-router-dom";
 
@@ -67,8 +68,7 @@ export default function HomePage() {
               dispatch(
                 setResponseMessage({
                   successResult: true,
-                  message:
-                    "This request worked! But now the message is wayyyy too long",
+                  message: "This request worked!",
                 }),
               )
             }

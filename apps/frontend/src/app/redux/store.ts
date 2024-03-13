@@ -9,19 +9,21 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
 import confirmModalReducer from "./ConfirmModalSlice";
 // TODO: Change to "requestModalReducer" (should handle err AND success)
 import serverResponseReducer from "./serverResponseSlice";
 import userSliceReducer from "./UserSlice";
 import { gameHandlingApi } from "./GameHandling/gameHandlingApi";
-import { setupListeners } from "@reduxjs/toolkit/query";
+import { authApi } from "./auth/authApi";
 
 const rootReducer = combineReducers({
   confirmModal: confirmModalReducer,
   serverResponseSlice: serverResponseReducer,
   userSlice: userSliceReducer,
   [gameHandlingApi.reducerPath]: gameHandlingApi.reducer,
+  [authApi.reducerPath]: authApi.reducer,
 });
 
 const persistConfig = {
@@ -38,7 +40,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTER],
       },
-    }).concat(gameHandlingApi.middleware);
+    }).concat(gameHandlingApi.middleware, authApi.middleware);
   },
 });
 
