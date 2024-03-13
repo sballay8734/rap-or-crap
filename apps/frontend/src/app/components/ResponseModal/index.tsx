@@ -4,71 +4,79 @@ import { createPortal } from "react-dom";
 
 import { RootState } from "../../redux/store";
 import { clearResponseMessage } from "../../redux/serverResponseSlice";
-import { IoIosClose } from "react-icons/io";
 
 export default function ResponseModal() {
   const dispatch = useDispatch();
-  const responseMessage = useSelector(
-    (state: RootState) => state.serverResponseSlice.responseMessage,
+  const { successResult, responseMessage } = useSelector(
+    (state: RootState) => state.serverResponseSlice,
   );
 
-  useEffect(() => {
-    if (responseMessage) {
-      const modalShowDuration =
-        responseMessage.length > 50
-          ? 4000
-          : responseMessage.length > 100
-            ? 5000
-            : 3000;
-      const timeoutId = setTimeout(() => {
-        dispatch(clearResponseMessage());
-      }, modalShowDuration);
+  // * handle styling based on success or fail
+  const bgColor = successResult === false ? "bg-red-700" : "bg-green-700";
+  const status = successResult === false ? "Error" : "Success!";
+  const bgImg = successResult === false ? "url(error.png)" : "url(success.png)";
+  const msgColor = successResult === false ? "text-red-500" : "text-green-500";
+  const messageBg = successResult === false ? "bg-red-200" : "bg-green-200";
+  const closeBtnBg = successResult === false ? "bg-red-900" : "bg-gray-700";
 
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
-  }, [responseMessage, dispatch]);
+  // ! TODO: ADD THIS BACK!! JUST REMOVED FOR SYLING AND TESTING
+  // useEffect(() => {
+  //   if (responseMessage) {
+  //     const modalShowDuration =
+  //       responseMessage.length > 50
+  //         ? 4000
+  //         : responseMessage.length > 100
+  //           ? 5000
+  //           : 3000;
+  //     const timeoutId = setTimeout(() => {
+  //       dispatch(clearResponseMessage());
+  //     }, modalShowDuration);
 
-  function handleCloseErrorModal() {
+  //     return () => {
+  //       clearTimeout(timeoutId);
+  //     };
+  //   }
+  // }, [responseMessage, dispatch]);
+
+  function handleCloseResponseModal() {
     dispatch(clearResponseMessage());
   }
 
-  // if no error, show nothing
+  // if no message, show nothing
   if (!responseMessage) return null;
-
-  console.log("SHOWING ERROR!");
 
   const children = (
     <div
-      onClick={handleCloseErrorModal}
-      className="modal-background absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/95 px-4"
+      onClick={handleCloseResponseModal}
+      className={`modal-background absolute left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/95 px-4 ${responseMessage ? "animate-fadeIn" : "animate-fadeOut"}`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
         className="modal-content relative flex min-h-60 min-w-full flex-col overflow-hidden rounded-3xl bg-white"
       >
         <div
-          className="modal-header relative w-full flex-[2_0_33%] bg-red-700"
+          className={`modal-header relative w-full flex-[2_0_33%] ${bgColor}`}
           style={{
-            backgroundImage: "url('error.png')",
+            backgroundImage: bgImg,
             backgroundPosition: "center",
-            backgroundSize: "50px 50px",
+            backgroundSize: "35px 35px",
             backgroundRepeat: "no-repeat",
           }}
         ></div>
-        <div className="flex flex-[1_0_67%] flex-col items-center justify-between py-4">
-          <h2 className="text-2xl font-bold">Error</h2>
-          <p className="rounded-md bg-red-200 px-3 py-1 text-center text-sm font-bold text-red-500 opacity-90">
+        <div className="flex flex-[1_0_67%] flex-col items-center justify-between px-2 py-4">
+          <h2 className="text-2xl font-bold">{status}</h2>
+          <p
+            className={`rounded-md ${messageBg} px-3 py-1 text-center text-sm font-bold ${msgColor} opacity-90`}
+          >
             {responseMessage}
           </p>
           <div className="flex gap-6">
             <button
-              onClick={handleCloseErrorModal}
-              className="flex items-center rounded-md border-[1px] bg-red-500 px-4 py-2 align-middle text-white"
+              onClick={handleCloseResponseModal}
+              className={`flex items-center rounded-md border-[1px] ${closeBtnBg} px-4 py-2 align-middle text-white`}
             >
               <div className="flex items-center justify-center">
-                <IoIosClose size={20} className="mt-[2px]" />
+                {/* <IoIosClose size={20} className="mt-[2px]" /> */}
                 <span className="">Close</span>
               </div>
             </button>

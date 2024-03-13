@@ -12,7 +12,7 @@ import SignupPage from "./app/pages/SignupPage";
 import GamePage from "./app/pages/GamePage";
 import HomePage from "./app/pages/HomePage";
 import GameSetupPage from "./app/pages/GameSetupPage";
-import ErrorModal from "./app/components/ResponseModal";
+import ResponseModal from "./app/components/ResponseModal";
 import "./index.css";
 
 // TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
@@ -56,7 +56,7 @@ if (el) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={router} />
-          <ErrorModal />
+          <ResponseModal />
         </PersistGate>
       </Provider>
     </React.StrictMode>,

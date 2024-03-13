@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { setResponseMessage } from "../../redux/serverResponseSlice";
 import { setUser } from "../../redux/UserSlice";
+import { ApiResponse } from "../../../types/responsesFromServer";
+import { CreatedUser } from "../../../types/responsesFromServer";
 
 interface FormData {
   email: string;
@@ -40,18 +42,22 @@ export default function SignupPage() {
       body: JSON.stringify(signupData),
     });
 
-    const data = await res.json();
+    const data: ApiResponse<CreatedUser> = await res.json();
+
+    const { success, message } = data;
 
     // TODO: Standardize error response from server
-    if (data.success === false) {
+    if (!success) {
       // FIXME: Request results should render in different modal
-      dispatch(setResponseMessage(data.message));
-      console.log(data);
+      dispatch(
+        setResponseMessage({ successResult: success, message: message }),
+      );
       return;
     }
 
     // do something with data
     dispatch(setUser(data.payload));
+    dispatch(setResponseMessage({ successResult: success, message: message }));
     navigate("/home");
   };
 

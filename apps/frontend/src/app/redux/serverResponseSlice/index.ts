@@ -19,6 +19,9 @@ const serverResponseSlice = createSlice({
       action: PayloadAction<{ successResult: boolean; message: string }>,
     ) => {
       const { successResult, message } = action.payload;
+
+      if (message.length > 50) console.error(`MSG IS TOO LONG! - ${message}`);
+
       state.successResult = successResult;
       state.responseMessage = message;
     },
