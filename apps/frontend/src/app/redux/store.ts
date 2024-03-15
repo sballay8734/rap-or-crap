@@ -7,6 +7,7 @@ import {
   PAUSE,
   PERSIST,
   REGISTER,
+  PURGE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
+  version: 1,
   storage,
 };
 
@@ -38,7 +40,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTER],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(gameHandlingApi.middleware, authApi.middleware);
   },

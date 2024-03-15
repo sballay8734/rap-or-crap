@@ -10,13 +10,16 @@ import { useNavigate } from "react-router-dom";
 
 import { IoMdSettings } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
-import { ImSpinner11 } from "react-icons/im";
+import { ImSpinner11, ImSpinner2 } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import { showConfirmModal } from "../../redux/ConfirmModalSlice";
-import { signOutUser } from "../../redux/UserSlice";
 import { setResponseMessage } from "../../redux/serverResponseSlice";
+import { useLazySignoutMutation } from "../../redux/auth/authApi";
+import { signOutUser } from "../../redux/UserSlice";
+import { persistor } from "../../redux/store";
 
 export default function HomePage() {
+  const [trigger, { isLoading }] = useLazySignoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -39,6 +42,40 @@ export default function HomePage() {
     }
 
     navigate("/game-setup");
+  }
+
+  // TODO: NEED TO TYPE THE RESPONSES HERE (SEE API)
+  async function handleSignout() {
+    const res = await trigger();
+    console.log(res);
+    if (res.error) {
+      dispatch(
+        setResponseMessage({
+          successResult: false,
+          message: res.error.data.message,
+        }),
+      );
+      return;
+    }
+
+    // ! *****************************************************************
+    // ! *****************************************************************
+    // ! *****************************************************************
+    // ! FIXME: PURGE IS NOT WORKING
+    // ! *****************************************************************
+    // ! *****************************************************************
+    // ! *****************************************************************
+    await persistor.purge();
+    console.log("Persisted data cleared!");
+    // dispatch(signOutUser());
+    // localStorage.clear();
+    // dispatch(
+    //   setResponseMessage({
+    //     successResult: true,
+    //     message: res.data.message,
+    //   }),
+    // );
+    navigate("/signin");
   }
 
   return (
@@ -93,10 +130,11 @@ export default function HomePage() {
             TEMP (Show ERROR Modal)
           </button>
           <button
-            onClick={() => dispatch(signOutUser())}
+            onClick={handleSignout}
             className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
+            type="submit"
           >
-            TEMP (Signout)
+            {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGNOUT"}
           </button>
         </div>
       ) : (
@@ -111,11 +149,11 @@ export default function HomePage() {
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
           <button
-            onClick={() => dispatch(signOutUser())}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3"
+            onClick={handleSignout}
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
+            type="submit"
           >
-            TEMP (Signout){" "}
-            <IoMdSettings size={18} className="absolute right-4" />
+            {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGNOUT"}
           </button>
         </div>
       )}

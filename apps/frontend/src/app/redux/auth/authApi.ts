@@ -9,31 +9,23 @@ const authApi = createApi({
     // first is response, second is req obj you're sending
     lazySignup: builder.mutation<ApiResponse<CreatedUser>, SignUpFormData>({
       query: (body) => ({ url: "signup", method: "POST", body }),
-      // ! FIXME: This code is working and it's just TS that's complaining. Not sure why though.
-      transformResponse: (response: {
-        success: boolean;
-        message: string;
-        payload?: CreatedUser;
-      }) => {
-        if (response.success) {
-          return {
-            success: true,
-            message: response.message,
-            payload: response.payload || null,
-          };
-        } else {
-          return {
-            success: false,
-            message: response.message,
-          };
-        }
-      },
+    }),
+    lazySignin: builder.mutation<ApiResponse<CreatedUser>, SignUpFormData>({
+      query: (body) => ({ url: "signin", method: "POST", body }),
+    }),
+    // TODO: NEED TO TYPE THE RESPONSES FOR SIGNOUT
+    lazySignout: builder.mutation<{}, void>({
+      query: () => ({ url: "signout", method: "POST" }),
     }),
   }),
 });
 
 // ! FIXME: Ideally this should not be "any" but as of now it prevents TS error
-export const { useLazySignupMutation } = authApi as any;
+export const {
+  useLazySignupMutation,
+  useLazySigninMutation,
+  useLazySignoutMutation,
+} = authApi as any;
 export { authApi };
 
 /* 

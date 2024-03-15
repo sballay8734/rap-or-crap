@@ -1,5 +1,6 @@
 import { json, urlencoded } from "body-parser";
 import express, { type Express } from "express";
+import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -10,14 +11,14 @@ import authRouter from "./routes/authRoute";
 import gameRouter from "./routes/gameRoute";
 import { Err } from "./types/error";
 
-// TODO: set up dotenv for connection string and other things
-const uri =
-  "mongodb+srv://shawnballay1:UlQOgDRFZ3vB2sRc@cluster0.lseriug.mongodb.net/?retryWrites=true&w=majority";
+dotenv.config();
+
+const uri = process.env.MONGO_URI;
 
 // Connect to mongodb
 async function run() {
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(uri!);
     await mongoose.connection.db.admin().command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!",

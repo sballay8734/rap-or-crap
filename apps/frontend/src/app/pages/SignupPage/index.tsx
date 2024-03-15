@@ -9,10 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { setResponseMessage } from "../../redux/serverResponseSlice";
 import { setUser } from "../../redux/UserSlice";
-import { ApiResponse } from "../../../types/responsesFromServer";
+import {
+  ModApiResponse,
+  ModErrorResponse,
+} from "../../../types/responsesFromServer";
 import { CreatedUser } from "../../../types/responsesFromServer";
 import { useLazySignupMutation } from "../../redux/auth/authApi";
 import { ImSpinner2 } from "react-icons/im";
+import { isModErrorResponse } from "../../helpers/errorReform";
 
 interface FormData {
   email: string;
@@ -35,23 +39,11 @@ export default function SignupPage() {
 
   const watchPassword = watch("password", undefined);
 
-  // TODO: Extract this logic to redux Api
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
-    // const res = await fetch("http://localhost:5001/api/auth/signup", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(signupData),
-    // });
+    const res: ModApiResponse<CreatedUser> = await trigger(signupData);
 
-    // const data = await res.json();
-
-    const res: ApiResponse<CreatedUser> = await trigger(signupData);
-
-    // ! FIXME: THIS CODE WORKS BUT SOMETHING IS WEIRD WITH THE INTERFACES AND HOW REDUX API WRAPS THE DATA (Error modal not showing up!)
-    console.log(res);
-    if (res.error) {
+    // * If failed signup
+    if (isModErrorResponse(res)) {
       console.log("ERROR");
       dispatch(
         setResponseMessage({
@@ -62,7 +54,7 @@ export default function SignupPage() {
       return;
     }
 
-    // do something with data
+    // * If successful signup
     dispatch(setUser(res.data.payload));
     dispatch(
       setResponseMessage({

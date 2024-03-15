@@ -1,9 +1,21 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+
 import { MdOutlineMail } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
 import { IoIosClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useLazySigninMutation } from "../../redux/auth/authApi";
+import {
+  CreatedUser,
+  ModApiResponse,
+  ModErrorResponse,
+} from "../../../types/responsesFromServer";
+import { setResponseMessage } from "../../redux/serverResponseSlice";
+import { setUser } from "../../redux/UserSlice";
+import { ImSpinner2 } from "react-icons/im";
+import { isModErrorResponse } from "../../helpers/errorReform";
 
 interface FormData {
   email: string;
@@ -12,6 +24,8 @@ interface FormData {
 }
 
 export default function SigninPage() {
+  const dispatch = useDispatch();
+  const [trigger, { isLoading }] = useLazySigninMutation();
   const navigate = useNavigate();
   const {
     register,
@@ -19,25 +33,29 @@ export default function SigninPage() {
     formState: { errors },
   } = useForm<FormData>();
 
-  // TODO: Extract this logic to redux
   const onSubmit: SubmitHandler<FormData> = async (signinData: FormData) => {
-    const res = await fetch("http://localhost:5001/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(signinData),
-    });
+    const res: ModApiResponse<CreatedUser> = await trigger(signinData);
 
-    const data = await res.json();
-
-    // TODO: Standardize error response from server
-    if (!data) {
+    // * If failed signin
+    if (isModErrorResponse(res)) {
       console.log("ERROR");
+      dispatch(
+        setResponseMessage({
+          successResult: res.error.data.success,
+          message: res.error.data.message,
+        }),
+      );
       return;
     }
 
-    console.log(data);
+    // * If successful signin
+    dispatch(setUser(res.data.payload));
+    dispatch(
+      setResponseMessage({
+        successResult: res.data.success,
+        message: res.data.message,
+      }),
+    );
     navigate("/home");
   };
 
@@ -96,8 +114,11 @@ export default function SigninPage() {
             </span>
           )}
         </div>
-        <button className="mt-10 rounded-sm bg-green-700 py-3" type="submit">
-          LOG IN
+        <button
+          className="mt-10 flex items-center justify-center rounded-sm bg-green-700 py-3"
+          type="submit"
+        >
+          {isLoading ? <ImSpinner2 className="animate-spin" /> : "LOG IN"}
         </button>
       </form>
       <Link to="/signup" className="absolute bottom-8 flex-grow">

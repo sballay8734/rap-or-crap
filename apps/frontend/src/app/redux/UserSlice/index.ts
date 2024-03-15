@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { persistor } from "../store";
 
 interface User {
   _id: string;
@@ -27,7 +28,6 @@ const userSlice = createSlice({
     },
     signOutUser: (state) => {
       state.user = null;
-      console.log("Signed out!");
     },
   },
 });
