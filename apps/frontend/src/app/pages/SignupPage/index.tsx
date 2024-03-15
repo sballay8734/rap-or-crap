@@ -12,6 +12,7 @@ import { setUser } from "../../redux/UserSlice";
 import { ApiResponse } from "../../../types/responsesFromServer";
 import { CreatedUser } from "../../../types/responsesFromServer";
 import { useLazySignupMutation } from "../../redux/auth/authApi";
+import { ImSpinner2 } from "react-icons/im";
 
 interface FormData {
   email: string;
@@ -36,38 +37,39 @@ export default function SignupPage() {
 
   // TODO: Extract this logic to redux Api
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
-    const res = await fetch("http://localhost:5001/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(signupData),
-    });
+    // const res = await fetch("http://localhost:5001/api/auth/signup", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(signupData),
+    // });
 
-    const data = await res.json();
+    // const data = await res.json();
 
-    // const data: ApiResponse<CreatedUser> = await trigger(signupData);
+    const res: ApiResponse<CreatedUser> = await trigger(signupData);
 
-    // TODO: NEED TO TRANSFORM RESPONSE in authApi BEFORE IT COMES BACK!!
-    // TODO: Success = data.data.payload
-    // TODO: Fail = data.data.message
-    // console.log(data);
-    // return;
-
-    const { success, message } = data;
-
-    // TODO: Standardize error response from server
-    if (!success) {
-      // FIXME: Request results should render in different modal
+    // ! FIXME: THIS CODE WORKS BUT SOMETHING IS WEIRD WITH THE INTERFACES AND HOW REDUX API WRAPS THE DATA (Error modal not showing up!)
+    console.log(res);
+    if (res.error) {
+      console.log("ERROR");
       dispatch(
-        setResponseMessage({ successResult: success, message: message }),
+        setResponseMessage({
+          successResult: res.error.data.success,
+          message: res.error.data.message,
+        }),
       );
       return;
     }
 
     // do something with data
-    dispatch(setUser(data.payload));
-    dispatch(setResponseMessage({ successResult: success, message: message }));
+    dispatch(setUser(res.data.payload));
+    dispatch(
+      setResponseMessage({
+        successResult: res.data.success,
+        message: res.data.message,
+      }),
+    );
     navigate("/home");
   };
 
@@ -161,8 +163,11 @@ export default function SignupPage() {
             </span>
           )}
         </div>
-        <button className="mt-2 rounded-sm bg-green-700 py-3" type="submit">
-          SIGN UP
+        <button
+          className="mt-2 flex items-center justify-center rounded-sm bg-green-700 py-3"
+          type="submit"
+        >
+          {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGN UP"}
         </button>
       </form>
       <p className="absolute bottom-8 flex-grow">

@@ -10,7 +10,7 @@ export interface SuccessResponse<T> {
   payload: T;
 }
 
-export type ApiResponse<T> = ErrorResponse | SuccessResponse<T>;
+export type ApiResponse<T> = { data: ErrorResponse | SuccessResponse<T> };
 
 // * T types (these are all of the type that can be returned by the server during a successful request)
 
