@@ -16,7 +16,7 @@ import { setResponseMessage } from "../../redux/serverResponseSlice";
 import { setUser } from "../../redux/UserSlice";
 import { ImSpinner2 } from "react-icons/im";
 import { isModErrorResponse } from "../../helpers/errorReform";
-import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi";
+import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi";
 
 interface FormData {
   email: string;
@@ -26,7 +26,7 @@ interface FormData {
 
 export default function SigninPage() {
   const [trigger, { isLoading }] = useSigninMutation();
-  const [fetchActiveGame] = useFetchActiveGameQuery();
+  const [fetchActiveGame, { isError }] = useLazyFetchActiveGameQuery();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -59,7 +59,7 @@ export default function SigninPage() {
       }),
     );
 
-    await fetchActiveGame();
+    // await fetchActiveGame();
     navigate("/home");
   };
 

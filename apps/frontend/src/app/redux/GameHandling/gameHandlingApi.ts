@@ -21,13 +21,15 @@ export interface IGameInstance {
   playersObject: PlayersObject;
 }
 
-const gameHandlingApi = createApi({
+export const gameHandlingApi = createApi({
   reducerPath: "gameHandlingApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/api/game/" }),
+  tagTypes: ["ActiveGame"],
   endpoints: (builder) => ({
     // first is response, second is req obj
-    fetchActiveGame: builder.mutation<IGameInstance, string>({
-      query: (body) => "active-game",
+    lazyFetchActiveGame: builder.query<IGameInstance, void>({
+      query: () => "active-game",
+      providesTags: ["ActiveGame"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -35,7 +37,7 @@ const gameHandlingApi = createApi({
           dispatch(
             setResponseMessage({
               successResult: false,
-              message: "An error occured while trying to start the game.",
+              message: "An error occured while trying to find active game.",
             }),
           );
         }
@@ -43,6 +45,7 @@ const gameHandlingApi = createApi({
     }),
     initializeGame: builder.mutation<IGameInstance, IGameInstance>({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
+      invalidatesTags: ["ActiveGame"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -60,6 +63,5 @@ const gameHandlingApi = createApi({
 });
 
 // ! FIXME: Ideally this should not be "any" but as of now it prevents TS error
-export const { useInitializeGameMutation, useFetchActiveGameQuery } =
-  gameHandlingApi as any;
-export { gameHandlingApi };
+export const { useInitializeGameMutation, useLazyFetchActiveGameQuery } =
+  gameHandlingApi;

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { IoMdSettings } from "react-icons/io";
 import { FaPlay } from "react-icons/fa";
 import { ImSpinner11, ImSpinner2 } from "react-icons/im";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { showConfirmModal } from "../../redux/ConfirmModalSlice";
 import { setResponseMessage } from "../../redux/serverResponseSlice";
 import { useSignoutMutation } from "../../redux/auth/authApi";
