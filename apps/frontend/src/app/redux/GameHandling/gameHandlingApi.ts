@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setResponseMessage } from "../serverResponseSlice";
 
 interface PlayerStats {
   cCorrect: number;
@@ -25,12 +26,40 @@ const gameHandlingApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/api/game/" }),
   endpoints: (builder) => ({
     // first is response, second is req obj
-    lazyInitializeGame: builder.mutation<IGameInstance, IGameInstance>({
+    fetchActiveGame: builder.mutation<IGameInstance, string>({
+      query: (body) => "active-game",
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          dispatch(
+            setResponseMessage({
+              successResult: false,
+              message: "An error occured while trying to start the game.",
+            }),
+          );
+        }
+      },
+    }),
+    initializeGame: builder.mutation<IGameInstance, IGameInstance>({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          dispatch(
+            setResponseMessage({
+              successResult: false,
+              message: "An error occured while trying to start the game.",
+            }),
+          );
+        }
+      },
     }),
   }),
 });
 
 // ! FIXME: Ideally this should not be "any" but as of now it prevents TS error
-export const { useLazyInitializeGameMutation } = gameHandlingApi as any;
+export const { useInitializeGameMutation, useFetchActiveGameQuery } =
+  gameHandlingApi as any;
 export { gameHandlingApi };

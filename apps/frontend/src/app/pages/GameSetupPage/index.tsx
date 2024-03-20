@@ -9,7 +9,7 @@ import { formatNameFirstLastName } from "../../helpers/formattingStrings";
 import { showConfirmModal } from "../../redux/ConfirmModalSlice";
 import {
   IGameInstance,
-  useLazyInitializeGameMutation,
+  useInitializeGameMutation,
 } from "../../redux/GameHandling/gameHandlingApi";
 
 const MAX_PLAYERS = 10;
@@ -17,8 +17,8 @@ const MAX_PLAYERS = 10;
 const tempUserId = "asdlkjf2398u298ugasd";
 
 export default function GameSetupPage() {
-  const [trigger, { isError, isLoading, isSuccess }] =
-    useLazyInitializeGameMutation();
+  const [initializeGame, { isError, isLoading, isSuccess }] =
+    useInitializeGameMutation();
 
   const navigate = useNavigate();
   // TODO: Ask if it's better to declare dispatch outside component
@@ -75,6 +75,16 @@ export default function GameSetupPage() {
   }
 
   async function handleStartGame() {
+    if (players.length < 1) {
+      dispatch(
+        setResponseMessage({
+          successResult: false,
+          message: "At least one player is required.",
+        }),
+      );
+      return;
+    }
+
     const playersObject = Object.fromEntries(
       players.map((player) => [
         player,
@@ -97,26 +107,18 @@ export default function GameSetupPage() {
       gameStartDate: new Date().toISOString(),
     };
 
-    console.log(fullGameObject);
-
-    // TODO: Replace this with API
-    // FIXME: Need to fix TS bug
-    const response = await trigger(fullGameObject);
-    console.log(response);
-    return;
-
-    if (players.length < 1) {
-      dispatch(
-        setResponseMessage({
-          successResult: false,
-          message: "At least one player is required.",
-        }),
-      );
+    // Errors are handled in createApi so no real need for them here
+    try {
+      const newGame = await initializeGame(fullGameObject);
+      if ("data" in newGame) {
+        // TODO: Clear previous game
+        navigate("/game");
+        return;
+      }
+    } catch (error) {
+      console.error(error);
       return;
     }
-    // TODO: Clear previous game
-    // TODO: Initialize current game in db
-    navigate("/game");
   }
 
   return (

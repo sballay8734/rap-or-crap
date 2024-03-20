@@ -6,7 +6,7 @@ import { CiLock } from "react-icons/ci";
 import { IoIosClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useLazySigninMutation } from "../../redux/auth/authApi";
+import { useSigninMutation } from "../../redux/auth/authApi";
 import {
   CreatedUser,
   ModApiResponse,
@@ -16,6 +16,7 @@ import { setResponseMessage } from "../../redux/serverResponseSlice";
 import { setUser } from "../../redux/UserSlice";
 import { ImSpinner2 } from "react-icons/im";
 import { isModErrorResponse } from "../../helpers/errorReform";
+import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi";
 
 interface FormData {
   email: string;
@@ -24,8 +25,9 @@ interface FormData {
 }
 
 export default function SigninPage() {
+  const [trigger, { isLoading }] = useSigninMutation();
+  const [fetchActiveGame] = useFetchActiveGameQuery();
   const dispatch = useDispatch();
-  const [trigger, { isLoading }] = useLazySigninMutation();
   const navigate = useNavigate();
   const {
     register,
@@ -56,6 +58,8 @@ export default function SigninPage() {
         message: res.data.message,
       }),
     );
+
+    await fetchActiveGame();
     navigate("/home");
   };
 

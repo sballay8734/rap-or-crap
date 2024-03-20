@@ -14,7 +14,7 @@ import {
   ModErrorResponse,
 } from "../../../types/responsesFromServer";
 import { CreatedUser } from "../../../types/responsesFromServer";
-import { useLazySignupMutation } from "../../redux/auth/authApi";
+import { useSignupMutation } from "../../redux/auth/authApi";
 import { ImSpinner2 } from "react-icons/im";
 import { isModErrorResponse } from "../../helpers/errorReform";
 
@@ -27,7 +27,7 @@ interface FormData {
 
 // !FIXME: Form validation is not quite working properly. It only works after form has been submitted but not initially.
 export default function SignupPage() {
-  const [trigger, { isLoading, isError }] = useLazySignupMutation();
+  const [trigger, { isLoading, isError }] = useSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
