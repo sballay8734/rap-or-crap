@@ -64,4 +64,4 @@ export const gameHandlingApi = createApi({
 
 // ! FIXME: Ideally this should not be "any" but as of now it prevents TS error
 export const { useInitializeGameMutation, useLazyFetchActiveGameQuery } =
-  gameHandlingApi;
+  gameHandlingApi as any;
