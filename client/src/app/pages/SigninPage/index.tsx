@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form"
-import { useDispatch } from "react-redux"
 
 import { MdOutlineMail } from "react-icons/md"
 import { CiLock } from "react-icons/ci"
@@ -7,15 +6,7 @@ import { IoIosClose } from "react-icons/io"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useSigninMutation } from "../../redux/auth/authApi"
-import {
-  CreatedUser,
-  ModApiResponse,
-  ModErrorResponse
-} from "../../../types/responsesFromServer"
-import { setResponseMessage } from "../../redux/serverResponseSlice"
-import { setUser } from "../../redux/UserSlice"
 import { ImSpinner2 } from "react-icons/im"
-import { isModErrorResponse } from "../../helpers/errorReform"
 import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 interface FormData {
@@ -25,9 +16,8 @@ interface FormData {
 }
 
 export default function SigninPage() {
-  const [trigger, { isLoading }] = useSigninMutation()
+  const [signin, { isLoading }] = useSigninMutation()
   // const [fetchActiveGame, { isError }] = useLazyFetchActiveGameQuery();
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const {
     register,
@@ -36,31 +26,16 @@ export default function SigninPage() {
   } = useForm<FormData>()
 
   const onSubmit: SubmitHandler<FormData> = async (signinData: FormData) => {
-    const res: ModApiResponse<CreatedUser> = await trigger(signinData)
-
-    // * If failed signin
-    if (isModErrorResponse(res)) {
-      console.log("ERROR")
-      dispatch(
-        setResponseMessage({
-          successResult: res.error.data.success,
-          message: res.error.data.message
-        })
-      )
-      return
+    try {
+      const res = await signin(signinData)
+      // * if ("data" in res) then it was successful
+      if ("data" in res) {
+        // await fetchActiveGame();
+        navigate("/home")
+      }
+    } catch (error) {
+      console.error("Something went wrong!")
     }
-
-    // * If successful signin
-    dispatch(setUser(res.data.payload))
-    dispatch(
-      setResponseMessage({
-        successResult: res.data.success,
-        message: res.data.message
-      })
-    )
-
-    // await fetchActiveGame();
-    navigate("/home")
   }
 
   return (

@@ -6,27 +6,27 @@
 // TODO: Write login logic
 // TODO: Buttons need hover & active effects and stuff
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
-import { IoMdSettings } from "react-icons/io";
-import { FaPlay } from "react-icons/fa";
-import { ImSpinner11, ImSpinner2 } from "react-icons/im";
-import { useDispatch } from "react-redux";
-import { showConfirmModal } from "../../redux/ConfirmModalSlice";
-import { setResponseMessage } from "../../redux/serverResponseSlice";
-import { useSignoutMutation } from "../../redux/auth/authApi";
-import { signOutUser } from "../../redux/UserSlice";
-import { persistor } from "../../redux/store";
+import { IoMdSettings } from "react-icons/io"
+import { FaPlay } from "react-icons/fa"
+import { ImSpinner11, ImSpinner2 } from "react-icons/im"
+import { useDispatch } from "react-redux"
+import { showConfirmModal } from "../../redux/ConfirmModalSlice"
+import { setResponseMessage } from "../../redux/serverResponseSlice"
+import { useSignoutMutation } from "../../redux/auth/authApi"
+import { signOutUser } from "../../redux/UserSlice"
+import { persistor } from "../../redux/store"
 
 export default function HomePage() {
-  const [signOut, { isLoading }] = useSignoutMutation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [signOut, { isLoading }] = useSignoutMutation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // TODO: Check to see if they already have an active game
   // TEMP CONSTANTS FOR TESTING
-  const activeGame = true;
-  const userName = "Shawn";
+  const activeGame = true
+  const userName = "Shawn"
 
   // TODO: NEED TO LINK THE SELECTION OF "I'm Sure" to somehow start game
   function handleNewGame() {
@@ -35,29 +35,27 @@ export default function HomePage() {
         showConfirmModal({
           details:
             "Starting a new game will delete your previous game forever!",
-          message: "Are you sure you want to do this?",
-        }),
-      );
-      return;
+          message: "Are you sure you want to do this?"
+        })
+      )
+      return
     }
 
-    navigate("/game-setup");
+    navigate("/game-setup")
   }
 
   // TODO: NEED TO TYPE THE RESPONSES HERE (SEE API)
   async function handleSignout() {
-    const res = await signOut();
-    console.log(res);
-    if (res.error) {
-      dispatch(
-        setResponseMessage({
-          successResult: false,
-          message: res.error.data.message,
-        }),
-      );
-      return;
+    try {
+      const res = await signOut()
+      if ("data" in res) {
+        await persistor.purge()
+        console.log("Persisted data cleared!")
+        navigate("/signin")
+      }
+    } catch (error) {
+      console.error("Something went wrong")
     }
-
     // ! *****************************************************************
     // ! *****************************************************************
     // ! *****************************************************************
@@ -65,17 +63,6 @@ export default function HomePage() {
     // ! *****************************************************************
     // ! *****************************************************************
     // ! *****************************************************************
-    await persistor.purge();
-    console.log("Persisted data cleared!");
-    // dispatch(signOutUser());
-    // localStorage.clear();
-    // dispatch(
-    //   setResponseMessage({
-    //     successResult: true,
-    //     message: res.data.message,
-    //   }),
-    // );
-    navigate("/signin");
   }
 
   return (
@@ -131,5 +118,5 @@ export default function HomePage() {
         </div>
       )}
     </div>
-  );
+  )
 }

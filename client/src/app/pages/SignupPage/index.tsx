@@ -7,13 +7,8 @@ import { CiLock } from "react-icons/ci"
 import { IoIosClose } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
 import { FaRegUser } from "react-icons/fa"
-import { setResponseMessage } from "../../redux/serverResponseSlice"
-import { setUser } from "../../redux/UserSlice"
-import { ModApiResponse } from "../../../types/responsesFromServer"
-import { CreatedUser } from "../../../types/responsesFromServer"
 import { useSignupMutation } from "../../redux/auth/authApi"
 import { ImSpinner2 } from "react-icons/im"
-import { isModErrorResponse } from "../../helpers/errorReform"
 
 interface FormData {
   email: string
@@ -24,7 +19,7 @@ interface FormData {
 
 // !FIXME: Form validation is not quite working properly. It only works after form has been submitted but not initially.
 export default function SignupPage() {
-  const [trigger, { isLoading, isError }] = useSignupMutation()
+  const [signup, { isLoading, isError }] = useSignupMutation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {
@@ -37,29 +32,15 @@ export default function SignupPage() {
   const watchPassword = watch("password", undefined)
 
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
-    const res: ModApiResponse<CreatedUser> = await trigger(signupData)
-
-    // * If failed signup
-    if (isModErrorResponse(res)) {
-      console.log("ERROR")
-      dispatch(
-        setResponseMessage({
-          successResult: res.error.data.success,
-          message: res.error.data.message
-        })
-      )
-      return
+    try {
+      const res = await signup(signupData)
+      if ("data" in res) {
+        // No need to fetch active game as new user would not have one
+        navigate("/home")
+      }
+    } catch (error) {
+      console.error("Something went wrong.")
     }
-
-    // * If successful signup
-    dispatch(setUser(res.data.payload))
-    dispatch(
-      setResponseMessage({
-        successResult: res.data.success,
-        message: res.data.message
-      })
-    )
-    navigate("/home")
   }
 
   return (
