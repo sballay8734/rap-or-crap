@@ -1,67 +1,67 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { SubmitHandler, useForm } from "react-hook-form"
+import { useDispatch } from "react-redux"
 
-import { MdOutlineMail } from "react-icons/md";
-import { CiLock } from "react-icons/ci";
-import { IoIosClose } from "react-icons/io";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useSigninMutation } from "../../redux/auth/authApi";
+import { MdOutlineMail } from "react-icons/md"
+import { CiLock } from "react-icons/ci"
+import { IoIosClose } from "react-icons/io"
+import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { useSigninMutation } from "../../redux/auth/authApi"
 import {
   CreatedUser,
   ModApiResponse,
-  ModErrorResponse,
-} from "../../../types/responsesFromServer";
-import { setResponseMessage } from "../../redux/serverResponseSlice";
-import { setUser } from "../../redux/UserSlice";
-import { ImSpinner2 } from "react-icons/im";
-import { isModErrorResponse } from "../../helpers/errorReform";
-import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi";
+  ModErrorResponse
+} from "../../../types/responsesFromServer"
+import { setResponseMessage } from "../../redux/serverResponseSlice"
+import { setUser } from "../../redux/UserSlice"
+import { ImSpinner2 } from "react-icons/im"
+import { isModErrorResponse } from "../../helpers/errorReform"
+import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 interface FormData {
-  email: string;
-  password: string;
-  rememberMe: boolean;
+  email: string
+  password: string
+  rememberMe: boolean
 }
 
 export default function SigninPage() {
-  const [trigger, { isLoading }] = useSigninMutation();
-  const [fetchActiveGame, { isError }] = useLazyFetchActiveGameQuery();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [trigger, { isLoading }] = useSigninMutation()
+  // const [fetchActiveGame, { isError }] = useLazyFetchActiveGameQuery();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+    formState: { errors }
+  } = useForm<FormData>()
 
   const onSubmit: SubmitHandler<FormData> = async (signinData: FormData) => {
-    const res: ModApiResponse<CreatedUser> = await trigger(signinData);
+    const res: ModApiResponse<CreatedUser> = await trigger(signinData)
 
     // * If failed signin
     if (isModErrorResponse(res)) {
-      console.log("ERROR");
+      console.log("ERROR")
       dispatch(
         setResponseMessage({
           successResult: res.error.data.success,
-          message: res.error.data.message,
-        }),
-      );
-      return;
+          message: res.error.data.message
+        })
+      )
+      return
     }
 
     // * If successful signin
-    dispatch(setUser(res.data.payload));
+    dispatch(setUser(res.data.payload))
     dispatch(
       setResponseMessage({
         successResult: res.data.success,
-        message: res.data.message,
-      }),
-    );
+        message: res.data.message
+      })
+    )
 
     // await fetchActiveGame();
-    navigate("/home");
-  };
+    navigate("/home")
+  }
 
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white">
@@ -129,5 +129,5 @@ export default function SigninPage() {
         Don't have an account? <span className="text-green-700">Sign up</span>
       </Link>
     </div>
-  );
+  )
 }
