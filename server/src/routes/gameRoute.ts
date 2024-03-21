@@ -1,11 +1,11 @@
-import express from "express";
+import express from "express"
 
-import { fetchActiveGame, initializeGame } from "../controllers/gameController";
-import { authenticateUser } from "../middleware/verifyUser";
+import { fetchActiveGame, initializeGame } from "../controllers/gameController"
+import { authenticateUser } from "../middleware/authenticateUser"
 
-const router = express.Router();
+const router = express.Router()
 
-router.post("/initialize-game", authenticateUser, initializeGame);
-router.get("/active-game", authenticateUser, fetchActiveGame);
+router.post("/initialize-game", authenticateUser, initializeGame)
+router.get("/active-game", fetchActiveGame)
 
-export default router;
+export default router

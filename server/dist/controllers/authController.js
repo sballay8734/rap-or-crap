@@ -51,7 +51,7 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             email,
             displayName,
             // TODO: Move salt value to dotenv file
-            password: bcrypt_1.default.hashSync(password, 13),
+            password: bcrypt_1.default.hashSync(password, 13)
         });
         if (!newUser)
             return next((0, errorHandler_1.errorHandler)(500, "Could not create user."));
@@ -59,7 +59,7 @@ const signup = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             _id: newUser._id.toString(), // Convert ObjectId to string
             email: newUser.email,
             displayName: newUser.displayName,
-            activeGameId: newUser.activeGameId || "",
+            activeGameId: newUser.activeGameId || ""
         };
         return (0, successHandler_1.successHandler)(res, 200, "Account creation successful!", userResponse);
     }
@@ -90,6 +90,7 @@ const signin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
 exports.signin = signin;
 const signout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // return next(errorHandler(500, "TEST"))
         res.clearCookie("access_token");
         return (0, successHandler_1.successHandler)(res, 200, "User has been logged out!", {});
     }

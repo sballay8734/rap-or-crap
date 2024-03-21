@@ -5,6 +5,8 @@ import { setResponseMessage } from "../serverResponseSlice"
 import { isCustomApiResponse } from "../../helpers/errorReform"
 import { setUser, signOutUser } from "../UserSlice"
 
+// ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
+
 const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/api/auth/" }),

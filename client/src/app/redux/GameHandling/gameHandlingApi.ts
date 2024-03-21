@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { setResponseMessage } from "../serverResponseSlice"
+import { isCustomApiResponse } from "../../helpers/errorReform"
 
 interface PlayerStats {
   cCorrect: number
@@ -21,25 +22,36 @@ export interface IGameInstance {
   playersObject: PlayersObject
 }
 
+// ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
+
 export const gameHandlingApi = createApi({
   reducerPath: "gameHandlingApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/api/game/" }),
   tagTypes: ["ActiveGame"],
   endpoints: (builder) => ({
     // first is response, second is req obj
-    lazyFetchActiveGame: builder.query<IGameInstance, void>({
+    fetchActiveGame: builder.query<IGameInstance, void>({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
-        } catch (error) {
-          dispatch(
-            setResponseMessage({
-              successResult: false,
-              message: "An error occured while trying to find active game."
-            })
-          )
+        } catch (err) {
+          if (isCustomApiResponse(err)) {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: err.error.data.message
+              })
+            )
+          } else {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: "Something went wrong searching for an active game."
+              })
+            )
+          }
         }
       }
     }),
@@ -62,5 +74,5 @@ export const gameHandlingApi = createApi({
   })
 })
 
-export const { useInitializeGameMutation, useLazyFetchActiveGameQuery } =
+export const { useInitializeGameMutation, useFetchActiveGameQuery } =
   gameHandlingApi

@@ -1,32 +1,44 @@
-import { Request, Response, NextFunction } from "express";
-import { errorHandler } from "../utils/errorHandler";
-import Game from "../models/gameInstance";
+import { Request, Response, NextFunction } from "express"
+import { errorHandler } from "../utils/errorHandler"
+import Game from "../models/gameInstance"
+
+interface UserIdInRequest extends Request {
+  userId: string
+}
 
 export const initializeGame = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
-  const gameData = req.body;
+  const gameData = req.body
 
   try {
-    const newGame = await Game.create(gameData);
+    const newGame = await Game.create(gameData)
 
-    if (!newGame) next(errorHandler(400, "Could not initialize game."));
+    if (!newGame) next(errorHandler(400, "Could not initialize game."))
 
-    return res.status(200).json(newGame);
+    return res.status(200).json(newGame)
   } catch (error) {
-    next(errorHandler(500, "Could not initialize game."));
+    next(errorHandler(500, "Could not initialize game."))
   }
-};
+}
 
 export const fetchActiveGame = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
-  console.log("Fetching active game...");
-  // 1. Verify user.
+  console.log("FETCHING GAME!")
+  // return next(errorHandler(500, "Custom Error."))
+
+  return res.status(200).json({
+    _id: "TEST_TEST_TEST",
+    userId: "TEST_USER_ID",
+    gameStartDate: "DATE",
+    playersObject: {}
+  })
+  // const userId = req.userId
   // 2. Grab id of game from user activeGame.
   // 3. Fetch and return game.
-};
+}

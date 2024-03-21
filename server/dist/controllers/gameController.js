@@ -29,8 +29,14 @@ const initializeGame = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.initializeGame = initializeGame;
 const fetchActiveGame = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Fetching active game...");
-    // 1. Verify user.
+    return res.status(200).json({
+        _id: "TEST_TEST_TEST",
+        userId: "TEST_USER_ID",
+        gameStartDate: "DATE",
+        playersObject: {}
+    });
+    // return next(errorHandler(500, "Custom Error."))
+    // const userId = req.userId
     // 2. Grab id of game from user activeGame.
     // 3. Fetch and return game.
 });

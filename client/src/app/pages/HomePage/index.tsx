@@ -13,20 +13,32 @@ import { FaPlay } from "react-icons/fa"
 import { ImSpinner11, ImSpinner2 } from "react-icons/im"
 import { useDispatch } from "react-redux"
 import { showConfirmModal } from "../../redux/ConfirmModalSlice"
-import { setResponseMessage } from "../../redux/serverResponseSlice"
 import { useSignoutMutation } from "../../redux/auth/authApi"
-import { signOutUser } from "../../redux/UserSlice"
 import { persistor } from "../../redux/store"
+import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 export default function HomePage() {
-  const [signOut, { isLoading }] = useSignoutMutation()
+  const [signOut] = useSignoutMutation()
+  const { data: activeGame, isLoading, isError } = useFetchActiveGameQuery()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // TODO: Check to see if they already have an active game
-  // TEMP CONSTANTS FOR TESTING
-  const activeGame = true
+  // Temp for testing
   const userName = "Shawn"
+
+  if (isLoading) {
+    return (
+      <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
+        <div>Loading...</div>
+      </div>
+    )
+  }
+
+  if (activeGame !== null && activeGame !== undefined) {
+    console.log("NOT NULL!", activeGame)
+    // * set active game to active game, and return screen where "continue game" is shown.
+    // otherwise, set active game to null and return screen WITHOUT "continue game"
+  }
 
   // TODO: NEED TO LINK THE SELECTION OF "I'm Sure" to somehow start game
   function handleNewGame() {
@@ -56,13 +68,6 @@ export default function HomePage() {
     } catch (error) {
       console.error("Something went wrong")
     }
-    // ! *****************************************************************
-    // ! *****************************************************************
-    // ! *****************************************************************
-    // ! FIXME: PURGE IS NOT WORKING
-    // ! *****************************************************************
-    // ! *****************************************************************
-    // ! *****************************************************************
   }
 
   return (

@@ -17,7 +17,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const body_parser_1 = require("body-parser");
 const express_1 = __importDefault(require("express"));
-const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const promptsRoute_1 = __importDefault(require("./routes/promptsRoute"));
@@ -30,7 +29,7 @@ function run() {
         try {
             yield mongoose_1.default.connect(uri);
             yield mongoose_1.default.connection.db.admin().command({ ping: 1 });
-            console.log("Pinged your deployment. You successfully connected to MongoDB!");
+            console.log("\x1b[36m%s\x1b[0m", "Pinged your deployment. You successfully connected to MongoDB!");
         }
         catch (error) {
             console.log(error);
@@ -43,7 +42,7 @@ const createServer = () => {
     const app = (0, express_1.default)();
     app
         .disable("x-powered-by")
-        .use((0, morgan_1.default)("dev"))
+        // .use(morgan("dev"))
         .use((0, body_parser_1.urlencoded)({ extended: true }))
         .use((0, body_parser_1.json)())
         .use((0, cors_1.default)());

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useSigninMutation } from "../../redux/auth/authApi"
 import { ImSpinner2 } from "react-icons/im"
-import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
+// import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 interface FormData {
   email: string
@@ -17,7 +17,7 @@ interface FormData {
 
 export default function SigninPage() {
   const [signin, { isLoading }] = useSigninMutation()
-  // const [fetchActiveGame, { isError }] = useLazyFetchActiveGameQuery();
+  // const [fetchActiveGame] = useLazyFetchActiveGameQuery()
   const navigate = useNavigate()
   const {
     register,
@@ -30,7 +30,6 @@ export default function SigninPage() {
       const res = await signin(signinData)
       // * if ("data" in res) then it was successful
       if ("data" in res) {
-        // await fetchActiveGame();
         navigate("/home")
       }
     } catch (error) {
