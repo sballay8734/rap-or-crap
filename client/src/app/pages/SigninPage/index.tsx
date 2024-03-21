@@ -93,7 +93,7 @@ export default function SigninPage() {
           )}
         </div>
         <button
-          className="mt-10 flex items-center justify-center rounded-sm bg-green-700 py-3"
+          className="mt-10 flex items-center justify-center rounded-sm bg-green-700 py-3 min-h-14"
           type="submit"
         >
           {isLoading ? <ImSpinner2 className="animate-spin" /> : "LOG IN"}

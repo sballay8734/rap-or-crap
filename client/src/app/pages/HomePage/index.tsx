@@ -1,10 +1,10 @@
 // TODO: Move requests to Api to handle loading states (signOut)
 // TODO: Modal animation
-//        ! Use a third party library for modal animations (the problem you're having is controlling the hiding of the modal since the state is being set to null. If it's null, the modal is immdiately removed from the DOM. So either use a 3rd party library or find a way to NOT use "null" and change how you're deciding to render the modal)
-
 // TODO: Modal should accept a duration so you can more easily control it
 // TODO: Write login logic
 // TODO: Buttons need hover & active effects and stuff
+
+// ! WORKING ON LOADING CORRECT HOME PAGE HANLDING LOGIC TO FETCH GAME FROM SERVER
 
 import { useNavigate } from "react-router-dom"
 

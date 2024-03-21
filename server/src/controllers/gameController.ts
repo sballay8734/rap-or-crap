@@ -36,7 +36,32 @@ export const fetchActiveGame = async (
     _id: "TEST_TEST_TEST",
     userId: "TEST_USER_ID",
     gameStartDate: "DATE",
-    playersObject: {}
+    playersObject: {
+      Steve: {
+        cCorrect: 0,
+        cWrong: 0,
+        cDrinksTaken: 0,
+        cDrinksGiven: 0,
+        cCorrectStreak: 0,
+        cWrongStreak: 0
+      },
+      Shawn: {
+        cCorrect: 0,
+        cWrong: 0,
+        cDrinksTaken: 0,
+        cDrinksGiven: 0,
+        cCorrectStreak: 0,
+        cWrongStreak: 0
+      },
+      Dave: {
+        cCorrect: 0,
+        cWrong: 0,
+        cDrinksTaken: 0,
+        cDrinksGiven: 0,
+        cCorrectStreak: 0,
+        cWrongStreak: 0
+      }
+    }
   })
   // const userId = req.userId
   // 2. Grab id of game from user activeGame.
