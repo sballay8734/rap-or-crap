@@ -20,6 +20,7 @@ async function run() {
     await mongoose.connect(uri!)
     await mongoose.connection.db.admin().command({ ping: 1 })
     console.log(
+      "\x1b[36m%s\x1b[0m",
       "Pinged your deployment. You successfully connected to MongoDB!"
     )
   } catch (error) {
