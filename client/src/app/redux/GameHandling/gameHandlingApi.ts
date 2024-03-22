@@ -66,13 +66,22 @@ export const gameHandlingApi = createApi({
         try {
           const res = await queryFulfilled
           console.log(res)
-        } catch (error) {
-          dispatch(
-            setResponseMessage({
-              successResult: false,
-              message: "An error occured while trying to start the game."
-            })
-          )
+        } catch (err) {
+          if (isCustomApiResponse(err)) {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: err.error.data.message
+              })
+            )
+          } else {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: "Something went wrong searching for an active game."
+              })
+            )
+          }
         }
       }
     })
