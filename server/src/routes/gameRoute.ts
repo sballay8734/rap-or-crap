@@ -6,6 +6,6 @@ import { authenticateUser } from "../middleware/authenticateUser"
 const router = express.Router()
 
 router.post("/initialize-game", authenticateUser, initializeGame)
-router.get("/active-game", fetchActiveGame)
+router.get("/active-game", authenticateUser, fetchActiveGame)
 
 export default router

@@ -9,7 +9,10 @@ import { setUser, signOutUser } from "../UserSlice"
 
 const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/api/auth/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5001/api/auth/",
+    credentials: "include"
+  }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
     // first is response, second is req obj you're sending

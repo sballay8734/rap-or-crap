@@ -8,23 +8,24 @@ export const initializeGame = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("USER ID", req.userId)
-  return res.status(200).json("FINALLY")
   const gameData = req.body
+  const userId = req.userId
 
   try {
-    // first, create game
+    // first see if user exists
+    const userToUpdate = await User.findById(userId)
+    console.log(userToUpdate)
+    if (userToUpdate === null) {
+      return next(errorHandler(400, "User not found."))
+    }
+    // second, create game
     const newGame = await Game.create(gameData)
     if (!newGame) next(errorHandler(400, "Could not initialize game."))
 
-    // second, get gameId and set users active game to that id
-    // const userToUpdate = await User.findByIdAndUpdate(userId, {
-    //   activeGameId: newGame._id
-    // })
-    // if (!userToUpdate)
-    //   return next(
-    //     errorHandler(400, "Game created but could not update active game")
-    //   )
+    // third, get gameId and set users active game to that id
+    userToUpdate.activeGameId = newGame._id
+
+    await userToUpdate.save()
 
     return res.status(200).json(newGame)
   } catch (error) {
@@ -37,41 +38,26 @@ export const fetchActiveGame = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("FETCHING GAME!")
-  // return next(errorHandler(500, "Custom Error."))
+  const userId = req.userId
+  console.log("USER ID:", userId)
 
-  return res.status(200).json({
-    _id: "TEST_TEST_TEST",
-    userId: "TEST_USER_ID",
-    gameStartDate: "DATE",
-    playersObject: {
-      Steve: {
-        cCorrect: 0,
-        cWrong: 0,
-        cDrinksTaken: 0,
-        cDrinksGiven: 0,
-        cCorrectStreak: 0,
-        cWrongStreak: 0
-      },
-      Shawn: {
-        cCorrect: 0,
-        cWrong: 0,
-        cDrinksTaken: 0,
-        cDrinksGiven: 0,
-        cCorrectStreak: 0,
-        cWrongStreak: 0
-      },
-      Dave: {
-        cCorrect: 0,
-        cWrong: 0,
-        cDrinksTaken: 0,
-        cDrinksGiven: 0,
-        cCorrectStreak: 0,
-        cWrongStreak: 0
-      }
-    }
-  })
-  // const userId = req.userId
-  // 2. Grab id of game from user activeGame.
-  // 3. Fetch and return game.
+  if (!userId) return next(errorHandler(401, "Unauthorized."))
+
+  const user = await User.findById(userId)
+
+  if (user === null) return next(errorHandler(400, "User not found."))
+
+  const activeGameId = user.activeGameId
+  console.log("GAME ID:", activeGameId)
+  if (activeGameId === "") {
+    return next(errorHandler(400, "No active game."))
+  }
+
+  const activeGame = await Game.findById(activeGameId)
+  if (activeGame === null) {
+    console.log("ACTIVE GAME", activeGame)
+    return next(errorHandler(400, "Game not found."))
+  }
+
+  return res.status(200).json(activeGame)
 }

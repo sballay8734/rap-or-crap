@@ -26,7 +26,10 @@ export interface IGameInstance {
 
 export const gameHandlingApi = createApi({
   reducerPath: "gameHandlingApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5001/api/game/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5001/api/game/",
+    credentials: "include"
+  }),
   tagTypes: ["ActiveGame"],
   endpoints: (builder) => ({
     // first is response, second is req obj
@@ -61,7 +64,8 @@ export const gameHandlingApi = createApi({
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled
+          const res = await queryFulfilled
+          console.log(res)
         } catch (error) {
           dispatch(
             setResponseMessage({

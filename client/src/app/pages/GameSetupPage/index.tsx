@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 import { setResponseMessage } from "../../redux/serverResponseSlice"
@@ -10,19 +10,26 @@ import {
   IGameInstance,
   useInitializeGameMutation
 } from "../../redux/GameHandling/gameHandlingApi"
+import { RootState } from "../../redux/store"
 
 const MAX_PLAYERS = 10
-// TODO: Set up auth routes and login behavior
-const tempUserId = "asdlkjf2398u298ugasd"
 
 export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
+  const userId = useSelector((state: RootState) => state.userSlice.user?._id)
 
   const navigate = useNavigate()
-  // TODO: Ask if it's better to declare dispatch outside component
   const dispatch = useDispatch()
   const [players, setPlayers] = useState<string[]>([])
   const [input, setInput] = useState<string>("")
+
+  if (!userId) {
+    return (
+      <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-8 px-8 py-10 text-white">
+        <h1 className="text-4xl text-center">You must be logged in!</h1>
+      </div>
+    )
+  }
 
   function handleAddPlayer() {
     const error = validatePlayer(input)
@@ -83,6 +90,16 @@ export default function GameSetupPage() {
       return
     }
 
+    if (!userId) {
+      dispatch(
+        setResponseMessage({
+          successResult: false,
+          message: "You must be logged in!"
+        })
+      )
+      return
+    }
+
     const playersObject = Object.fromEntries(
       players.map((player) => [
         player,
@@ -101,14 +118,16 @@ export default function GameSetupPage() {
 
     const fullGameObject: IGameInstance = {
       playersObject: { ...playersObject },
-      userId: tempUserId,
-      gameStartDate: new Date().toISOString()
+      userId: userId
     }
+
+    console.log(fullGameObject)
 
     // Errors are handled in createApi so no real need for them here
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
+        console.log("SUCCESS!")
         // TODO: Clear previous game
         navigate("/game")
         return

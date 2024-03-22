@@ -35,7 +35,7 @@ export default function HomePage() {
   }
 
   if (activeGame !== null && activeGame !== undefined) {
-    console.log("NOT NULL!", activeGame)
+    console.log(activeGame)
     // * set active game to active game, and return screen where "continue game" is shown.
     // otherwise, set active game to null and return screen WITHOUT "continue game"
   }

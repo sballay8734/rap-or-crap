@@ -48,12 +48,12 @@ export const signup = async (
       activeGameId: newUser.activeGameId || ""
     }
 
-    return successHandler<IUserResponse>(
-      res,
-      200,
-      "Account creation successful!",
-      userResponse
-    )
+    const token = jwt.sign({ id: userResponse._id }, process.env.JWT_SECRET!)
+
+    return res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(userResponse)
   } catch (error) {
     next(errorHandler(500, "Something went wrong."))
   }
@@ -84,7 +84,7 @@ export const signin = async (
     return res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
-      .json({ success: true, message: "Sign in successful!", rest })
+      .json(rest)
   } catch (error) {
     next(errorHandler(500, "Could not signin."))
   }
