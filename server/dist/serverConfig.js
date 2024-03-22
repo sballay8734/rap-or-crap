@@ -22,6 +22,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const promptsRoute_1 = __importDefault(require("./routes/promptsRoute"));
 const authRoute_1 = __importDefault(require("./routes/authRoute"));
 const gameRoute_1 = __importDefault(require("./routes/gameRoute"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const uri = process.env.MONGO_URI;
 // Connect to mongodb
 function run() {
@@ -45,7 +46,8 @@ const createServer = () => {
         // .use(morgan("dev"))
         .use((0, body_parser_1.urlencoded)({ extended: true }))
         .use((0, body_parser_1.json)())
-        .use((0, cors_1.default)());
+        .use((0, cors_1.default)())
+        .use((0, cookie_parser_1.default)());
     app.use("/api/prompts", promptsRoute_1.default);
     app.use("/api/auth", authRoute_1.default);
     app.use("/api/game", gameRoute_1.default);

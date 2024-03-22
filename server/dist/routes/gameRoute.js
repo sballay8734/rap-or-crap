@@ -8,5 +8,5 @@ const gameController_1 = require("../controllers/gameController");
 const authenticateUser_1 = require("../middleware/authenticateUser");
 const router = express_1.default.Router();
 router.post("/initialize-game", authenticateUser_1.authenticateUser, gameController_1.initializeGame);
-router.get("/active-game", authenticateUser_1.authenticateUser, gameController_1.fetchActiveGame);
+router.get("/active-game", gameController_1.fetchActiveGame);
 exports.default = router;

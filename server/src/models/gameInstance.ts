@@ -1,23 +1,23 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose"
 
 interface PlayerStats {
-  cCorrect: number;
-  cWrong: number;
-  cDrinksTaken: number;
-  cDrinksGiven: number;
-  cCorrectStreak: number;
-  cWrongStreak: number;
+  cCorrect: number
+  cWrong: number
+  cDrinksTaken: number
+  cDrinksGiven: number
+  cCorrectStreak: number
+  cWrongStreak: number
 }
 
 interface PlayersObject {
-  [playerName: string]: PlayerStats;
+  [playerName: string]: PlayerStats
 }
 
 interface IGameInstance extends Document {
-  _id?: string; // created by mongoDB
-  userId: string; // the signed in user who initialized the game
-  gameStartDate: string;
-  playersObject: PlayersObject;
+  _id?: string // created by mongoDB
+  userId: string // the signed in user who initialized the game
+  gameStartDate?: string
+  playersObject: PlayersObject
 }
 
 const PlayerStatsSchema = new Schema<PlayerStats>({
@@ -26,8 +26,8 @@ const PlayerStatsSchema = new Schema<PlayerStats>({
   cDrinksTaken: { type: Number, default: 0 },
   cDrinksGiven: { type: Number, default: 0 },
   cCorrectStreak: { type: Number, default: 0 },
-  cWrongStreak: { type: Number, default: 0 },
-});
+  cWrongStreak: { type: Number, default: 0 }
+})
 
 const GameInstanceSchema = new Schema({
   // Use the game instance to continue game rather than dealing with local storage.
@@ -37,11 +37,11 @@ const GameInstanceSchema = new Schema({
   gameStartDate: {
     type: Date,
     required: true,
-    default: Date.now,
+    default: Date.now
   },
-  playersObject: { type: Map, of: PlayerStatsSchema, required: true },
-});
+  playersObject: { type: Map, of: PlayerStatsSchema, required: true }
+})
 
-const Game = mongoose.model<IGameInstance>("game", GameInstanceSchema);
+const Game = mongoose.model<IGameInstance>("game", GameInstanceSchema)
 
-export default Game;
+export default Game

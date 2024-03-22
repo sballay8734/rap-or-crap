@@ -1,22 +1,30 @@
 import { Request, Response, NextFunction } from "express"
 import { errorHandler } from "../utils/errorHandler"
 import Game from "../models/gameInstance"
-
-interface UserIdInRequest extends Request {
-  userId: string
-}
+import User from "../models/user"
 
 export const initializeGame = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  console.log("USER ID", req.userId)
+  return res.status(200).json("FINALLY")
   const gameData = req.body
 
   try {
+    // first, create game
     const newGame = await Game.create(gameData)
-
     if (!newGame) next(errorHandler(400, "Could not initialize game."))
+
+    // second, get gameId and set users active game to that id
+    // const userToUpdate = await User.findByIdAndUpdate(userId, {
+    //   activeGameId: newGame._id
+    // })
+    // if (!userToUpdate)
+    //   return next(
+    //     errorHandler(400, "Game created but could not update active game")
+    //   )
 
     return res.status(200).json(newGame)
   } catch (error) {

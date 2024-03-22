@@ -16,18 +16,18 @@ exports.authenticateUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const errorHandler_1 = require("../utils/errorHandler");
 const authenticateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.cookies.access_token;
+    if (!token)
+        return next((0, errorHandler_1.errorHandler)(401, "Unauthorized"));
     try {
-        const token = req.cookies.access_token;
-        console.log("TOKEN", token);
-        if (!token)
-            return next((0, errorHandler_1.errorHandler)(401, "Unauthorized"));
-        jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
-            if (err)
-                return next((0, errorHandler_1.errorHandler)(403, "Forbidden"));
-            console.log(user);
-            // req.userId = user._id
-            next();
-        });
+        const data = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        if (typeof data === "string") {
+            return next((0, errorHandler_1.errorHandler)(400, "Invalid token"));
+        }
+        if (req.userId) {
+            req.userId = data.id;
+            return next();
+        }
     }
     catch (error) {
         next((0, errorHandler_1.errorHandler)(400, "Could not authenticate user."));

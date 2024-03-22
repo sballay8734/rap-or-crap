@@ -11,6 +11,7 @@ import promptsRouter from "./routes/promptsRoute"
 import authRouter from "./routes/authRoute"
 import gameRouter from "./routes/gameRoute"
 import { Err } from "./types/error"
+import cookieParser from "cookie-parser"
 
 const uri = process.env.MONGO_URI
 
@@ -38,6 +39,7 @@ export const createServer = (): Express => {
     .use(urlencoded({ extended: true }))
     .use(json())
     .use(cors())
+    .use(cookieParser())
 
   app.use("/api/prompts", promptsRouter)
   app.use("/api/auth", authRouter)

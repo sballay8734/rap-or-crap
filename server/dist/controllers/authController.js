@@ -74,14 +74,16 @@ const signin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         const validUser = yield user_1.default.findOne({ email });
         if (!validUser)
             return next((0, errorHandler_1.errorHandler)(400, "Email or password is incorrect"));
-        const validPassword = bcrypt_1.default.compareSync(password, validUser.password);
+        const validPassword = bcrypt_1.default.compare(password, validUser.password);
         if (!validPassword)
             return next((0, errorHandler_1.errorHandler)(400, "Email or password is incorrect"));
-        const token = jsonwebtoken_1.default.sign({ id: validUser._id }, process.env.JWT_SECRET);
         const userObject = validUser.toObject();
         const { password: pass } = userObject, rest = __rest(userObject, ["password"]);
-        res.cookie("access_token", token, { httpOnly: true });
-        return (0, successHandler_1.successHandler)(res, 200, "Sign in successful!", rest);
+        const token = jsonwebtoken_1.default.sign({ id: userObject._id }, process.env.JWT_SECRET);
+        return res
+            .cookie("access_token", token, { httpOnly: true })
+            .status(200)
+            .json({ success: true, message: "Sign in successful!", rest });
     }
     catch (error) {
         next((0, errorHandler_1.errorHandler)(500, "Could not signin."));

@@ -18,7 +18,7 @@ export interface PlayersObject {
 export interface IGameInstance {
   _id?: string // created by mongoDB
   userId: string // the signed in user who initialized the game
-  gameStartDate: string
+  gameStartDate?: string
   playersObject: PlayersObject
 }
 
@@ -55,6 +55,7 @@ export const gameHandlingApi = createApi({
         }
       }
     }),
+    // Initialize new game AND overwrite "active game" with new id
     initializeGame: builder.mutation<IGameInstance, IGameInstance>({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
       invalidatesTags: ["ActiveGame"],

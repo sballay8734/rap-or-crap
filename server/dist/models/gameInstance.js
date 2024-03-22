@@ -30,7 +30,7 @@ const PlayerStatsSchema = new mongoose_1.Schema({
     cDrinksTaken: { type: Number, default: 0 },
     cDrinksGiven: { type: Number, default: 0 },
     cCorrectStreak: { type: Number, default: 0 },
-    cWrongStreak: { type: Number, default: 0 },
+    cWrongStreak: { type: Number, default: 0 }
 });
 const GameInstanceSchema = new mongoose_1.Schema({
     // Use the game instance to continue game rather than dealing with local storage.
@@ -40,9 +40,9 @@ const GameInstanceSchema = new mongoose_1.Schema({
     gameStartDate: {
         type: Date,
         required: true,
-        default: Date.now,
+        default: Date.now
     },
-    playersObject: { type: Map, of: PlayerStatsSchema, required: true },
+    playersObject: { type: Map, of: PlayerStatsSchema, required: true }
 });
 const Game = mongoose_1.default.model("game", GameInstanceSchema);
 exports.default = Game;
