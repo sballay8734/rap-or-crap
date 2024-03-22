@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
-import { useDispatch } from "react-redux"
 
 import { MdOutlineMail } from "react-icons/md"
 import { CiLock } from "react-icons/ci"
@@ -19,8 +18,7 @@ interface FormData {
 
 // !FIXME: Form validation is not quite working properly. It only works after form has been submitted but not initially.
 export default function SignupPage() {
-  const [signup, { isLoading, isError }] = useSignupMutation()
-  const dispatch = useDispatch()
+  const [signup, { isLoading }] = useSignupMutation()
   const navigate = useNavigate()
   const {
     watch,

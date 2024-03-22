@@ -1,77 +1,75 @@
-import { ChangeEvent, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useState } from "react"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
-import { setResponseMessage } from "../../redux/serverResponseSlice";
-import { IoIosAdd, IoIosClose } from "react-icons/io";
-import { FaCheckCircle } from "react-icons/fa";
-import { formatNameFirstLastName } from "../../helpers/formattingStrings";
-import { showConfirmModal } from "../../redux/ConfirmModalSlice";
+import { setResponseMessage } from "../../redux/serverResponseSlice"
+import { IoIosAdd, IoIosClose } from "react-icons/io"
+import { FaCheckCircle } from "react-icons/fa"
+import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 import {
   IGameInstance,
-  useInitializeGameMutation,
-} from "../../redux/GameHandling/gameHandlingApi";
+  useInitializeGameMutation
+} from "../../redux/GameHandling/gameHandlingApi"
 
-const MAX_PLAYERS = 10;
+const MAX_PLAYERS = 10
 // TODO: Set up auth routes and login behavior
-const tempUserId = "asdlkjf2398u298ugasd";
+const tempUserId = "asdlkjf2398u298ugasd"
 
 export default function GameSetupPage() {
-  const [initializeGame, { isError, isLoading, isSuccess }] =
-    useInitializeGameMutation();
+  const [initializeGame] = useInitializeGameMutation()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // TODO: Ask if it's better to declare dispatch outside component
-  const dispatch = useDispatch();
-  const [players, setPlayers] = useState<string[]>([]);
-  const [input, setInput] = useState<string>("");
+  const dispatch = useDispatch()
+  const [players, setPlayers] = useState<string[]>([])
+  const [input, setInput] = useState<string>("")
 
   function handleAddPlayer() {
-    const error = validatePlayer(input);
+    const error = validatePlayer(input)
 
     // store all names as lowercase for easier comparison (format name in jsx)
     if (!error) {
-      setPlayers((prevPlayers) => [...prevPlayers, input.toLocaleLowerCase()]);
-      setInput("");
+      setPlayers((prevPlayers) => [...prevPlayers, input.toLocaleLowerCase()])
+      setInput("")
     } else {
-      dispatch(setResponseMessage({ successResult: false, message: error }));
+      dispatch(setResponseMessage({ successResult: false, message: error }))
     }
   }
 
   function handleKeyDown(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
-      handleAddPlayer();
+      handleAddPlayer()
     }
   }
 
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-    setInput(e.target.value);
+    setInput(e.target.value)
   }
 
   function handleRemovePlayer(player: string) {
     const filteredPlayers = players.filter((p) => {
-      return p !== player;
-    });
-    setPlayers(filteredPlayers);
+      return p !== player
+    })
+    setPlayers(filteredPlayers)
   }
 
   function validatePlayer(name: string): string | null {
     if (name.trim().length < 2) {
-      return "Player name must be at least 2 characters long.";
+      return "Player name must be at least 2 characters long."
     }
     if (name.split(" ").length > 2) {
-      return "First and last name only.";
+      return "First and last name only."
     }
     if (players.includes(input.toLocaleLowerCase())) {
-      return "That player already exists.";
+      return "That player already exists."
     }
     if (!/^[a-zA-Z\s]+$/.test(name.trim())) {
-      return "Player name can only contain letters and spaces.";
+      return "Player name can only contain letters and spaces."
     }
     if (players.length >= MAX_PLAYERS) {
-      return "Maximum number of players reached.";
+      return "Maximum number of players reached."
     }
-    return null;
+    return null
   }
 
   async function handleStartGame() {
@@ -79,10 +77,10 @@ export default function GameSetupPage() {
       dispatch(
         setResponseMessage({
           successResult: false,
-          message: "At least one player is required.",
-        }),
-      );
-      return;
+          message: "At least one player is required."
+        })
+      )
+      return
     }
 
     const playersObject = Object.fromEntries(
@@ -96,28 +94,28 @@ export default function GameSetupPage() {
           cDrinksTaken: 0,
           cDrinksGiven: 0,
           cCorrectStreak: 0,
-          cWrongStreak: 0,
-        },
-      ]),
-    );
+          cWrongStreak: 0
+        }
+      ])
+    )
 
     const fullGameObject: IGameInstance = {
       playersObject: { ...playersObject },
       userId: tempUserId,
-      gameStartDate: new Date().toISOString(),
-    };
+      gameStartDate: new Date().toISOString()
+    }
 
     // Errors are handled in createApi so no real need for them here
     try {
-      const newGame = await initializeGame(fullGameObject);
+      const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
         // TODO: Clear previous game
-        navigate("/game");
-        return;
+        navigate("/game")
+        return
       }
     } catch (error) {
-      console.error(error);
-      return;
+      console.error(error)
+      return
     }
   }
 
@@ -154,7 +152,7 @@ export default function GameSetupPage() {
                   <IoIosClose size={20} />
                 </button>
               </li>
-            );
+            )
           })}
         </ul>
       </div>
@@ -180,10 +178,10 @@ export default function GameSetupPage() {
           backgroundImage: "url('start-button.png')",
           backgroundPosition: "center",
           backgroundSize: "200px 200px",
-          backgroundRepeat: "no-repeat",
+          backgroundRepeat: "no-repeat"
         }}
         onClick={handleStartGame}
       ></button>
     </div>
-  );
+  )
 }

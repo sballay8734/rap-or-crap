@@ -33,7 +33,7 @@ export const gameHandlingApi = createApi({
     fetchActiveGame: builder.query<IGameInstance, void>({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
         } catch (err) {
@@ -58,7 +58,7 @@ export const gameHandlingApi = createApi({
     initializeGame: builder.mutation<IGameInstance, IGameInstance>({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
       invalidatesTags: ["ActiveGame"],
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
         } catch (error) {

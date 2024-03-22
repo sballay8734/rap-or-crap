@@ -15,7 +15,7 @@ const authApi = createApi({
     // first is response, second is req obj you're sending
     signup: builder.mutation<CreatedUser, SignUpFormData>({
       query: (body) => ({ url: "signup", method: "POST", body }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const res = await queryFulfilled
           dispatch(setUser(res.data))
@@ -46,7 +46,7 @@ const authApi = createApi({
     }),
     signin: builder.mutation<CreatedUser, SignInFormData>({
       query: (body) => ({ url: "signin", method: "POST", body }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const res = await queryFulfilled
           dispatch(setUser(res.data))
@@ -77,7 +77,7 @@ const authApi = createApi({
     }),
     signout: builder.mutation<{}, void>({
       query: () => ({ url: "signout", method: "POST" }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(signOutUser())

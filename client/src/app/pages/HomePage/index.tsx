@@ -19,7 +19,7 @@ import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingAp
 
 export default function HomePage() {
   const [signOut] = useSignoutMutation()
-  const { data: activeGame, isLoading, isError } = useFetchActiveGameQuery()
+  const { data: activeGame, isLoading } = useFetchActiveGameQuery()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
