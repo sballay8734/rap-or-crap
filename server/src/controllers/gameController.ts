@@ -57,7 +57,7 @@ export const fetchActiveGame = async (
 
   const activeGameId = user.activeGameId
   if (activeGameId === "") {
-    return next(errorHandler(400, "No active game."))
+    return res.status(200).json(null)
   }
 
   const activeGame = await Game.findById(activeGameId)
@@ -75,26 +75,33 @@ export const deleteOldActiveGame = async (
   next: NextFunction
 ) => {
   const userId = req.userId
-  logServer("USER ID:", userId)
 
   if (!userId) return next(errorHandler(401, "Unauthorized."))
 
   const user = await User.findById(userId)
-  logServer("USER:", user)
 
   if (user === null) return next(errorHandler(400, "User not found."))
 
   const activeGameId = user.activeGameId
-  logServer("ACTIVE GAME ID:", activeGameId)
   if (activeGameId === "") {
     return next(errorHandler(400, "No active game."))
   }
 
   const deletedGame = await Game.findByIdAndDelete(activeGameId)
   if (deletedGame === null) {
-    logServer("gameController/deleteOldActiveGame", deletedGame)
     return next(errorHandler(400, "Game not found."))
   }
 
-  return res.status(200).json(deletedGame)
+  const updatedUser = await User.findByIdAndUpdate(userId, {
+    activeGameId: ""
+  })
+  if (!updatedUser) {
+    return next(
+      errorHandler(400, "Game deleted, but user could not be updated.")
+    )
+  }
+
+  logServer("User updated successfully")
+
+  return res.status(200).json(null)
 }

@@ -17,12 +17,15 @@ import { useSignoutMutation } from "../../redux/auth/authApi"
 import { persistor } from "../../redux/store"
 import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 import logClient from "../../helpers/logFormatter"
+import { setResponseMessage } from "../../redux/serverResponseSlice"
 
 export default function HomePage() {
   const [signOut] = useSignoutMutation()
   const { data: activeGame, isLoading } = useFetchActiveGameQuery()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  logClient("ACTIVE GAME", activeGame)
 
   // Temp for testing
   const userName = "Shawn"
@@ -41,7 +44,19 @@ export default function HomePage() {
     // otherwise, set active game to null and return screen WITHOUT "continue game"
   }
 
-  // TODO: NEED TO LINK THE SELECTION OF "I'm Sure" to somehow start game
+  function handleResumeGame() {
+    if (activeGame !== null) {
+      navigate("/game")
+    } else {
+      dispatch(
+        setResponseMessage({
+          successResult: false,
+          message: "Hmmm... You shouldn't be able to do that..."
+        })
+      )
+    }
+  }
+
   function handleNewGame() {
     if (activeGame) {
       dispatch(
@@ -54,6 +69,7 @@ export default function HomePage() {
       return
     }
 
+    // * If active game is null/undefined go to game setup, don't show modal
     navigate("/game-setup")
   }
 
@@ -83,7 +99,10 @@ export default function HomePage() {
       </div>
       {activeGame ? (
         <div className="flex w-full flex-col items-center gap-4">
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3">
+          <button
+            onClick={handleResumeGame}
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3"
+          >
             Resume Game <ImSpinner11 className="absolute right-4" />
           </button>
           <button

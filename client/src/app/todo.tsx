@@ -2,6 +2,7 @@
 // ! Work out how to modify game object from RTK while playing (Don't use slices to store this state).
 // ! Game logic
 
+// TODO: activeGameId should really be null if empty (not an empty string)
 // TODO: Fix sign up button (it gets smaller when spinner appears)
 // TODO: Still need to delete old game when new one is started
 // TODO: Clear entire redux state on signout

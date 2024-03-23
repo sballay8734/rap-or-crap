@@ -27,6 +27,11 @@ const userSlice = createSlice({
     signOutUser: (state) => {
       state.user = null
     }
+    // setUserActiveGame: (state, action: PayloadAction<string>) => {
+    //   if (state.user !== null) {
+    //     state.user.activeGameId = action.payload
+    //   }
+    // }
   }
 })
 

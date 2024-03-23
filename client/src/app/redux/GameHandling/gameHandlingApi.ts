@@ -60,13 +60,12 @@ export const gameHandlingApi = createApi({
         }
       }
     }),
-    deleteGame: builder.mutation<IGameInstance, void>({
+    deleteGame: builder.mutation<IGameInstance | null, void>({
       query: () => ({ url: "delete-game", method: "DELETE" }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          const res = await queryFulfilled
-          logClient("gameHandlingApi/delete-game", res)
+          await queryFulfilled
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(
@@ -94,6 +93,12 @@ export const gameHandlingApi = createApi({
         try {
           const res = await queryFulfilled
           logClient("gameHandlingApi/initialize-game", res)
+          // if ("data" in res) {
+          //   const gameId = res.data?._id ?? "No ID found"
+          //   if (gameId !== "No ID found") {
+          //     dispatch(setUserActiveGame(gameId))
+          //   }
+          // }
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(

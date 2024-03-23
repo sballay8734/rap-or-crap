@@ -1,40 +1,88 @@
+const typeColorMap: Record<string, string> = {
+  string: "color: #00ff00; font-weight: bold;", // Bright Green
+  number: "color: #ffff00; font-weight: bold;", // Bright Yellow
+  boolean: "color: #0000ff; font-weight: bold;", // Bright Blue
+  object: "color: #ff00ff; font-weight: bold;", // Bright Pink
+
+  undefined: "color: #ff0000; font-weight: bold;", // Dark Red
+  error: "color: #ff0000; font-weight: bold;", // Bright Red
+  function: "color: #808080; font-weight: bold;", // Gray
+  null: "color: #808080; font-weight: bold;", // Gray
+  symbol: "color: #808080; font-weight: bold;", // Dark Gray
+  bigint: "color: #808080; font-weight: bold;" // Dark Gray
+}
+
+const text = "[CLIENT]"
+
 export default function logClient(message?: any, payload?: any) {
   let logMessage = ""
   let logPayload = ""
 
-  if (!message && !payload) {
-    // If 0 arguments provided
+  const messageType = typeof message
+  const payloadType = typeof payload
+
+  // * Handle single null case (null as second arg works)
+  if (message === null && payloadType === "undefined") {
+    console.log(`%c${text} ${message}`, typeColorMap.null)
     return
-  } else if (typeof message !== "string" && !payload) {
-    // If one, non-string argument is provided
-    logPayload = message
-    console.log("%c[CLIENT]", "color: #00ff11; font-weight: bold;", logPayload)
-  } else if (!payload && typeof message === "string") {
-    // If one string argument is provided
-    logPayload = message
-    console.log(
-      `%c[CLIENT] ${logPayload}`,
-      "color: #00ff11; font-weight: bold;"
-    )
-  } else if (typeof message === "string" && typeof payload === "object") {
-    // If message is a string and payload is an object
-    logMessage = message ? `%c[CLIENT] ${message}` : ""
-    logPayload = typeof payload === "string" ? `%c${payload}` : payload
-
-    const styles = []
-    if (logMessage) {
-      styles.push("color: #00ff11; font-weight: bold;")
-    }
-    if (typeof payload === "string") {
-      styles.push("color: inherit; font-weight: inherit;")
-    }
-
-    console.log(logMessage, ...styles, logPayload)
-  } else {
-    console.error("UNCAUGHT LOG FORMAT")
   }
-}
 
-// (object) *
-// (string) *
-// (string, object) *
+  // * Handle double null case
+  if (message === null && payload === null) {
+    logMessage = `%c${text} ${message}`
+    logPayload = `%c${text} ${payload}`
+
+    console.log(logMessage, typeColorMap.null)
+    console.log(logPayload, typeColorMap.null)
+    return
+  }
+
+  // * No arguments provided
+  if (!message && !payload) {
+    const errMsg = "ARGUMENTS TO LOG FUNCTION ARE REQUIRED"
+    console.log(`%c${text} ${errMsg}`, typeColorMap.error)
+    return
+  }
+
+  // * Don't support symbols
+  if (messageType === "symbol" || payloadType === "symbol") {
+    const errMsg = "SYMBOLS ARE NOT SUPPORTED"
+    console.log(`%c${text} ${errMsg}`, typeColorMap.error)
+    return
+  }
+
+  // * (_, arg)
+  if (messageType === "undefined" && payloadType !== "undefined") {
+    payloadType === "object"
+      ? console.log(payload)
+      : console.log(
+          undefined,
+          `%c${text} ${payload}`,
+          typeColorMap[payloadType]
+        )
+
+    return
+  }
+
+  // * (arg, _)
+  if (messageType !== "undefined" && payloadType === "undefined") {
+    messageType === "object"
+      ? console.log(message)
+      : console.log(
+          `%c${text} ${message}`,
+          typeColorMap[messageType],
+          undefined
+        )
+    return
+  }
+
+  // * All other possible argument types
+
+  messageType === "object"
+    ? console.log(message)
+    : console.log(`%c${text} ${message}`, typeColorMap[messageType])
+
+  payloadType === "object"
+    ? console.log(payload)
+    : console.log(`%c${text} ${payload}`, typeColorMap[payloadType])
+}

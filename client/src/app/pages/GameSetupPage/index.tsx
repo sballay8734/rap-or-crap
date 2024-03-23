@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
@@ -8,26 +8,54 @@ import { FaCheckCircle } from "react-icons/fa"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 import {
   IGameInstance,
+  useFetchActiveGameQuery,
   useInitializeGameMutation
 } from "../../redux/GameHandling/gameHandlingApi"
 import { RootState } from "../../redux/store"
-import logClient from "../../helpers/logFormatter"
 
 const MAX_PLAYERS = 10
 
 export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
   const userId = useSelector((state: RootState) => state.userSlice.user?._id)
+  const { activeGameId, isFetching } = useFetchActiveGameQuery(undefined, {
+    selectFromResult: ({ data, isFetching }) => ({
+      activeGameId: data?._id,
+      isFetching
+    })
+  })
+
+  if (isFetching) {
+    console.log("Fetching...")
+  }
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [players, setPlayers] = useState<string[]>([])
   const [input, setInput] = useState<string>("")
 
+  // ! Always call useEffect before any early returns
+  // https://react.dev/warnings/invalid-hook-call-warning
+  useEffect(() => {
+    if (!activeGameId || isFetching) {
+      return
+    } else {
+      navigate("/home")
+    }
+  }, [activeGameId, isFetching])
+
   if (!userId) {
     return (
       <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-8 px-8 py-10 text-white">
         <h1 className="text-4xl text-center">You must be logged in!</h1>
+      </div>
+    )
+  }
+
+  if (isFetching) {
+    return (
+      <div className="z-1 relative flex h-screen w-full flex-col items-center justify-between gap-8 px-8 py-10 text-white">
+        <h1 className="text-4xl">Fetching...</h1>
       </div>
     )
   }
@@ -80,7 +108,6 @@ export default function GameSetupPage() {
     return null
   }
 
-  // ! If you start game, then go back, you're able to start another game which is not good. Going back should maybe take you to the home screen and allow you to continue game but initialize-game route needs to be protected from duplicating games
   async function handleStartGame() {
     if (players.length < 1) {
       dispatch(
@@ -123,13 +150,10 @@ export default function GameSetupPage() {
       userId: userId
     }
 
-    logClient("GameSetupPage", fullGameObject)
-
     // Errors are handled in createApi so no real need for them here
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
-        // TODO: Clear previous game
         navigate("/game")
         return
       }
