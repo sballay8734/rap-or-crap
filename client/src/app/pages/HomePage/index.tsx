@@ -16,6 +16,7 @@ import { showConfirmModal } from "../../redux/ConfirmModalSlice"
 import { useSignoutMutation } from "../../redux/auth/authApi"
 import { persistor } from "../../redux/store"
 import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
+import logClient from "../../helpers/logFormatter"
 
 export default function HomePage() {
   const [signOut] = useSignoutMutation()
@@ -35,7 +36,7 @@ export default function HomePage() {
   }
 
   if (activeGame !== null && activeGame !== undefined) {
-    console.log(activeGame)
+    logClient(activeGame)
     // * set active game to active game, and return screen where "continue game" is shown.
     // otherwise, set active game to null and return screen WITHOUT "continue game"
   }
@@ -62,7 +63,7 @@ export default function HomePage() {
       const res = await signOut()
       if ("data" in res) {
         await persistor.purge()
-        console.log("Persisted data cleared!")
+        logClient("Persisted data cleared!")
         navigate("/signin")
       }
     } catch (error) {

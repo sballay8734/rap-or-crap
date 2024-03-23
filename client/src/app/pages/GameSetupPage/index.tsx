@@ -11,6 +11,7 @@ import {
   useInitializeGameMutation
 } from "../../redux/GameHandling/gameHandlingApi"
 import { RootState } from "../../redux/store"
+import logClient from "../../helpers/logFormatter"
 
 const MAX_PLAYERS = 10
 
@@ -79,6 +80,7 @@ export default function GameSetupPage() {
     return null
   }
 
+  // ! If you start game, then go back, you're able to start another game which is not good. Going back should maybe take you to the home screen and allow you to continue game but initialize-game route needs to be protected from duplicating games
   async function handleStartGame() {
     if (players.length < 1) {
       dispatch(
@@ -121,13 +123,12 @@ export default function GameSetupPage() {
       userId: userId
     }
 
-    console.log(fullGameObject)
+    logClient("GameSetupPage", fullGameObject)
 
     // Errors are handled in createApi so no real need for them here
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
-        console.log("SUCCESS!")
         // TODO: Clear previous game
         navigate("/game")
         return

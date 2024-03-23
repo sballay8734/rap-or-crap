@@ -7,6 +7,7 @@ import { successHandler } from "../utils/successHandler"
 import { IUserResponse } from "../types/authTypes"
 import User from "../models/user"
 import { fieldsAreNotValid, passwordsMatch } from "../helpers/authHelpers"
+import logServer from "../helpers/logFormatter"
 
 export const signup = async (
   req: Request,
@@ -28,7 +29,7 @@ export const signup = async (
   // if email already exists
   // !FIXME: Need to lowercase email!
   const existingUser = await User.findOne({ email })
-  console.log(existingUser)
+  logServer("authController/signup", existingUser)
   if (existingUser) return next(errorHandler(409, "That user already exists."))
 
   try {
@@ -71,7 +72,7 @@ export const signin = async (
     if (!validUser)
       return next(errorHandler(400, "Email or password is incorrect"))
 
-    const validPassword = bcrypt.compare(password, validUser.password)
+    const validPassword = bcrypt.compareSync(password, validUser.password)
     if (!validPassword)
       return next(errorHandler(400, "Email or password is incorrect"))
 

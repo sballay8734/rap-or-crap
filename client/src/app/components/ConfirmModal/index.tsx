@@ -1,32 +1,44 @@
-import { createPortal } from "react-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
-import { RootState } from "../../redux/store";
-import { hideConfirmModal } from "../../redux/ConfirmModalSlice";
-import { IoMdCloseCircle } from "react-icons/io";
+import { RootState } from "../../redux/store"
+import { hideConfirmModal } from "../../redux/ConfirmModalSlice"
+import { IoMdCloseCircle } from "react-icons/io"
+import { useDeleteGameMutation } from "../../redux/GameHandling/gameHandlingApi"
+import { setResponseMessage } from "../../redux/serverResponseSlice"
 
 export default function ConfirmModal() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [deleteGame] = useDeleteGameMutation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const modalIsShown = useSelector(
-    (state: RootState) => state.confirmModal.showConfirmModal,
-  );
+    (state: RootState) => state.confirmModal.showConfirmModal
+  )
   const modalMessage = useSelector(
-    (state: RootState) => state.confirmModal.message,
-  );
+    (state: RootState) => state.confirmModal.message
+  )
   const modalDetails = useSelector(
-    (state: RootState) => state.confirmModal.details,
-  );
+    (state: RootState) => state.confirmModal.details
+  )
 
   function closeModal() {
-    dispatch(hideConfirmModal());
+    dispatch(hideConfirmModal())
   }
 
-  function handleInitializeGame() {
-    // TODO: Clear old game
-    navigate("/game-setup");
-    closeModal();
+  async function handleInitializeGame() {
+    try {
+      await deleteGame()
+      navigate("/game-setup")
+      closeModal()
+    } catch (error) {
+      dispatch(
+        setResponseMessage({
+          successResult: false,
+          message: "Something went wrong"
+        })
+      )
+    }
   }
 
   // Modal to render
@@ -45,7 +57,7 @@ export default function ConfirmModal() {
             backgroundImage: "url('warning.png')",
             backgroundPosition: "center",
             backgroundSize: "50px 50px",
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: "no-repeat"
           }}
         >
           <button
@@ -82,11 +94,11 @@ export default function ConfirmModal() {
         </div>
       </div>
     </div>
-  );
+  )
 
   // Where to render modal
-  const modalContainer = document.getElementById("modal-container")!;
+  const modalContainer = document.getElementById("modal-container")!
 
   // Render it only if modalIsShown === true
-  return modalIsShown && createPortal(children, modalContainer);
+  return modalIsShown && createPortal(children, modalContainer)
 }

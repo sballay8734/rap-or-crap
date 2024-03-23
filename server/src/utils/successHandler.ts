@@ -1,14 +1,15 @@
-import { Response } from "express";
+import { Response } from "express"
+import logServer from "../helpers/logFormatter"
 
 export function successHandler<T>(
   res: Response,
   statusCode: number,
   message: string,
-  payload: T,
+  payload: T
 ) {
-  if (message.length > 50) console.log(`RES MSG IS TOO LONG! MSG: ${message}`);
+  if (message.length > 50) logServer(`RES MSG IS TOO LONG! MSG: ${message}`)
 
-  return res.status(statusCode).json({ success: true, message, payload });
+  return res.status(statusCode).json({ success: true, message, payload })
 }
 
 // 200 - OK

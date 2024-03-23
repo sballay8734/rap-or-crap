@@ -12,6 +12,7 @@ import authRouter from "./routes/authRoute"
 import gameRouter from "./routes/gameRoute"
 import { Err } from "./types/error"
 import cookieParser from "cookie-parser"
+import logServer from "./helpers/logFormatter"
 
 const uri = process.env.MONGO_URI
 
@@ -20,12 +21,9 @@ async function run() {
   try {
     await mongoose.connect(uri!)
     await mongoose.connection.db.admin().command({ ping: 1 })
-    console.log(
-      "\x1b[36m%s\x1b[0m",
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    )
+    logServer("Pinged your deployment. You successfully connected to MongoDB!")
   } catch (error) {
-    console.log(error)
+    logServer(error)
   }
 }
 run()
@@ -49,7 +47,7 @@ export const createServer = (): Express => {
     const statusCode = err.statusCode || 500
     const message = err.message || "Internal server error"
 
-    if (message.length > 50) console.log(`RES MSG IS TOO LONG! MSG: ${message}`)
+    if (message.length > 50) logServer(`RES MSG IS TOO LONG! MSG: ${message}`)
 
     return res.status(statusCode).json({
       success: false,

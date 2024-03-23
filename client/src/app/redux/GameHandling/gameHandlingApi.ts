@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { setResponseMessage } from "../serverResponseSlice"
 import { isCustomApiResponse } from "../../helpers/errorReform"
+import logClient from "../../helpers/logFormatter"
 
 interface PlayerStats {
   cCorrect: number
@@ -38,7 +39,34 @@ export const gameHandlingApi = createApi({
       providesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled
+          const res = await queryFulfilled
+          if (res.data === null) return
+        } catch (err) {
+          if (isCustomApiResponse(err)) {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: err.error.data.message
+              })
+            )
+          } else {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: "Something went wrong searching for an active game."
+              })
+            )
+          }
+        }
+      }
+    }),
+    deleteGame: builder.mutation<IGameInstance, void>({
+      query: () => ({ url: "delete-game", method: "DELETE" }),
+      invalidatesTags: ["ActiveGame"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const res = await queryFulfilled
+          logClient("gameHandlingApi/delete-game", res)
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(
@@ -65,7 +93,7 @@ export const gameHandlingApi = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const res = await queryFulfilled
-          console.log(res)
+          logClient("gameHandlingApi/initialize-game", res)
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(
@@ -88,5 +116,8 @@ export const gameHandlingApi = createApi({
   })
 })
 
-export const { useInitializeGameMutation, useFetchActiveGameQuery } =
-  gameHandlingApi
+export const {
+  useInitializeGameMutation,
+  useFetchActiveGameQuery,
+  useDeleteGameMutation
+} = gameHandlingApi
