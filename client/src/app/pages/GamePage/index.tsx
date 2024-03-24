@@ -1,5 +1,5 @@
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
-import logClient from "../../helpers/logFormatter"
+import { logClient } from "../../helpers/logFormatter"
 import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 // ! Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button

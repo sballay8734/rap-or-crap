@@ -16,7 +16,7 @@ import { showConfirmModal } from "../../redux/ConfirmModalSlice"
 import { useSignoutMutation } from "../../redux/auth/authApi"
 import { persistor } from "../../redux/store"
 import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
-import logClient from "../../helpers/logFormatter"
+import { logClient } from "../../helpers/logFormatter"
 import { setResponseMessage } from "../../redux/serverResponseSlice"
 
 export default function HomePage() {

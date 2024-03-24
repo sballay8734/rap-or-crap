@@ -1,88 +1,111 @@
-const typeColorMap: Record<string, string> = {
-  string: "color: #00ff00; font-weight: bold;", // Bright Green
-  number: "color: #ffff00; font-weight: bold;", // Bright Yellow
-  boolean: "color: #0000ff; font-weight: bold;", // Bright Blue
-  object: "color: #ff00ff; font-weight: bold;", // Bright Pink
+const colorMap: Record<string, string> = {
+  string: "color: #53f769; font-weight: bold;",
+  number: "color: #feff00; font-weight: bold;",
+  object: "color: #ff00ff; font-weight: bold;",
+  boolean: "color: #e06c75; font-weight: bold;",
 
-  undefined: "color: #ff0000; font-weight: bold;", // Dark Red
-  error: "color: #ff0000; font-weight: bold;", // Bright Red
-  function: "color: #808080; font-weight: bold;", // Gray
-  null: "color: #808080; font-weight: bold;", // Gray
-  symbol: "color: #808080; font-weight: bold;", // Dark Gray
-  bigint: "color: #808080; font-weight: bold;" // Dark Gray
+  undefined: "color: #866345;",
+  null: "color: #d19a66; font-weight: bold;",
+  bigint: "color: #a9aa00;",
+
+  logPrefix: "color: #00ff00; font-weight: bold;",
+  warnPrefix: "color: #ffde56; font-weight: bold;",
+  errorPrefix: "color: #ff6269; font-weight: bold;",
+  index: "color: #525252",
+  end: "color: #43954e; font-weight: bold;",
+
+  function: "color: #808080; font-weight: bold;",
+  symbol: "color: #808080; font-weight: bold;"
 }
 
-const text = "[CLIENT]"
+type ArgType = string | number | object | boolean | undefined | null | bigint
 
-export default function logClient(message?: any, payload?: any) {
-  let logMessage = ""
-  let logPayload = ""
+export function logClient(...args: ArgType[]) {
+  const pre = "%c[LOG]"
+  let index = 1
+  for (const arg of args) {
+    const argType = typeof arg
 
-  const messageType = typeof message
-  const payloadType = typeof payload
+    const num = `%c${index}.`
+    const _arg = `%c${arg}`
+    const tc = colorMap.logPrefix
+    const numColor = colorMap.index
+    const _argColor = colorMap[argType]
 
-  // * Handle single null case (null as second arg works)
-  if (message === null && payloadType === "undefined") {
-    console.log(`%c${text} ${message}`, typeColorMap.null)
-    return
+    if (arg === null) {
+      console.log(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.null)
+    } else if (arg === undefined) {
+      console.log(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.undefined)
+    } else if (typeof arg === "object") {
+      console.log(`${pre} ${num}`, tc, numColor, arg)
+    } else {
+      console.log(`${pre} ${num} ${_arg}`, tc, numColor, _argColor)
+    }
+
+    index++
   }
+  console.log(
+    "%c****************************** END OF LOG ******************************",
+    colorMap.end
+  )
+}
 
-  // * Handle double null case
-  if (message === null && payload === null) {
-    logMessage = `%c${text} ${message}`
-    logPayload = `%c${text} ${payload}`
+export function warnClient(...args: ArgType[]) {
+  const pre = "%c[WARN]"
+  let index = 1
+  for (const arg of args) {
+    const argType = typeof arg
 
-    console.log(logMessage, typeColorMap.null)
-    console.log(logPayload, typeColorMap.null)
-    return
+    const num = `%c${index}.`
+    const _arg = `%c${arg}`
+    const tc = colorMap.warnPrefix
+    const numColor = colorMap.index
+    const _argColor = colorMap[argType]
+
+    if (arg === null) {
+      console.warn(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.null)
+    } else if (arg === undefined) {
+      console.warn(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.undefined)
+    } else if (typeof arg === "object") {
+      console.warn(`${pre} ${num}`, tc, numColor, arg)
+    } else {
+      console.warn(`${pre} ${num} ${_arg}`, tc, numColor, _argColor)
+    }
+
+    index++
   }
+  console.log(
+    "%c****************************** END OF LOG ******************************",
+    colorMap.end
+  )
+}
 
-  // * No arguments provided
-  if (!message && !payload) {
-    const errMsg = "ARGUMENTS TO LOG FUNCTION ARE REQUIRED"
-    console.log(`%c${text} ${errMsg}`, typeColorMap.error)
-    return
+export function errorClient(...args: ArgType[]) {
+  const pre = "%c[ERR]"
+  let index = 1
+  for (const arg of args) {
+    const argType = typeof arg
+
+    const num = `%c${index}.`
+    const _arg = `%c${arg}`
+    const tc = colorMap.errorPrefix
+    const numColor = colorMap.index
+    const _argColor = colorMap[argType]
+
+    if (arg === null) {
+      console.error(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.null)
+    } else if (arg === undefined) {
+      console.error(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.undefined)
+    } else if (typeof arg === "object") {
+      console.error(`${pre} ${num}`, tc, numColor, arg)
+    } else {
+      console.error(`${pre} ${num} ${_arg}`, tc, numColor, _argColor)
+    }
+
+    index++
   }
-
-  // * Don't support symbols
-  if (messageType === "symbol" || payloadType === "symbol") {
-    const errMsg = "SYMBOLS ARE NOT SUPPORTED"
-    console.log(`%c${text} ${errMsg}`, typeColorMap.error)
-    return
-  }
-
-  // * (_, arg)
-  if (messageType === "undefined" && payloadType !== "undefined") {
-    payloadType === "object"
-      ? console.log(payload)
-      : console.log(
-          undefined,
-          `%c${text} ${payload}`,
-          typeColorMap[payloadType]
-        )
-
-    return
-  }
-
-  // * (arg, _)
-  if (messageType !== "undefined" && payloadType === "undefined") {
-    messageType === "object"
-      ? console.log(message)
-      : console.log(
-          `%c${text} ${message}`,
-          typeColorMap[messageType],
-          undefined
-        )
-    return
-  }
-
-  // * All other possible argument types
-
-  messageType === "object"
-    ? console.log(message)
-    : console.log(`%c${text} ${message}`, typeColorMap[messageType])
-
-  payloadType === "object"
-    ? console.log(payload)
-    : console.log(`%c${text} ${payload}`, typeColorMap[payloadType])
+  console.log(
+    "%c****************************** END OF LOG ******************************",
+    colorMap.end
+  )
 }

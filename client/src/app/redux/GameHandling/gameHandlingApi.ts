@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { setResponseMessage } from "../serverResponseSlice"
 import { isCustomApiResponse } from "../../helpers/errorReform"
-import logClient from "../../helpers/logFormatter"
+import { logClient } from "../../helpers/logFormatter"
 
 interface PlayerStats {
   cCorrect: number

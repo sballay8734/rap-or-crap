@@ -7,6 +7,8 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useSigninMutation } from "../../redux/auth/authApi"
 import { ImSpinner2 } from "react-icons/im"
+import { useEffect } from "react"
+import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
 // import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 interface FormData {
@@ -24,6 +26,21 @@ export default function SigninPage() {
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>()
+
+  useEffect(() => {
+    logClient(
+      true,
+      "Hello",
+      null,
+      undefined,
+      { name: "Shawn", age: 21 },
+      true,
+      false,
+      389,
+      93n,
+      ["Dave", "Steve", 398, true]
+    )
+  }, [])
 
   const onSubmit: SubmitHandler<FormData> = async (signinData: FormData) => {
     try {
