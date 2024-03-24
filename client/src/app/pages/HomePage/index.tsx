@@ -16,7 +16,7 @@ import { showConfirmModal } from "../../redux/ConfirmModalSlice"
 import { useSignoutMutation } from "../../redux/auth/authApi"
 import { persistor } from "../../redux/store"
 import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
-import { logClient } from "../../helpers/logFormatter"
+import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
 import { setResponseMessage } from "../../redux/serverResponseSlice"
 
 export default function HomePage() {
@@ -24,6 +24,19 @@ export default function HomePage() {
   const { data: activeGame, isLoading } = useFetchActiveGameQuery()
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  errorClient(
+    true,
+    "Hello",
+    null,
+    undefined,
+    { name: "Shawn", age: 21 },
+    true,
+    false,
+    389,
+    93n,
+    ["Dave", "Steve", 398, true]
+  )
 
   // Temp for testing
   const userName = "Shawn"

@@ -12,6 +12,7 @@ import {
   useInitializeGameMutation
 } from "../../redux/GameHandling/gameHandlingApi"
 import { RootState } from "../../redux/store"
+import { logClient } from "../../helpers/logFormatter"
 
 const MAX_PLAYERS = 10
 
@@ -26,7 +27,7 @@ export default function GameSetupPage() {
   })
 
   if (isFetching) {
-    console.log("Fetching...")
+    logClient("Fetching...")
   }
 
   const navigate = useNavigate()

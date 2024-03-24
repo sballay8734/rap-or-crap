@@ -1,4 +1,4 @@
-import logServer from "../helpers/logFormatter"
+import { logServer } from "../helpers/logFormatter"
 import { Err } from "../types/error"
 
 export function errorHandler(statusCode: number, message: string): Err {

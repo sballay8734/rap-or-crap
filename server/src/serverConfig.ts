@@ -12,22 +12,9 @@ import authRouter from "./routes/authRoute"
 import gameRouter from "./routes/gameRoute"
 import { Err } from "./types/error"
 import cookieParser from "cookie-parser"
-import logServer from "./helpers/logFormatter"
+import { logServer, errorServer, warnServer } from "./helpers/logFormatter"
 
 const uri = process.env.MONGO_URI
-
-logServer(
-  true,
-  "Hello",
-  null,
-  undefined,
-  { name: "Shawn", age: 21 },
-  true,
-  false,
-  389,
-  93n,
-  ["Dave", "Steve", 398, true]
-)
 
 // Connect to mongodb
 async function run() {

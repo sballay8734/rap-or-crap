@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { errorHandler } from "../utils/errorHandler"
 import Game from "../models/gameInstance"
 import User from "../models/user"
-import logServer from "../helpers/logFormatter"
+import { logServer } from "../helpers/logFormatter"
 
 export const initializeGame = async (
   req: Request,

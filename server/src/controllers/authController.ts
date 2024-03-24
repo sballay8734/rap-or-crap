@@ -7,7 +7,7 @@ import { successHandler } from "../utils/successHandler"
 import { IUserResponse } from "../types/authTypes"
 import User from "../models/user"
 import { fieldsAreNotValid, passwordsMatch } from "../helpers/authHelpers"
-import logServer from "../helpers/logFormatter"
+import { logServer } from "../helpers/logFormatter"
 
 export const signup = async (
   req: Request,

@@ -1,5 +1,5 @@
 import { Response } from "express"
-import logServer from "../helpers/logFormatter"
+import { logServer } from "../helpers/logFormatter"
 
 export function successHandler<T>(
   res: Response,

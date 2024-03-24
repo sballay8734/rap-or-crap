@@ -32,7 +32,7 @@ export default function GamePage() {
 
   logClient(playerNames)
 
-  if (!playerNames || playerNames.length < 2) {
+  if (!playerNames || playerNames.length < 1) {
     return (
       <div className="z-1 relative flex h-svh w-full flex-col items-center justify-center gap-2 p-4 text-white">
         Something is wrong
@@ -57,7 +57,10 @@ export default function GamePage() {
           playerNames.map((player) => {
             // ! Must move card to own component so it can manage it's state
             return (
-              <div className="w-full border-slate-900 border-[1px] bg-green-50 text-black flex justify-between">
+              <div
+                key={player}
+                className="w-full border-slate-900 border-[1px] bg-green-50 text-black flex justify-between"
+              >
                 <div className="p-2">
                   <h2 className="min-w-24">
                     {formatNameFirstLastName(player)}

@@ -1,4 +1,4 @@
-const colorMap: Record<string, string> = {
+const cMap: Record<string, string> = {
   string: "color: #53f769; font-weight: bold;",
   number: "color: #feff00; font-weight: bold;",
   object: "color: #ff00ff; font-weight: bold;",
@@ -8,17 +8,27 @@ const colorMap: Record<string, string> = {
   null: "color: #d19a66; font-weight: bold;",
   bigint: "color: #a9aa00;",
 
-  logPrefix: "color: #00ff00; font-weight: bold;",
-  warnPrefix: "color: #ffde56; font-weight: bold;",
-  errorPrefix: "color: #ff6269; font-weight: bold;",
+  logPrefix: "color: #00ff00; font-weight: bold; background-color: green;",
+  warnPrefix: "color: #f8ff00; font-weight: bold; background-color: #5a5c00;",
+  errorPrefix: "color: #540706; font-weight: bold; background-color: #ff4f4f",
   index: "color: #525252",
-  end: "color: #43954e; font-weight: bold;",
+  endLog: "color: #00ff00; font-weight: bold; background-color: green;",
+  endWarn: "color: #f8ff00; font-weight: bold; background-color: #5a5c00;",
+  endError: "color: #540706; font-weight: bold; background-color: #ff4f4f",
 
   function: "color: #808080; font-weight: bold;",
   symbol: "color: #808080; font-weight: bold;"
 }
 
 type ArgType = string | number | object | boolean | undefined | null | bigint
+
+// ! Should really see if there is a way to see where the log came from instead of "logFormatter"
+
+// ! Remove prefix bg if args.length < 2
+
+// ! Need to finish WARN and ERR calls
+
+// ! Need to add space at the end of single logs
 
 export function logClient(...args: ArgType[]) {
   const pre = "%c[LOG]"
@@ -28,25 +38,38 @@ export function logClient(...args: ArgType[]) {
 
     const num = `%c${index}.`
     const _arg = `%c${arg}`
-    const tc = colorMap.logPrefix
-    const numColor = colorMap.index
-    const _argColor = colorMap[argType]
+    const tc = cMap.logPrefix
+    const numColor = cMap.index
+    const _argColor = cMap[argType]
+    const spacer = "%c "
 
     if (arg === null) {
-      console.log(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.null)
+      console.log(`${pre}${spacer}${num} ${_arg}`, tc, "", numColor, cMap.null)
     } else if (arg === undefined) {
-      console.log(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.undefined)
+      console.log(
+        `${pre}${spacer}${num} ${_arg}`,
+        tc,
+        "",
+        numColor,
+        cMap.undefined
+      )
     } else if (typeof arg === "object") {
-      console.log(`${pre} ${num}`, tc, numColor, arg)
+      console.log(`${pre}${spacer}${num}`, tc, "", numColor, arg)
     } else {
-      console.log(`${pre} ${num} ${_arg}`, tc, numColor, _argColor)
+      console.log(`${pre}${spacer}${num} ${_arg}`, tc, "", numColor, _argColor)
     }
 
     index++
   }
+
+  if (args.length < 2) {
+    return
+  }
+
   console.log(
     "%c****************************** END OF LOG ******************************",
-    colorMap.end
+    cMap.endLog,
+    "\n\n\n\n"
   )
 }
 
@@ -58,25 +81,38 @@ export function warnClient(...args: ArgType[]) {
 
     const num = `%c${index}.`
     const _arg = `%c${arg}`
-    const tc = colorMap.warnPrefix
-    const numColor = colorMap.index
-    const _argColor = colorMap[argType]
+    const tc = cMap.warnPrefix
+    const numColor = cMap.index
+    const _argColor = cMap[argType]
+    const spacer = "%c "
 
     if (arg === null) {
-      console.warn(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.null)
+      console.warn(`${pre}${spacer}${num} ${_arg}`, tc, "", numColor, cMap.null)
     } else if (arg === undefined) {
-      console.warn(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.undefined)
+      console.warn(
+        `${pre}${spacer}${num} ${_arg}`,
+        tc,
+        "",
+        numColor,
+        cMap.undefined
+      )
     } else if (typeof arg === "object") {
-      console.warn(`${pre} ${num}`, tc, numColor, arg)
+      console.warn(`${pre}${spacer}${num}`, tc, "", numColor, arg)
     } else {
-      console.warn(`${pre} ${num} ${_arg}`, tc, numColor, _argColor)
+      console.warn(`${pre}${spacer}${num} ${_arg}`, tc, "", numColor, _argColor)
     }
 
     index++
   }
+
+  if (args.length < 2) {
+    return
+  }
+
   console.log(
     "%c****************************** END OF LOG ******************************",
-    colorMap.end
+    cMap.endWarn,
+    "\n\n\n\n"
   )
 }
 
@@ -88,24 +124,49 @@ export function errorClient(...args: ArgType[]) {
 
     const num = `%c${index}.`
     const _arg = `%c${arg}`
-    const tc = colorMap.errorPrefix
-    const numColor = colorMap.index
-    const _argColor = colorMap[argType]
+    const tc = cMap.errorPrefix
+    const numColor = cMap.index
+    const _argColor = cMap[argType]
+    const spacer = "%c "
 
     if (arg === null) {
-      console.error(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.null)
+      console.error(
+        `${pre}${spacer}${num} ${_arg}`,
+        tc,
+        "",
+        numColor,
+        cMap.null
+      )
     } else if (arg === undefined) {
-      console.error(`${pre} ${num} ${_arg}`, tc, numColor, colorMap.undefined)
+      console.error(
+        `${pre}${spacer}${num} ${_arg}`,
+        tc,
+        "",
+        numColor,
+        cMap.undefined
+      )
     } else if (typeof arg === "object") {
-      console.error(`${pre} ${num}`, tc, numColor, arg)
+      console.error(`${pre}${spacer}${num}`, tc, "", numColor, arg)
     } else {
-      console.error(`${pre} ${num} ${_arg}`, tc, numColor, _argColor)
+      console.error(
+        `${pre}${spacer}${num} ${_arg}`,
+        tc,
+        "",
+        numColor,
+        _argColor
+      )
     }
 
     index++
   }
+
+  if (args.length < 2) {
+    return
+  }
+
   console.log(
     "%c****************************** END OF LOG ******************************",
-    colorMap.end
+    cMap.endError,
+    "\n\n\n\n"
   )
 }

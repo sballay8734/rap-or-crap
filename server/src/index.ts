@@ -1,4 +1,4 @@
-import logServer from "./helpers/logFormatter"
+import { logServer } from "./helpers/logFormatter"
 import { createServer } from "./serverConfig"
 
 const port = process.env.PORT || 5001
