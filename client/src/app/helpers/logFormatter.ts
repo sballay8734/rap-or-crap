@@ -22,6 +22,44 @@ const cMap: Record<string, string> = {
 
 type ArgType = string | number | object | boolean | undefined | null | bigint
 
+function handleSingleArg(arg: ArgType, origin: "log" | "warn" | "error") {
+  const spacer = "%c "
+  const argType = typeof arg
+
+  const styl =
+    origin === "log"
+      ? cMap.logPrefix
+      : origin === "warn"
+      ? cMap.warnPrefix
+      : cMap.errorPrefix
+
+  const pre =
+    origin === "log" ? "%c[LOG]" : origin === "warn" ? "%c[WARN]" : "%c[ERR]"
+
+  const end =
+    origin === "log"
+      ? cMap.endLog
+      : origin === "warn"
+      ? cMap.endWarn
+      : cMap.endError
+
+  if (arg === null) {
+    console.log(`${pre}${spacer}${arg}`, styl, "", cMap.null)
+  } else if (arg === undefined) {
+    console.log(`${pre}${spacer}${arg}`, styl, "", cMap.undefined)
+  } else if (typeof arg === "object") {
+    console.log(`${pre}${spacer}`, styl, "", arg)
+  } else {
+    console.log(`${pre}${spacer}${arg}`, styl, "", cMap[argType])
+  }
+
+  console.log(
+    "%c****************************** END OF LOG ******************************",
+    end,
+    "\n\n\n\n"
+  )
+}
+
 // ! Should really see if there is a way to see where the log came from instead of "logFormatter"
 
 // ! Remove prefix bg if args.length < 2
@@ -35,6 +73,11 @@ export function logClient(...args: ArgType[]) {
   let index = 1
   for (const arg of args) {
     const argType = typeof arg
+
+    if (args.length < 2) {
+      handleSingleArg(arg, "log")
+      return
+    }
 
     const num = `%c${index}.`
     const _arg = `%c${arg}`

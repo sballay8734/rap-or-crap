@@ -7,11 +7,11 @@
 // ! WORKING ON LOADING CORRECT HOME PAGE HANLDING LOGIC TO FETCH GAME FROM SERVER
 
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 import { IoMdSettings } from "react-icons/io"
 import { FaPlay } from "react-icons/fa"
 import { ImSpinner11, ImSpinner2 } from "react-icons/im"
-import { useDispatch } from "react-redux"
 import { showConfirmModal } from "../../redux/ConfirmModalSlice"
 import { useSignoutMutation } from "../../redux/auth/authApi"
 import { persistor } from "../../redux/store"
@@ -25,7 +25,7 @@ export default function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  errorClient(
+  warnClient(
     true,
     "Hello",
     null,
