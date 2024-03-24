@@ -16,6 +16,19 @@ import logServer from "./helpers/logFormatter"
 
 const uri = process.env.MONGO_URI
 
+logServer(
+  true,
+  "Hello",
+  null,
+  undefined,
+  { name: "Shawn", age: 21 },
+  true,
+  false,
+  389,
+  93n,
+  ["Dave", "Steve", 398, true]
+)
+
 // Connect to mongodb
 async function run() {
   try {
