@@ -25,8 +25,6 @@ export default function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  logClient("ACTIVE GAME", activeGame)
-
   // Temp for testing
   const userName = "Shawn"
 
