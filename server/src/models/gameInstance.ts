@@ -18,6 +18,8 @@ interface IGameInstance extends Document {
   userId: string // the signed in user who initialized the game
   gameStartDate?: string
   playersObject: PlayersObject
+  currentLyric: string
+  currentPromptId: string
 }
 
 const PlayerStatsSchema = new Schema<PlayerStats>({
@@ -39,7 +41,9 @@ const GameInstanceSchema = new Schema({
     required: true,
     default: Date.now
   },
-  playersObject: { type: Map, of: PlayerStatsSchema, required: true }
+  playersObject: { type: Map, of: PlayerStatsSchema, required: true },
+  currentLyric: { type: String },
+  currentPromptId: { type: String }
 })
 
 const Game = mongoose.model<IGameInstance>("game", GameInstanceSchema)

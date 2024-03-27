@@ -25,19 +25,6 @@ export default function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  warnClient(
-    true,
-    "Hello",
-    null,
-    undefined,
-    { name: "Shawn", age: 21 },
-    true,
-    false,
-    389,
-    93n,
-    ["Dave", "Steve", 398, true]
-  )
-
   // Temp for testing
   const userName = "Shawn"
 

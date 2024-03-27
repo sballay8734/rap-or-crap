@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { setResponseMessage } from "../serverResponseSlice"
 import { isCustomApiResponse } from "../../helpers/errorReform"
 import { logClient } from "../../helpers/logFormatter"
+import { PlayerSelections } from "../../pages/GamePage"
 
 interface PlayerStats {
   cCorrect: number
@@ -23,6 +24,15 @@ export interface IGameInstance {
   playersObject: PlayersObject
 }
 
+export interface InitializedGameInstance {
+  _id: string // created by mongoDB
+  userId: string // the signed in user who initialized the game
+  gameStartDate: string
+  playersObject: PlayersObject
+  currentLyric: string
+  promptId: string
+}
+
 // ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
 
 export const gameHandlingApi = createApi({
@@ -34,7 +44,7 @@ export const gameHandlingApi = createApi({
   tagTypes: ["ActiveGame"],
   endpoints: (builder) => ({
     // first is response, second is req obj
-    fetchActiveGame: builder.query<IGameInstance, void>({
+    fetchActiveGame: builder.query<InitializedGameInstance, void>({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -86,7 +96,7 @@ export const gameHandlingApi = createApi({
       }
     }),
     // Initialize new game AND overwrite "active game" with new id
-    initializeGame: builder.mutation<IGameInstance, IGameInstance>({
+    initializeGame: builder.mutation<InitializedGameInstance, IGameInstance>({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -117,6 +127,40 @@ export const gameHandlingApi = createApi({
           }
         }
       }
+    }),
+    updateGameState: builder.mutation<
+      InitializedGameInstance,
+      PlayerSelections
+    >({
+      query: (body) => ({ url: "update-game", method: "PATCH", body }),
+      invalidatesTags: ["ActiveGame"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const res = await queryFulfilled
+          // if ("data" in res) {
+          //   const gameId = res.data?._id ?? "No ID found"
+          //   if (gameId !== "No ID found") {
+          //     dispatch(setUserActiveGame(gameId))
+          //   }
+          // }
+        } catch (err) {
+          if (isCustomApiResponse(err)) {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: err.error.data.message
+              })
+            )
+          } else {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: "Something went wrong updating the game."
+              })
+            )
+          }
+        }
+      }
     })
   })
 })
@@ -124,5 +168,6 @@ export const gameHandlingApi = createApi({
 export const {
   useInitializeGameMutation,
   useFetchActiveGameQuery,
-  useDeleteGameMutation
+  useDeleteGameMutation,
+  useUpdateGameStateMutation
 } = gameHandlingApi
