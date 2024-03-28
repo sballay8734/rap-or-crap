@@ -50,7 +50,7 @@ function handleSingleArg(arg: ArgType, origin: "log" | "warn" | "error") {
   } else if (typeof arg === "object") {
     console.log(`${pre}${spacer}`, styl, "", arg)
   } else {
-    console.log(`${pre}${spacer}${arg}`, styl, "", cMap[argType])
+    console.log(`${pre}${spacer}%c${arg}`, styl, "", cMap[argType])
   }
 
   console.log(
@@ -122,6 +122,11 @@ export function warnClient(...args: ArgType[]) {
   for (const arg of args) {
     const argType = typeof arg
 
+    if (args.length < 2) {
+      handleSingleArg(arg, "warn")
+      return
+    }
+
     const num = `%c${index}.`
     const _arg = `%c${arg}`
     const tc = cMap.warnPrefix
@@ -164,6 +169,11 @@ export function errorClient(...args: ArgType[]) {
   let index = 1
   for (const arg of args) {
     const argType = typeof arg
+
+    if (args.length < 2) {
+      handleSingleArg(arg, "error")
+      return
+    }
 
     const num = `%c${index}.`
     const _arg = `%c${arg}`

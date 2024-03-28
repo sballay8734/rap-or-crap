@@ -22,8 +22,9 @@ export interface IGameInstance {
   _id?: string // created by mongoDB
   userId: string // the signed in user who initialized the game
   gameStartDate?: string
-  playersObject: PlayersObject
+  playersObject: Map<string, PlayerStats>
   currentLyric: string
+  currentPromptId: string
 }
 
 export const initializeGame = async (
@@ -153,7 +154,9 @@ export const updateGame = async (
   res: Response,
   next: NextFunction
 ) => {
-  logServer(req.body)
+  logServer("GAME ID:", req.body.gameId)
+  logServer("PROMPT ID:", req.body.gameId)
+  logServer("ANSWERS OBJECT:", req.body.answersObject)
 
   const answersObject = req.body.answersObject
   const gameId = req.body.gameId
@@ -165,6 +168,7 @@ export const updateGame = async (
   if (!gameId || gameId === "") {
     return next(errorHandler(400, "No active game."))
   }
+
   if (!answersObject || Object.keys(answersObject).length === 0) {
     return next(errorHandler(400, "Something went wrong submitting answers."))
   }
@@ -175,6 +179,8 @@ export const updateGame = async (
     if (gameToUpdate === null) {
       return next(errorHandler(400, "Game not found."))
     }
+    const gameObject = gameToUpdate.toObject()
+
     // * Grab Prompt
     const promptToCompare = await Prompt.findById(promptId)
     if (promptToCompare === null) {
@@ -182,22 +188,27 @@ export const updateGame = async (
     }
     // * Compare Answers
     const correctAnswer = promptToCompare.correctAnswer
-
     for (const [key, value] of Object.entries(answersObject)) {
       // TODO: Update total number of skips also (1 or 2 per game)
+
       if (value === "skip") continue
 
+      // update each player
+      const playerData = gameToUpdate.playersObject.get(key)
+      if (!playerData) return // SHOULD always exist (intialized with game)
+
       if (value === correctAnswer) {
-        gameToUpdate.playersObject[key].cCorrect += 1
-        gameToUpdate.playersObject[key].cCorrectStreak += 1
+        playerData.cCorrect += 1
+        playerData.cCorrectStreak += 1
         // reset wrong streak on correct answer
-        gameToUpdate.playersObject[key].cWrongStreak = 0
+        playerData.cWrongStreak = 0
       } else {
-        gameToUpdate.playersObject[key].cWrong += 1
-        gameToUpdate.playersObject[key].cWrongStreak += 1
+        playerData.cWrong += 1
+        playerData.cWrongStreak += 1
         // reset correct streak on wrong answer
-        gameToUpdate.playersObject[key].cCorrectStreak = 0
+        playerData.cCorrectStreak = 0
       }
+      gameToUpdate.playersObject.set(key, playerData)
     }
 
     // * Update Game

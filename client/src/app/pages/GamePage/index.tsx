@@ -4,7 +4,7 @@ import {
   useFetchActiveGameQuery,
   useUpdateGameStateMutation
 } from "../../redux/GameHandling/gameHandlingApi"
-import { logClient } from "../../helpers/logFormatter"
+import { errorClient, logClient } from "../../helpers/logFormatter"
 import MemoizedSelectionCard from "../../components/SelectionCard/SelectionCard"
 import PromptCard from "../../components/PromptCard/PromptCard"
 
@@ -27,11 +27,9 @@ export default function GamePage() {
     })
   })
 
-  logClient(players, gameId, promptId)
-
   async function handleSubmission() {
     if (!gameId || !promptId) {
-      console.log("MISSING")
+      errorClient("Missing gameId or promptId")
       return
     }
 
@@ -40,11 +38,10 @@ export default function GamePage() {
       gameId: gameId,
       promptId: promptId
     }
+
     const updatedGame = await updateGame(submissionObject)
-    // fetch prompt (on server)
-    // compare user responses to correct response
-    // update player data
-    // send back new playerObject
+
+    // TODO: Show result modal with "next question" prompt
   }
 
   function handleSelection(playerName: string, selection: Selection) {
@@ -86,7 +83,6 @@ export default function GamePage() {
       <article className="answer-select w-full flex-1 rounded-md bg-red-900 overflow-auto">
         {playerData &&
           playerData.map(([playerName, playerData]) => {
-            // ! Must move card to own component so it can manage it's state
             return (
               <MemoizedSelectionCard
                 key={playerName}

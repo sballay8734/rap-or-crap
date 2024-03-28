@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { setResponseMessage } from "../serverResponseSlice"
 import { isCustomApiResponse } from "../../helpers/errorReform"
-import { logClient } from "../../helpers/logFormatter"
+import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
 import { PlayerSelections } from "../../pages/GamePage"
 
 interface PlayerStats {
@@ -143,12 +143,10 @@ export const gameHandlingApi = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const res = await queryFulfilled
-          // if ("data" in res) {
-          //   const gameId = res.data?._id ?? "No ID found"
-          //   if (gameId !== "No ID found") {
-          //     dispatch(setUserActiveGame(gameId))
-          //   }
-          // }
+          if ("data" in res) {
+            logClient("Successful game update. Showing modal...")
+            // dispatch result modal
+          }
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(

@@ -9,15 +9,15 @@ interface PlayerStats {
   cWrongStreak: number
 }
 
-interface PlayersObject {
-  [playerName: string]: PlayerStats
-}
+// interface PlayersObject {
+//   [playerName: string]: PlayerStats
+// }
 
 interface IGameInstance extends Document {
   _id?: string // created by mongoDB
   userId: string // the signed in user who initialized the game
   gameStartDate?: string
-  playersObject: PlayersObject
+  playersObject: Map<string, PlayerStats>
   currentLyric: string
   currentPromptId: string
 }
@@ -41,7 +41,12 @@ const GameInstanceSchema = new Schema({
     required: true,
     default: Date.now
   },
-  playersObject: { type: Map, of: PlayerStatsSchema, required: true },
+  playersObject: {
+    type: Map,
+    of: PlayerStatsSchema,
+    required: true,
+    default: new Map<string, PlayerStats>()
+  },
   currentLyric: { type: String },
   currentPromptId: { type: String }
 })
