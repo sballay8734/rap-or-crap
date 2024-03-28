@@ -1,23 +1,11 @@
 import { Request, Response, NextFunction } from "express"
+
 import { errorHandler } from "../utils/errorHandler"
 import Game from "../models/gameInstance"
 import User from "../models/user"
 import { logServer, warnServer } from "../helpers/logFormatter"
 import Prompt from "../models/prompt"
-import { PlayerStats } from "../models/gameInstance"
-
-export interface PlayersObject {
-  [playerName: string]: PlayerStats
-}
-
-export interface IGameInstance {
-  _id?: string // created by mongoDB
-  userId: string // the signed in user who initialized the game
-  gameStartDate?: string
-  playersObject: Map<string, PlayerStats>
-  currentLyric: string
-  currentPromptId: string
-}
+import { IGameInstance } from "../types/ServerDataTypes"
 
 export const initializeGame = async (
   req: Request,
@@ -183,20 +171,26 @@ export const updateGame = async (
     for (const [key, value] of Object.entries(answersObject)) {
       // TODO: Update total number of skips also (1 or 2 per game)
 
-      if (value === "skip") continue
-
       // update each player
       const playerData = gameToUpdate.playersObject.get(key)
       if (!playerData) return // SHOULD always exist (intialized with game)
 
-      if (value === correctAnswer) {
+      if (value === "skip") {
+        // intentionally NOT resetting wrong OR correct streak
+        playerData.lastQSkipped = true
+        playerData.lastQCorrect = false
+      } else if (value === correctAnswer) {
         playerData.cCorrect += 1
         playerData.cCorrectStreak += 1
+        playerData.lastQCorrect = true
+        playerData.lastQSkipped = false
         // reset wrong streak on correct answer
         playerData.cWrongStreak = 0
       } else {
         playerData.cWrong += 1
         playerData.cWrongStreak += 1
+        playerData.lastQCorrect = false
+        playerData.lastQSkipped = false
         // reset correct streak on wrong answer
         playerData.cCorrectStreak = 0
       }

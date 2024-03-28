@@ -5,5 +5,10 @@ export interface PlayerStats {
   cDrinksGiven: number
   cCorrectStreak: number
   cWrongStreak: number
+  lastQSkipped: boolean
   lastQCorrect: boolean
+}
+
+export interface PlayersObject {
+  [playerName: string]: PlayerStats
 }

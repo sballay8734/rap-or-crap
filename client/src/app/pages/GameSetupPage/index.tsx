@@ -143,7 +143,9 @@ export default function GameSetupPage() {
           cDrinksTaken: 0,
           cDrinksGiven: 0,
           cCorrectStreak: 0,
-          cWrongStreak: 0
+          cWrongStreak: 0,
+          lastQSkipped: false,
+          lastQCorrect: false
         }
       ])
     )

@@ -1,18 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose"
 
-export interface PlayerStats {
-  cCorrect: number
-  cWrong: number
-  cDrinksTaken: number
-  cDrinksGiven: number
-  cCorrectStreak: number
-  cWrongStreak: number
-  lastQCorrect: boolean
-}
-
-// interface PlayersObject {
-//   [playerName: string]: PlayerStats
-// }
+import { PlayerStats } from "../types/ServerDataTypes"
 
 interface IGameInstance extends Document {
   _id?: string // created by mongoDB
@@ -30,6 +18,7 @@ const PlayerStatsSchema = new Schema<PlayerStats>({
   cDrinksGiven: { type: Number, default: 0 },
   cCorrectStreak: { type: Number, default: 0 },
   cWrongStreak: { type: Number, default: 0 },
+  lastQSkipped: { type: Boolean },
   lastQCorrect: { type: Boolean }
 })
 
