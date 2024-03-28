@@ -145,13 +145,9 @@ export const deleteOldActiveGame = async (
 // ! Don't send correct answer back when fetching prompts... Minor for this use case but could be very important security consideration for another app
 // ! ACTUALLY: ONLY send the lyric
 
-// TODO: **************************************************************
-// TODO: **************************************************************
-// TODO: **************************************************************
 // TODO: ENDPOINT HIT (NOW GO THROUGH THE GREEN NOTES AND IMPLEMENT)
-// TODO: **************************************************************
-// TODO: **************************************************************
-// TODO: **************************************************************
+// THIS IS CURRENTLY ERRORING
+
 export const updateGame = async (
   req: Request,
   res: Response,
@@ -159,12 +155,10 @@ export const updateGame = async (
 ) => {
   logServer(req.body)
 
-  const userId = req.userId
   const answersObject = req.body.answersObject
   const gameId = req.body.gameId
   const promptId = req.body.promptId
 
-  // * Grab prompt
   if (!promptId || promptId === "") {
     return next(errorHandler(400, "No active game."))
   }
