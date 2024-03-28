@@ -46,7 +46,7 @@ export const initializeGame = async (
     if (userToUpdate.activeGameId !== "") {
       const gameId = userToUpdate.activeGameId
       const deletedGame = await Game.findByIdAndDelete(gameId)
-      // logServer("Game found and deleted", deletedGame)
+      // logServer("Game found and deleted")
     }
 
     // gets a random lyric to initialize game with
@@ -63,8 +63,6 @@ export const initializeGame = async (
       currentPromptId: _id.valueOf()
     }
 
-    warnServer("ID:", _id.valueOf())
-
     // Creates game with finializedGameData
     const newGame = await Game.create(finalizedGameData)
     if (!newGame) next(errorHandler(400, "Could not initialize game."))
@@ -73,8 +71,6 @@ export const initializeGame = async (
     userToUpdate.activeGameId = newGame._id
 
     await userToUpdate.save()
-
-    logServer("Game initialized", newGame)
 
     return res.status(200).json(newGame)
   } catch (error) {
@@ -162,10 +158,9 @@ export const updateGame = async (
   next: NextFunction
 ) => {
   logServer(req.body)
-  return
 
   const userId = req.userId
-  const answersObject = req.body.answers
+  const answersObject = req.body.answersObject
   const gameId = req.body.gameId
   const promptId = req.body.promptId
 
@@ -173,33 +168,51 @@ export const updateGame = async (
   if (!promptId || promptId === "") {
     return next(errorHandler(400, "No active game."))
   }
-
-  const promptToCompare = await Prompt.findById(promptId)
-  if (promptToCompare === null) {
-    return next(errorHandler(400, "Game not found."))
-  }
-
   if (!gameId || gameId === "") {
     return next(errorHandler(400, "No active game."))
   }
-  // * Compare Answers ********************************************
-
-  // * Grab Game
-  const gameToUpdate = await Game.findById(gameId)
-  if (gameToUpdate === null) {
-    return next(errorHandler(400, "Game not found."))
+  if (!answersObject || Object.keys(answersObject).length === 0) {
+    return next(errorHandler(400, "Something went wrong submitting answers."))
   }
 
-  // * Update Game
-  return
-  const updatedUser = await User.findByIdAndUpdate(userId, {
-    activeGameId: ""
-  })
-  if (!updatedUser) {
-    return next(
-      errorHandler(400, "Game deleted, but user could not be updated.")
-    )
-  }
+  try {
+    // * Grab Game
+    const gameToUpdate = await Game.findById(gameId)
+    if (gameToUpdate === null) {
+      return next(errorHandler(400, "Game not found."))
+    }
+    // * Grab Prompt
+    const promptToCompare = await Prompt.findById(promptId)
+    if (promptToCompare === null) {
+      return next(errorHandler(400, "Game not found."))
+    }
+    // * Compare Answers
+    const correctAnswer = promptToCompare.correctAnswer
 
-  return res.status(200).json(null)
+    for (const [key, value] of Object.entries(answersObject)) {
+      // TODO: Update total number of skips also (1 or 2 per game)
+      if (value === "skip") continue
+
+      if (value === correctAnswer) {
+        gameToUpdate.playersObject[key].cCorrect += 1
+        gameToUpdate.playersObject[key].cCorrectStreak += 1
+        // reset wrong streak on correct answer
+        gameToUpdate.playersObject[key].cWrongStreak = 0
+      } else {
+        gameToUpdate.playersObject[key].cWrong += 1
+        gameToUpdate.playersObject[key].cWrongStreak += 1
+        // reset correct streak on wrong answer
+        gameToUpdate.playersObject[key].cCorrectStreak = 0
+      }
+    }
+
+    // * Update Game
+    const updatedGame = await gameToUpdate.save()
+
+    if (!updatedGame) return next(errorHandler(500, "Could not save game."))
+
+    return res.status(200).json(updatedGame)
+  } catch (error) {
+    next(errorHandler(500, "Something went wrong updating the game."))
+  }
 }
