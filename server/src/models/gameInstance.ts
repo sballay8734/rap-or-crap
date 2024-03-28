@@ -9,6 +9,7 @@ interface IGameInstance extends Document {
   playersObject: Map<string, PlayerStats>
   currentLyric: string
   currentPromptId: string
+  seenPromptIds: string[]
 }
 
 const PlayerStatsSchema = new Schema<PlayerStats>({
@@ -39,7 +40,8 @@ const GameInstanceSchema = new Schema({
     default: new Map<string, PlayerStats>()
   },
   currentLyric: { type: String },
-  currentPromptId: { type: String }
+  currentPromptId: { type: String },
+  seenPromptIds: { type: [String] }
 })
 
 const Game = mongoose.model<IGameInstance>("game", GameInstanceSchema)

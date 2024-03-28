@@ -158,6 +158,38 @@ export const gameHandlingApi = createApi({
           }
         }
       }
+    }),
+    // TODO: NOT DONE YET (NEITHER IS getNewPrompt endpoint in controller!!!)
+    fetchNewPrompt: builder.query<InitializedGameInstance, string>({
+      query: (body) => ({ url: "initialize-game", method: "POST", body }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const res = await queryFulfilled
+          logClient("gameHandlingApi/initialize-game", res)
+          // if ("data" in res) {
+          //   const gameId = res.data?._id ?? "No ID found"
+          //   if (gameId !== "No ID found") {
+          //     dispatch(setUserActiveGame(gameId))
+          //   }
+          // }
+        } catch (err) {
+          if (isCustomApiResponse(err)) {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: err.error.data.message
+              })
+            )
+          } else {
+            dispatch(
+              setResponseMessage({
+                successResult: false,
+                message: "Something went wrong searching for an active game."
+              })
+            )
+          }
+        }
+      }
     })
   })
 })

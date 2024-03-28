@@ -126,18 +126,11 @@ export const deleteOldActiveGame = async (
 // ! Don't send correct answer back when fetching prompts... Minor for this use case but could be very important security consideration for another app
 // ! ACTUALLY: ONLY send the lyric
 
-// TODO: ENDPOINT HIT (NOW GO THROUGH THE GREEN NOTES AND IMPLEMENT)
-// THIS IS CURRENTLY ERRORING
-
 export const updateGame = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  logServer("GAME ID:", req.body.gameId)
-  logServer("PROMPT ID:", req.body.gameId)
-  logServer("ANSWERS OBJECT:", req.body.answersObject)
-
   const answersObject = req.body.answersObject
   const gameId = req.body.gameId
   const promptId = req.body.promptId
@@ -159,7 +152,6 @@ export const updateGame = async (
     if (gameToUpdate === null) {
       return next(errorHandler(400, "Game not found."))
     }
-    const gameObject = gameToUpdate.toObject()
 
     // * Grab Prompt
     const promptToCompare = await Prompt.findById(promptId)
@@ -197,6 +189,9 @@ export const updateGame = async (
       gameToUpdate.playersObject.set(key, playerData)
     }
 
+    // ! add promptId to list of "seen" prompts
+    gameToUpdate.seenPromptIds.push(promptId)
+
     // * Update Game
     const updatedGame = await gameToUpdate.save()
 
@@ -205,5 +200,40 @@ export const updateGame = async (
     return res.status(200).json(updatedGame)
   } catch (error) {
     next(errorHandler(500, "Something went wrong updating the game."))
+  }
+}
+
+// TODO NEEDS TO BE FIXED (You did this very quick before clocking back in)
+export const getNewPrompt = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const gameId = req.body.gameId
+
+  const currentGame = await Game.findById(gameId)
+  if (!currentGame) return next(errorHandler(400, "Game not found."))
+
+  try {
+    const newPrompt = await Prompt.aggregate([
+      { $match: { _id: { $nin: currentGame.seenPromptIds } } }
+    ]).sample(1)
+    if (!newPrompt) return next(errorHandler(400, "You've seen 'em all!"))
+
+    const { lyric, _id } = newPrompt[0]
+
+    currentGame.currentLyric = lyric
+    currentGame.currentPromptId = _id
+
+    await currentGame.save()
+
+    return res.status(200).json(currentGame)
+  } catch (error) {
+    next(
+      errorHandler(
+        500,
+        "Something weird happened while trying to get a new prompt."
+      )
+    )
   }
 }
