@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 import { errorHandler } from "../utils/errorHandler"
 import { successHandler } from "../utils/successHandler"
-import { IUserResponse } from "../types/authTypes"
+import { IUserResponse } from "../types/ServerAuthTypes"
 import User from "../models/user"
 import { fieldsAreNotValid, passwordsMatch } from "../helpers/authHelpers"
 import { logServer } from "../helpers/logFormatter"

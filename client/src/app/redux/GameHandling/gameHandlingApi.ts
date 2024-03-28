@@ -3,15 +3,8 @@ import { setResponseMessage } from "../serverResponseSlice"
 import { isCustomApiResponse } from "../../helpers/errorReform"
 import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
 import { PlayerSelections } from "../../pages/GamePage"
-
-interface PlayerStats {
-  cCorrect: number
-  cWrong: number
-  cDrinksTaken: number
-  cDrinksGiven: number
-  cCorrectStreak: number
-  cWrongStreak: number
-}
+import { handleShowModal } from "../ResultModalSlice"
+import { PlayerStats } from "../../../types/ClientDataTypes"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats
@@ -142,10 +135,10 @@ export const gameHandlingApi = createApi({
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          const res = await queryFulfilled
-          if ("data" in res) {
-            logClient("Successful game update. Showing modal...")
-            // dispatch result modal
+          const updatedGame = await queryFulfilled
+          if ("data" in updatedGame) {
+            // pass the updatedGame to the modal to handle modal display
+            dispatch(handleShowModal(updatedGame.data))
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {

@@ -4,6 +4,7 @@ import { Outlet, Navigate, useLocation, useNavigate } from "react-router-dom"
 import { RootState } from "./redux/store"
 import ConfirmModal from "./components/ConfirmModal"
 import ResponseModal from "./components/ResponseModal"
+import ResultModal from "./components/ResultModal/ResultModal"
 
 function App(): JSX.Element {
   // TODO: Need to use React Router. This is just a temporary solution
@@ -25,6 +26,9 @@ function App(): JSX.Element {
   const confirmModalIsShown = useSelector(
     (state: RootState) => state.confirmModal.showConfirmModal
   )
+  const resultModalIsShown = useSelector(
+    (state: RootState) => state.resultModalSlice.modalIsShown
+  )
 
   return (
     <div className="container flex h-full w-full items-center justify-center">
@@ -40,6 +44,7 @@ function App(): JSX.Element {
         </>
       )}
       {confirmModalIsShown && <ConfirmModal />}
+      {resultModalIsShown && <ResultModal />}
       <ResponseModal />
     </div>
   )

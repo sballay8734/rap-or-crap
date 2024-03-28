@@ -4,15 +4,7 @@ import Game from "../models/gameInstance"
 import User from "../models/user"
 import { logServer, warnServer } from "../helpers/logFormatter"
 import Prompt from "../models/prompt"
-
-interface PlayerStats {
-  cCorrect: number
-  cWrong: number
-  cDrinksTaken: number
-  cDrinksGiven: number
-  cCorrectStreak: number
-  cWrongStreak: number
-}
+import { PlayerStats } from "../models/gameInstance"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats

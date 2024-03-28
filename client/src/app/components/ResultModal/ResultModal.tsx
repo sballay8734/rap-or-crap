@@ -1,8 +1,22 @@
-import { useState } from "react"
 import { createPortal } from "react-dom"
+import { useDispatch, useSelector } from "react-redux"
+
+import { RootState } from "../../redux/store"
+import { logClient } from "../../helpers/logFormatter"
+import { hideResultModal } from "../../redux/ResultModalSlice"
 
 export default function ResultModal() {
-  const [modalIsShown, setModalIsShown] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const { modalIsShown } = useSelector(
+    (state: RootState) => state.resultModalSlice
+  )
+
+  logClient(modalIsShown)
+
+  function handleContinueGame() {
+    logClient("Going to next question...")
+    dispatch(hideResultModal())
+  }
 
   // Modal to render
   const children = (
@@ -20,19 +34,19 @@ export default function ResultModal() {
             backgroundRepeat: "no-repeat"
           }}
         >
-          <button className="absolute right-5 top-4 rounded-full bg-yellow-500">
-            ICON
-          </button>
+          {/* <button className="absolute right-5 top-4 rounded-full bg-yellow-500">
+            <IoMdCloseCircle size={30} className="text-white" />
+          </button> */}
         </div>
         <div className="flex flex-[1_0_67%] flex-col items-center justify-between px-4 py-4">
           <h2 className="text-2xl font-bold">Hang On a Sec!</h2>
           <p className="rounded-md bg-red-200 px-3 py-1 text-center text-sm font-bold text-red-500 opacity-90"></p>
           <div className="flex gap-6">
-            <button className="rounded-md bg-yellow-500 px-4 py-2">
-              I'm Sure
-            </button>
-            <button className="rounded-md border-[1px] border-yellow-500 px-4 py-2">
-              I'll Reconsider
+            <button
+              onClick={handleContinueGame}
+              className="rounded-md bg-yellow-500 px-4 py-2"
+            >
+              Next Lyric
             </button>
           </div>
         </div>

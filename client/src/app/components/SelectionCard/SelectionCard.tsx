@@ -1,7 +1,7 @@
 // TODO: memo is doing nothing right now because of the passed function.
 // TODO: Updates to a single card re-render ALL cards (Not good)
 import { useState, memo } from "react"
-import { PlayerStats } from "../../../types/dataTypes"
+import { PlayerStats } from "../../../types/ClientDataTypes"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 
 interface SelectionCardProps {

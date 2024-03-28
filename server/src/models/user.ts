@@ -1,13 +1,13 @@
-import mongoose, { Schema } from "mongoose";
-import { IUserRequest } from "../types/authTypes";
+import mongoose, { Schema } from "mongoose"
+import { IUserRequest } from "../types/ServerAuthTypes"
 
 const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   displayName: { type: String, required: true },
   password: { type: String, required: true },
-  activeGameId: { type: String, default: "" },
-});
+  activeGameId: { type: String, default: "" }
+})
 
-const User = mongoose.model<IUserRequest>("user", UserSchema);
+const User = mongoose.model<IUserRequest>("user", UserSchema)
 
-export default User;
+export default User

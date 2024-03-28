@@ -5,4 +5,5 @@ export interface PlayerStats {
   cDrinksGiven: number
   cCorrectStreak: number
   cWrongStreak: number
+  lastQCorrect: boolean
 }

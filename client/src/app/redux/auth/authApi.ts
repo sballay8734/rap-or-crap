@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { SignInFormData, SignUpFormData } from "../../../types/authTypes"
+import { SignInFormData, SignUpFormData } from "../../../types/ClientauthTypes"
 import { CreatedUser } from "../../../types/responsesFromServer"
 import { setResponseMessage } from "../serverResponseSlice"
 import { isCustomApiResponse } from "../../helpers/errorReform"

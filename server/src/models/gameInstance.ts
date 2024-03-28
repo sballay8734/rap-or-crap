@@ -1,12 +1,13 @@
 import mongoose, { Schema, Document } from "mongoose"
 
-interface PlayerStats {
+export interface PlayerStats {
   cCorrect: number
   cWrong: number
   cDrinksTaken: number
   cDrinksGiven: number
   cCorrectStreak: number
   cWrongStreak: number
+  lastQCorrect: boolean
 }
 
 // interface PlayersObject {
@@ -28,7 +29,8 @@ const PlayerStatsSchema = new Schema<PlayerStats>({
   cDrinksTaken: { type: Number, default: 0 },
   cDrinksGiven: { type: Number, default: 0 },
   cCorrectStreak: { type: Number, default: 0 },
-  cWrongStreak: { type: Number, default: 0 }
+  cWrongStreak: { type: Number, default: 0 },
+  lastQCorrect: { type: Boolean }
 })
 
 const GameInstanceSchema = new Schema({

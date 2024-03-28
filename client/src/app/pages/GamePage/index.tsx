@@ -39,7 +39,8 @@ export default function GamePage() {
       promptId: promptId
     }
 
-    const updatedGame = await updateGame(submissionObject)
+    await updateGame(submissionObject)
+    // handle modal show in api
 
     // TODO: Show result modal with "next question" prompt
   }
