@@ -30,6 +30,12 @@ export interface InitializedGameInstance {
   gameStartDate: string
   playersObject: PlayersObject
   currentLyric: string
+  currentPromptId: string
+}
+
+export interface UpdateGameStateProps {
+  answersObject: PlayerSelections
+  gameId: string
   promptId: string
 }
 
@@ -130,7 +136,7 @@ export const gameHandlingApi = createApi({
     }),
     updateGameState: builder.mutation<
       InitializedGameInstance,
-      PlayerSelections
+      UpdateGameStateProps
     >({
       query: (body) => ({ url: "update-game", method: "PATCH", body }),
       invalidatesTags: ["ActiveGame"],

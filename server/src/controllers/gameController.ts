@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { errorHandler } from "../utils/errorHandler"
 import Game from "../models/gameInstance"
 import User from "../models/user"
-import { logServer } from "../helpers/logFormatter"
+import { logServer, warnServer } from "../helpers/logFormatter"
 import Prompt from "../models/prompt"
 
 interface PlayerStats {
@@ -46,22 +46,24 @@ export const initializeGame = async (
     if (userToUpdate.activeGameId !== "") {
       const gameId = userToUpdate.activeGameId
       const deletedGame = await Game.findByIdAndDelete(gameId)
-      logServer("Game found and deleted", deletedGame)
+      // logServer("Game found and deleted", deletedGame)
     }
 
     // gets a random lyric to initialize game with
-    const randomLyric = await Prompt.aggregate().sample(1)
-    if (!randomLyric)
+    const randomPrompt = await Prompt.aggregate().sample(1)
+    if (!randomPrompt)
       return next(errorHandler(400, "Could not find random lyric."))
 
-    const { lyric, _id } = randomLyric[0]
+    const { lyric, _id } = randomPrompt[0]
 
     const finalizedGameData = {
       playersObject: gameData.playersObject,
       userId: gameData.userId,
       currentLyric: lyric,
-      currentPromptId: _id
+      currentPromptId: _id.valueOf()
     }
+
+    warnServer("ID:", _id.valueOf())
 
     // Creates game with finializedGameData
     const newGame = await Game.create(finalizedGameData)
@@ -146,15 +148,26 @@ export const deleteOldActiveGame = async (
 
 // ! Don't send correct answer back when fetching prompts... Minor for this use case but could be very important security consideration for another app
 // ! ACTUALLY: ONLY send the lyric
+
+// TODO: **************************************************************
+// TODO: **************************************************************
+// TODO: **************************************************************
+// TODO: ENDPOINT HIT (NOW GO THROUGH THE GREEN NOTES AND IMPLEMENT)
+// TODO: **************************************************************
+// TODO: **************************************************************
+// TODO: **************************************************************
 export const updateGame = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  logServer(req.body)
+  return
+
   const userId = req.userId
+  const answersObject = req.body.answers
   const gameId = req.body.gameId
   const promptId = req.body.promptId
-  const answersObject = req.body.answers
 
   // * Grab prompt
   if (!promptId || promptId === "") {

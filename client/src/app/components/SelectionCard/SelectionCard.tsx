@@ -3,7 +3,6 @@
 import { useState, memo } from "react"
 import { PlayerStats } from "../../../types/dataTypes"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
-import { logClient } from "../../helpers/logFormatter"
 
 interface SelectionCardProps {
   playerName: string
@@ -24,8 +23,6 @@ function SelectionCard({
     setActiveBtn(selection)
     handleSelection(playerName, selection)
   }
-
-  logClient(`Rendering ${playerName}`)
 
   return (
     <article className="w-full border-slate-900 border-[1px] bg-green-50 text-black flex justify-between">

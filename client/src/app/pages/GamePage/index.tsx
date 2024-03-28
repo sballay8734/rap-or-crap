@@ -19,16 +19,28 @@ export interface PlayerSelections {
 export default function GamePage() {
   const [updateGame] = useUpdateGameStateMutation()
   const [playerSelections, setPlayerSelections] = useState<PlayerSelections>({})
-  const { players, gameId } = useFetchActiveGameQuery(undefined, {
+  const { players, gameId, promptId } = useFetchActiveGameQuery(undefined, {
     selectFromResult: ({ data }) => ({
       players: data?.playersObject,
-      gameId: data?._id
+      gameId: data?._id,
+      promptId: data?.currentPromptId
     })
   })
 
+  logClient(players, gameId, promptId)
+
   async function handleSubmission() {
-    console.log("Submitting...")
-    const updatedGame = await updateGame(playerSelections)
+    if (!gameId || !promptId) {
+      console.log("MISSING")
+      return
+    }
+
+    const submissionObject = {
+      answersObject: playerSelections,
+      gameId: gameId,
+      promptId: promptId
+    }
+    const updatedGame = await updateGame(submissionObject)
     // fetch prompt (on server)
     // compare user responses to correct response
     // update player data
@@ -36,7 +48,6 @@ export default function GamePage() {
   }
 
   function handleSelection(playerName: string, selection: Selection) {
-    logClient(playerName, selection)
     setPlayerSelections((prevSelections) => ({
       ...prevSelections,
       [playerName]: selection
