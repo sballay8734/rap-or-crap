@@ -15,6 +15,6 @@ router.post("/initialize-game", authenticateUser, initializeGame)
 router.get("/active-game", authenticateUser, fetchActiveGame)
 router.delete("/delete-game", authenticateUser, deleteOldActiveGame)
 router.patch("/update-game", authenticateUser, updateGame)
-router.get("/new-prompt", authenticateUser, getNewPrompt)
+router.patch("/get-new-prompt/:gameId", authenticateUser, getNewPrompt)
 
 export default router

@@ -16,6 +16,15 @@ export interface PlayerSelections {
   [playerName: string]: Selection
 }
 
+// ! *************************************************************************
+// ! *************************************************************************
+// ! *************************************************************************
+
+// ! NOW: Clear answers when Next Lyric is clicked in modal. Might need to reconsider local state organization in the Selection Card
+
+// ! *************************************************************************
+// ! *************************************************************************
+// ! *************************************************************************
 export default function GamePage() {
   const [updateGame] = useUpdateGameStateMutation()
   const [playerSelections, setPlayerSelections] = useState<PlayerSelections>({})
@@ -40,9 +49,6 @@ export default function GamePage() {
     }
 
     await updateGame(submissionObject)
-    // handle modal show in api
-
-    // TODO: Show result modal with "next question" prompt
   }
 
   function handleSelection(playerName: string, selection: Selection) {

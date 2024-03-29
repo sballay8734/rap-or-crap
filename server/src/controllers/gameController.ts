@@ -6,6 +6,7 @@ import User from "../models/user"
 import { logServer, warnServer } from "../helpers/logFormatter"
 import Prompt from "../models/prompt"
 import { IGameInstance } from "../types/ServerDataTypes"
+import mongoose from "mongoose"
 
 export const initializeGame = async (
   req: Request,
@@ -118,8 +119,6 @@ export const deleteOldActiveGame = async (
     )
   }
 
-  logServer("User updated successfully")
-
   return res.status(200).json(null)
 }
 
@@ -203,27 +202,44 @@ export const updateGame = async (
   }
 }
 
-// TODO NEEDS TO BE FIXED (You did this very quick before clocking back in)
 export const getNewPrompt = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const gameId = req.body.gameId
+  const gameId = req.params.gameId
 
+  // * get game
   const currentGame = await Game.findById(gameId)
   if (!currentGame) return next(errorHandler(400, "Game not found."))
 
+  // * get a new prompt where the new promptId is not in seenPromptIds
   try {
+    const seenPromptIds = currentGame.seenPromptIds.map(
+      (id) => new mongoose.Types.ObjectId(id)
+    )
     const newPrompt = await Prompt.aggregate([
-      { $match: { _id: { $nin: currentGame.seenPromptIds } } }
-    ]).sample(1)
-    if (!newPrompt) return next(errorHandler(400, "You've seen 'em all!"))
+      { $match: { _id: { $nin: seenPromptIds } } },
+      { $sample: { size: 1 } }
+    ])
+
+    if (newPrompt.length === 0) {
+      logServer("No prompts remaining.")
+      currentGame.currentLyric = "No more lyrics"
+      currentGame.currentPromptId = ""
+
+      await currentGame.save()
+
+      return res.status(200).json(currentGame)
+    }
 
     const { lyric, _id } = newPrompt[0]
 
+    // * update gameInstance (currentLyric, currentPromptId)
     currentGame.currentLyric = lyric
     currentGame.currentPromptId = _id
+
+    logServer(lyric, _id)
 
     await currentGame.save()
 

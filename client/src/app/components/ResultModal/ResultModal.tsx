@@ -2,20 +2,33 @@ import { createPortal } from "react-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 import { RootState } from "../../redux/store"
-import { logClient, warnClient } from "../../helpers/logFormatter"
+import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
 import { hideResultModal } from "../../redux/ResultModalSlice"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
+import {
+  useFetchActiveGameQuery,
+  useUpdateWithNewPromptMutation
+} from "../../redux/GameHandling/gameHandlingApi"
 
 export default function ResultModal() {
+  const { gameId } = useFetchActiveGameQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      gameId: data?._id
+    })
+  })
   const dispatch = useDispatch()
+  const [getNewPrompt] = useUpdateWithNewPromptMutation()
   const { modalIsShown, data } = useSelector(
     (state: RootState) => state.resultModalSlice
   )
 
-  logClient(data)
-
-  function handleContinueGame() {
-    logClient("Going to next question...")
+  async function handleContinueGame() {
+    if (gameId) {
+      const updatedGame = await getNewPrompt(gameId)
+      logClient("UPDATED GAME:", updatedGame)
+    } else {
+      errorClient("gameId is undefined. Cannot fetch new prompt.")
+    }
     dispatch(hideResultModal())
   }
 

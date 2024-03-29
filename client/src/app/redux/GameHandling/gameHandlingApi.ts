@@ -101,13 +101,6 @@ export const gameHandlingApi = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const res = await queryFulfilled
-          logClient("gameHandlingApi/initialize-game", res)
-          // if ("data" in res) {
-          //   const gameId = res.data?._id ?? "No ID found"
-          //   if (gameId !== "No ID found") {
-          //     dispatch(setUserActiveGame(gameId))
-          //   }
-          // }
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(
@@ -160,12 +153,17 @@ export const gameHandlingApi = createApi({
       }
     }),
     // TODO: NOT DONE YET (NEITHER IS getNewPrompt endpoint in controller!!!)
-    fetchNewPrompt: builder.query<InitializedGameInstance, string>({
-      query: (body) => ({ url: "initialize-game", method: "POST", body }),
+    updateWithNewPrompt: builder.mutation<InitializedGameInstance, string>({
+      query: (gameId) => ({
+        url: `get-new-prompt/${gameId}`,
+        method: "PATCH",
+        gameId
+      }),
+      invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const res = await queryFulfilled
-          logClient("gameHandlingApi/initialize-game", res)
+          logClient("gameHandlingApi/get-new-prompt", res)
           // if ("data" in res) {
           //   const gameId = res.data?._id ?? "No ID found"
           //   if (gameId !== "No ID found") {
@@ -198,5 +196,6 @@ export const {
   useInitializeGameMutation,
   useFetchActiveGameQuery,
   useDeleteGameMutation,
-  useUpdateGameStateMutation
+  useUpdateGameStateMutation,
+  useUpdateWithNewPromptMutation
 } = gameHandlingApi
