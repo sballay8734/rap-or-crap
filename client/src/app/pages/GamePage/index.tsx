@@ -8,7 +8,7 @@ import { errorClient, logClient } from "../../helpers/logFormatter"
 import MemoizedSelectionCard from "../../components/SelectionCard/SelectionCard"
 import PromptCard from "../../components/PromptCard/PromptCard"
 
-// ! Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
+// TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
 
 type Selection = "rap" | "crap" | "skip" | null
 
@@ -16,15 +16,8 @@ export interface PlayerSelections {
   [playerName: string]: Selection
 }
 
-// ! *************************************************************************
-// ! *************************************************************************
-// ! *************************************************************************
+// TODO: Clear answers when Next Lyric is clicked in modal. Might need to reconsider local state organization in the Selection Card
 
-// ! NOW: Clear answers when Next Lyric is clicked in modal. Might need to reconsider local state organization in the Selection Card
-
-// ! *************************************************************************
-// ! *************************************************************************
-// ! *************************************************************************
 export default function GamePage() {
   const [updateGame] = useUpdateGameStateMutation()
   const [playerSelections, setPlayerSelections] = useState<PlayerSelections>({})
@@ -70,19 +63,6 @@ export default function GamePage() {
 
   const count = Object.keys(playerSelections).length
   const disabled = Object.keys(playerSelections).length < playerData.length
-
-  // ! THIS WORKS! But you don't need it right now
-  // useEffect(() => {
-  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-  //     event.preventDefault()
-  //     // Custom logic to handle the refresh
-  //     // Display a confirmation message or perform necessary actions
-  //   }
-  //   window.addEventListener("beforeunload", handleBeforeUnload)
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleBeforeUnload)
-  //   }
-  // }, [])
 
   return (
     <section className="z-1 relative flex h-svh w-full flex-col items-center justify-center gap-2 p-4 text-white">
