@@ -162,7 +162,7 @@ export const updateGame = async (
     for (const [key, value] of Object.entries(answersObject)) {
       // TODO: Update total number of skips also (1 or 2 per game)
 
-      // update each player
+      // Update each player
       const playerData = gameToUpdate.playersObject.get(key)
       if (!playerData) return // SHOULD always exist (intialized with game)
 

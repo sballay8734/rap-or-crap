@@ -1,4 +1,4 @@
-// TODO: Player enter input should be highlighted by default
+// TODO: Player-enter input should be highlighted by default
 
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -37,8 +37,9 @@ export default function GameSetupPage() {
   const [players, setPlayers] = useState<string[]>([])
   const [input, setInput] = useState<string>("")
 
-  // ! Always call useEffect before any early returns
+  // NOTE: Always call useEffect BEFORE any early returns
   // https://react.dev/warnings/invalid-hook-call-warning
+
   useEffect(() => {
     if (!activeGameId || isFetching) {
       return
