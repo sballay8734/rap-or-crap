@@ -1,10 +1,7 @@
 // TODO: Move requests to Api to handle loading states (signOut)
 // TODO: Modal animation
 // TODO: Modal should accept a duration so you can more easily control it
-// TODO: Write login logic
 // TODO: Buttons need hover & active effects and stuff
-
-// ! WORKING ON LOADING CORRECT HOME PAGE HANLDING LOGIC TO FETCH GAME FROM SERVER
 
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
@@ -38,7 +35,7 @@ export default function HomePage() {
 
   if (activeGame !== null && activeGame !== undefined) {
     logClient(activeGame)
-    // * set active game to active game, and return screen where "continue game" is shown.
+    // set active game to active game, and return screen where "continue game" is shown.
     // otherwise, set active game to null and return screen WITHOUT "continue game"
   }
 

@@ -7,6 +7,7 @@ import {
 import { errorClient, logClient } from "../../helpers/logFormatter"
 import MemoizedSelectionCard from "../../components/SelectionCard/SelectionCard"
 import PromptCard from "../../components/PromptCard/PromptCard"
+import CSkeleton from "../../components/REUSABLE/CSkeleton"
 
 // TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
 
@@ -19,13 +20,15 @@ export interface PlayerSelections {
 // TODO: Clear answers when Next Lyric is clicked in modal. Might need to reconsider local state organization in the Selection Card
 
 export default function GamePage() {
-  const [updateGame] = useUpdateGameStateMutation()
+  // FIXME: wrong "isLoading" - throttle connection to find what is rendering, where it's rendering, and when.
+  const [updateGame, { isLoading }] = useUpdateGameStateMutation()
   const [playerSelections, setPlayerSelections] = useState<PlayerSelections>({})
   const { players, gameId, promptId } = useFetchActiveGameQuery(undefined, {
     selectFromResult: ({ data }) => ({
       players: data?.playersObject,
       gameId: data?._id,
-      promptId: data?.currentPromptId
+      promptId: data?.currentPromptId,
+      isLoading: isLoading
     })
   })
 
@@ -64,8 +67,9 @@ export default function GamePage() {
   const count = Object.keys(playerSelections).length
   const disabled = Object.keys(playerSelections).length < playerData.length
 
-  return (
-    <section className="z-1 relative flex h-svh w-full flex-col items-center justify-center gap-2 p-4 text-white">
+  // Render this when loading is complete
+  const renderedItems = (
+    <>
       <PromptCard />
       <article className="answer-select w-full flex-1 rounded-md bg-red-900 overflow-auto">
         {playerData &&
@@ -91,6 +95,16 @@ export default function GamePage() {
           ? `All players must answer (${count}/${playerData.length})`
           : `Submit Answers ${count}`}
       </button>
+    </>
+  )
+
+  return (
+    <section className="z-1 relative flex h-svh w-full flex-col items-center justify-center gap-2 p-4 text-white">
+      {isLoading ? (
+        <CSkeleton heights={[250, 100, 100, 100, 100, 100, 100]} />
+      ) : (
+        renderedItems
+      )}
     </section>
   )
 }
