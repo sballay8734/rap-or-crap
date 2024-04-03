@@ -16,7 +16,7 @@ interface FormData {
 }
 
 export default function SigninPage() {
-  const [signin, { isLoading }] = useSigninMutation()
+  const [signin] = useSigninMutation()
   // const [fetchActiveGame] = useLazyFetchActiveGameQuery()
   const navigate = useNavigate()
   const {
@@ -96,7 +96,7 @@ export default function SigninPage() {
           className="mt-10 flex items-center justify-center rounded-sm bg-green-700 py-3 min-h-14"
           type="submit"
         >
-          {isLoading ? <ImSpinner2 className="animate-spin" /> : "LOG IN"}
+          LOG IN
         </button>
       </form>
       <Link to="/signup" className="absolute bottom-8 flex-grow">

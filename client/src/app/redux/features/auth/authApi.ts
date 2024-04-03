@@ -73,6 +73,7 @@ const authApi = createApi({
     signout: builder.mutation<{}, void>({
       query: () => ({ url: "signout", method: "POST" }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(showLoadingModal())
         try {
           await queryFulfilled
           // WARNING: You need to have only ONE api. Should not be calling two methods to clear the cache

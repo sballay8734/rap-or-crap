@@ -25,10 +25,12 @@ export default function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  // FIXME: After successful signup, Loading... shows
+  // FIXME: Need to detect if action is signup and skip the query. There is no need to fetch the active game if the user just signed up.
   if (isLoading) {
     return (
       <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
-        <div>Loading...</div>
+        <div>Checking for active game...</div>
       </div>
     )
   }

@@ -7,7 +7,6 @@ import { IoIosClose } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
 import { FaRegUser } from "react-icons/fa"
 import { useSignupMutation } from "../../redux/features/auth/authApi"
-import { ImSpinner2 } from "react-icons/im"
 
 interface FormData {
   email: string
@@ -18,7 +17,7 @@ interface FormData {
 
 // !FIXME: Form validation is not quite working properly. It only works after form has been submitted but not initially.
 export default function SignupPage() {
-  const [signup, { isLoading }] = useSignupMutation()
+  const [signup] = useSignupMutation()
   const navigate = useNavigate()
   const {
     watch,
@@ -33,7 +32,6 @@ export default function SignupPage() {
     try {
       const res = await signup(signupData)
       if ("data" in res) {
-        // No need to fetch active game as new user would not have one
         navigate("/home")
       }
     } catch (error) {
@@ -143,7 +141,7 @@ export default function SignupPage() {
           className="mt-2 flex items-center justify-center rounded-sm bg-green-700 py-3"
           type="submit"
         >
-          {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGN UP"}
+          SIGN UP
         </button>
       </form>
       <p className="absolute bottom-8 flex-grow">
