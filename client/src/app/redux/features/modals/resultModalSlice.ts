@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import {
-  InitializedGameInstance,
-  PlayersObject
-} from "../GameHandling/gameHandlingApi"
+import { InitializedGameInstance, PlayersObject } from "../game/gameApi"
 
 // * This data is ONLY used to display the modal. It is transformed inside of handleShowModal and is NOT used anywhere else or for any other reason than displaying the information to the user.
 
@@ -12,18 +9,18 @@ interface DisplayData {
   skipped: PlayersObject[]
 }
 
-export interface ResultModal {
+export interface ResultModalState {
   data: DisplayData
-  modalIsShown: boolean
+  isVisible: boolean
 }
 
-const initialState: ResultModal = {
+const initialState: ResultModalState = {
   data: {
     correctPlayers: [],
     wrongPlayers: [],
     skipped: []
   },
-  modalIsShown: false
+  isVisible: false
 }
 
 // TODO:
@@ -52,10 +49,10 @@ const resultModalSlice = createSlice({
       }
 
       // show modal
-      state.modalIsShown = true
+      state.isVisible = true
     },
     hideResultModal: (state) => {
-      state.modalIsShown = false
+      state.isVisible = false
     }
   }
 })

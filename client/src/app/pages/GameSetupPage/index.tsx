@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { setResponseMessage } from "../../redux/serverResponseSlice"
+import { setResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
 import { IoIosAdd, IoIosClose } from "react-icons/io"
 import { FaCheckCircle } from "react-icons/fa"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
@@ -12,7 +12,7 @@ import {
   IGameInstance,
   useFetchActiveGameQuery,
   useInitializeGameMutation
-} from "../../redux/GameHandling/gameHandlingApi"
+} from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
 import { logClient } from "../../helpers/logFormatter"
 

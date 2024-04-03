@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { RootState } from "../../redux/store"
 import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
-import { hideResultModal } from "../../redux/ResultModalSlice"
+import { hideResultModal } from "../../redux/features/modals/resultModalSlice"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 import {
   useFetchActiveGameQuery,
   useUpdateWithNewPromptMutation
-} from "../../redux/GameHandling/gameHandlingApi"
+} from "../../redux/features/game/gameApi"
 
 export default function ResultModal() {
   const { gameId } = useFetchActiveGameQuery(undefined, {

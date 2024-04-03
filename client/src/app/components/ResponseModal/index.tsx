@@ -1,22 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
-import { createPortal } from "react-dom";
+import { useDispatch, useSelector } from "react-redux"
+import { createPortal } from "react-dom"
 
-import { RootState } from "../../redux/store";
-import { clearResponseMessage } from "../../redux/serverResponseSlice";
+import { RootState } from "../../redux/store"
+import { clearResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
 
 export default function ResponseModal() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { successResult, responseMessage } = useSelector(
-    (state: RootState) => state.serverResponseSlice,
-  );
+    (state: RootState) => state.serverResponseSlice
+  )
 
   // * handle styling based on success or fail
-  const bgColor = successResult === false ? "bg-red-700" : "bg-green-700";
-  const status = successResult === false ? "Error" : "Success!";
-  const bgImg = successResult === false ? "url(error.png)" : "url(success.png)";
-  const msgColor = successResult === false ? "text-red-500" : "text-green-500";
-  const messageBg = successResult === false ? "bg-red-200" : "bg-green-200";
-  const closeBtnBg = successResult === false ? "bg-red-900" : "bg-gray-700";
+  const bgColor = successResult === false ? "bg-red-700" : "bg-green-700"
+  const status = successResult === false ? "Error" : "Success!"
+  const bgImg = successResult === false ? "url(error.png)" : "url(success.png)"
+  const msgColor = successResult === false ? "text-red-500" : "text-green-500"
+  const messageBg = successResult === false ? "bg-red-200" : "bg-green-200"
+  const closeBtnBg = successResult === false ? "bg-red-900" : "bg-gray-700"
 
   // ! TODO: ADD THIS BACK!! JUST REMOVED FOR SYLING AND TESTING
   // useEffect(() => {
@@ -38,16 +38,18 @@ export default function ResponseModal() {
   // }, [responseMessage, dispatch]);
 
   function handleCloseResponseModal() {
-    dispatch(clearResponseMessage());
+    dispatch(clearResponseMessage())
   }
 
   // if no message, show nothing
-  if (!responseMessage) return null;
+  if (!responseMessage) return null
 
   const children = (
     <div
       onClick={handleCloseResponseModal}
-      className={`modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4 ${successResult !== null ? "animate-fadeIn" : "animate-fadeOut"}`}
+      className={`modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4 ${
+        successResult !== null ? "animate-fadeIn" : "animate-fadeOut"
+      }`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -59,7 +61,7 @@ export default function ResponseModal() {
             backgroundImage: bgImg,
             backgroundPosition: "center",
             backgroundSize: "35px 35px",
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: "no-repeat"
           }}
         ></div>
         <div className="flex flex-[1_0_67%] flex-col items-center justify-between px-2 py-4">
@@ -83,11 +85,11 @@ export default function ResponseModal() {
         </div>
       </div>
     </div>
-  );
+  )
 
   // Where to render modal
-  const modalContainer = document.getElementById("modal-container")!;
+  const modalContainer = document.getElementById("modal-container")!
 
   // Render it only if modalIsShown === true
-  return responseMessage && createPortal(children, modalContainer);
+  return responseMessage && createPortal(children, modalContainer)
 }

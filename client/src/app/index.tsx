@@ -5,6 +5,7 @@ import { RootState } from "./redux/store"
 import ConfirmModal from "./components/ConfirmModal"
 import ResponseModal from "./components/ResponseModal"
 import ResultModal from "./components/ResultModal/ResultModal"
+import LoadingModal from "./components/REUSABLE/LoadingModal"
 
 function App(): JSX.Element {
   // TODO: Need to use React Router. This is just a temporary solution
@@ -24,10 +25,10 @@ function App(): JSX.Element {
   const isUserLoggedIn = user !== null
 
   const confirmModalIsShown = useSelector(
-    (state: RootState) => state.confirmModal.showConfirmModal
+    (state: RootState) => state.confirmModal.isVisible
   )
   const resultModalIsShown = useSelector(
-    (state: RootState) => state.resultModalSlice.modalIsShown
+    (state: RootState) => state.resultModalSlice.isVisible
   )
 
   return (
@@ -46,6 +47,7 @@ function App(): JSX.Element {
       {confirmModalIsShown && <ConfirmModal />}
       {resultModalIsShown && <ResultModal />}
       <ResponseModal />
+      <LoadingModal />
     </div>
   )
 }

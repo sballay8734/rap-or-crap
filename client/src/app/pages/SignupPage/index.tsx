@@ -6,7 +6,7 @@ import { CiLock } from "react-icons/ci"
 import { IoIosClose } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
 import { FaRegUser } from "react-icons/fa"
-import { useSignupMutation } from "../../redux/auth/authApi"
+import { useSignupMutation } from "../../redux/features/auth/authApi"
 import { ImSpinner2 } from "react-icons/im"
 
 interface FormData {

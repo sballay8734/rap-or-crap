@@ -9,12 +9,12 @@ import { useDispatch } from "react-redux"
 import { IoMdSettings } from "react-icons/io"
 import { FaPlay } from "react-icons/fa"
 import { ImSpinner11, ImSpinner2 } from "react-icons/im"
-import { showConfirmModal } from "../../redux/ConfirmModalSlice"
-import { useSignoutMutation } from "../../redux/auth/authApi"
+import { showConfirmModal } from "../../redux/features/modals/confirmModalSlice"
+import { useSignoutMutation } from "../../redux/features/auth/authApi"
 import { persistor } from "../../redux/store"
-import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
+import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
-import { setResponseMessage } from "../../redux/serverResponseSlice"
+import { setResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
 
 export default function HomePage() {
   const [signOut] = useSignoutMutation()
@@ -22,7 +22,7 @@ export default function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // Temp for testing
+  // REMOVE: Temp for testing
   const userName = "Shawn"
 
   if (isLoading) {

@@ -1,10 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { setResponseMessage } from "../serverResponseSlice"
-import { isCustomApiResponse } from "../../helpers/errorReform"
-import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
-import { PlayerSelections } from "../../pages/GamePage"
-import { handleShowModal } from "../ResultModalSlice"
-import { PlayerStats } from "../../../types/ClientDataTypes"
+import { setResponseMessage } from "../serverResponse/serverResponseSlice"
+import { isCustomApiResponse } from "../../../helpers/errorReform"
+import {
+  errorClient,
+  logClient,
+  warnClient
+} from "../../../helpers/logFormatter"
+import { PlayerSelections } from "../../../pages/GamePage"
+import { handleShowModal } from "../modals/resultModalSlice"
+import { PlayerStats } from "../../../../types/ClientDataTypes"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats
@@ -34,8 +38,8 @@ export interface UpdateGameStateProps {
 
 // ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
 
-export const gameHandlingApi = createApi({
-  reducerPath: "gameHandlingApi",
+export const gameApi = createApi({
+  reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5001/api/game/",
     credentials: "include"
@@ -198,4 +202,4 @@ export const {
   useDeleteGameMutation,
   useUpdateGameStateMutation,
   useUpdateWithNewPromptMutation
-} = gameHandlingApi
+} = gameApi

@@ -3,11 +3,10 @@ import { useState } from "react"
 import {
   useFetchActiveGameQuery,
   useUpdateGameStateMutation
-} from "../../redux/GameHandling/gameHandlingApi"
+} from "../../redux/features/game/gameApi"
 import { errorClient, logClient } from "../../helpers/logFormatter"
 import MemoizedSelectionCard from "../../components/SelectionCard/SelectionCard"
 import PromptCard from "../../components/PromptCard/PromptCard"
-import CSkeleton from "../../components/REUSABLE/CSkeleton"
 
 // TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
 
@@ -100,11 +99,7 @@ export default function GamePage() {
 
   return (
     <section className="z-1 relative flex h-svh w-full flex-col items-center justify-center gap-2 p-4 text-white">
-      {isLoading ? (
-        <CSkeleton heights={[250, 100, 100, 100, 100, 100, 100]} />
-      ) : (
-        renderedItems
-      )}
+      {renderedItems}
     </section>
   )
 }

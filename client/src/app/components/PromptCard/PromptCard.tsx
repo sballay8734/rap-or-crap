@@ -1,4 +1,4 @@
-import { useFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
+import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 
 export default function PromptCard() {
   const { promptId, lyric } = useFetchActiveGameQuery(undefined, {

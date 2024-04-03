@@ -12,20 +12,22 @@ import {
 import storage from "redux-persist/lib/storage"
 import { setupListeners } from "@reduxjs/toolkit/query"
 
-import confirmModalReducer from "./ConfirmModalSlice"
+import confirmModalReducer from "./features/modals/confirmModalSlice"
 // TODO: Change to "requestModalReducer" (should handle err AND success)
-import serverResponseReducer from "./serverResponseSlice"
-import userSliceReducer from "./UserSlice"
-import resultModalSliceReducer from "./ResultModalSlice"
-import { gameHandlingApi } from "./GameHandling/gameHandlingApi"
-import { authApi } from "./auth/authApi"
+import serverResponseReducer from "./features/serverResponse/serverResponseSlice"
+import userReducer from "./features/user/userSlice"
+import resultModalReducer from "./features/modals/resultModalSlice"
+import loadingModalReducer from "./features/modals/loadingModalSlice"
+import { gameApi } from "./features/game/gameApi"
+import { authApi } from "./features/auth/authApi"
 
 const rootReducer = combineReducers({
   confirmModal: confirmModalReducer,
-  serverResponseSlice: serverResponseReducer,
-  userSlice: userSliceReducer,
-  resultModalSlice: resultModalSliceReducer,
-  [gameHandlingApi.reducerPath]: gameHandlingApi.reducer,
+  serverResponse: serverResponseReducer,
+  user: userReducer,
+  resultModal: resultModalReducer,
+  loadingModal: loadingModalReducer,
+  [gameApi.reducerPath]: gameApi.reducer,
   [authApi.reducerPath]: authApi.reducer
 })
 
@@ -44,7 +46,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
       }
-    }).concat(gameHandlingApi.middleware, authApi.middleware)
+    }).concat(gameApi.middleware, authApi.middleware)
   }
 })
 

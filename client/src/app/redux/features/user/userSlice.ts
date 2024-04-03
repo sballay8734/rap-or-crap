@@ -7,11 +7,11 @@ interface User {
   activeGameId: string
 }
 
-export interface UserState {
+interface UserState {
   user: null | User
 }
 
-// * INITIAL STATE
+// INITIAL STATE
 const initialState: UserState = {
   user: null
 }
@@ -24,7 +24,7 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
-    signOutUser: (state) => {
+    clearUser: (state) => {
       state.user = null
     }
     // setUserActiveGame: (state, action: PayloadAction<string>) => {
@@ -35,5 +35,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { setUser, signOutUser } = userSlice.actions
+export const { setUser, clearUser } = userSlice.actions
 export default userSlice.reducer

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 import { RootState } from "../../redux/store"
-import { hideConfirmModal } from "../../redux/ConfirmModalSlice"
+import { hideConfirmModal } from "../../redux/features/modals/confirmModalSlice"
 import { IoMdCloseCircle } from "react-icons/io"
-import { useDeleteGameMutation } from "../../redux/GameHandling/gameHandlingApi"
-import { setResponseMessage } from "../../redux/serverResponseSlice"
+import { useDeleteGameMutation } from "../../redux/features/game/gameApi"
+import { setResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
 
 export default function ConfirmModal() {
   const [deleteGame] = useDeleteGameMutation()
