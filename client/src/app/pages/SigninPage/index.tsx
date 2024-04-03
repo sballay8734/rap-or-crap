@@ -7,7 +7,6 @@ import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useSigninMutation } from "../../redux/features/auth/authApi"
 import { ImSpinner2 } from "react-icons/im"
-import CBtn from "../../components/reusable/CBtn"
 // import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 interface FormData {
@@ -99,7 +98,6 @@ export default function SigninPage() {
         >
           {isLoading ? <ImSpinner2 className="animate-spin" /> : "LOG IN"}
         </button>
-        <CBtn color="#3b82f6">Test Btn</CBtn>
       </form>
       <Link to="/signup" className="absolute bottom-8 flex-grow">
         Don't have an account? <span className="text-green-700">Sign up</span>

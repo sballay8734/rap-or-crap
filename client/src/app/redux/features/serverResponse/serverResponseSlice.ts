@@ -1,5 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
+// This interface is specifically for the apiUtil
+// When dispatching to user, properties will NEVER be null
+export interface ServerResponse {
+  successResult: boolean
+  responseMessage: string
+}
+
+// Here however, it is possible for the state to be null BUT,
+// FIXME: I think new methodology allows you to use true and false without null
+// You are no longer rendering conditionally
 export interface ServerResponseState {
   successResult: true | false | null
   responseMessage: string | null

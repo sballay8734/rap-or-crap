@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import {
+  PayloadAction,
+  combineReducers,
+  configureStore
+} from "@reduxjs/toolkit"
 import {
   persistStore,
   persistReducer,

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-interface User {
+export interface User {
   _id: string
   email: string
   displayName: string
@@ -27,11 +27,6 @@ const userSlice = createSlice({
     clearUser: (state) => {
       state.user = null
     }
-    // setUserActiveGame: (state, action: PayloadAction<string>) => {
-    //   if (state.user !== null) {
-    //     state.user.activeGameId = action.payload
-    //   }
-    // }
   }
 })
 

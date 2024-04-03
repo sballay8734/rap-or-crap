@@ -52,6 +52,7 @@ export const gameApi = createApi({
       providesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
+          warnClient("FETCHING ACTIVE GAME.")
           const res = await queryFulfilled
           if (res.data === null) return
         } catch (err) {
