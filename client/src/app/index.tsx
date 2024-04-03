@@ -1,26 +1,15 @@
 import { useSelector } from "react-redux"
 import { useEffect } from "react"
-import { Outlet, Navigate, useLocation, useNavigate } from "react-router-dom"
+import { Outlet, Navigate } from "react-router-dom"
 import { RootState } from "./redux/store"
 import ConfirmModal from "./components/confirmModal"
 import ResponseModal from "./components/responseModal"
 import ResultModal from "./components/resultModal"
-import LoadingModal from "./components/reusable/LoadingModal"
+import IsLoadingModal from "./components/reusable/IsLoadingModal"
+import IsFetchingModal from "./components/reusable/IsFetchingModal"
 
 function App(): JSX.Element {
-  // TODO: Need to use React Router. This is just a temporary solution
   const user = useSelector((state: RootState) => state.user.user)
-
-  // const location = useLocation()
-  // const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   // Check if the current path is "/game"
-  //   if (location.pathname === "/game") {
-  //     // Navigate to the "/game" route
-  //     navigate("/game")
-  //   }
-  // }, [location.pathname, navigate])
 
   const isUserLoggedIn = user !== null
 
@@ -47,7 +36,8 @@ function App(): JSX.Element {
       {confirmModalIsShown && <ConfirmModal />}
       {resultModalIsShown && <ResultModal />}
       <ResponseModal />
-      <LoadingModal />
+      <IsLoadingModal />
+      <IsFetchingModal />
     </div>
   )
 }

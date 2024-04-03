@@ -5,6 +5,8 @@ export interface User {
   email: string
   displayName: string
   activeGameId: string
+
+  isNewUser: boolean // flag NOT exist in DB. Used to prevent unnecessary fetch
 }
 
 interface UserState {

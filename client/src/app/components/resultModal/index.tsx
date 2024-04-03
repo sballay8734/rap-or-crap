@@ -10,6 +10,7 @@ import {
   useUpdateWithNewPromptMutation
 } from "../../redux/features/game/gameApi"
 
+// TODO: Remove conditional render (use opacity and pointer-events-none)
 export default function ResultModal() {
   const { gameId } = useFetchActiveGameQuery(undefined, {
     selectFromResult: ({ data }) => ({

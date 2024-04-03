@@ -34,7 +34,7 @@ const authApi = createApi({
           handleSuccessAndNotify(
             dispatch,
             "setUser",
-            res.data,
+            { ...res.data, isNewUser: true },
             "Account creation successful!"
           )
         } catch (err) {
@@ -56,7 +56,7 @@ const authApi = createApi({
           handleSuccessAndNotify(
             dispatch,
             "setUser",
-            res.data,
+            { ...res.data, isNewUser: false },
             "You are signed in!"
           )
         } catch (err) {

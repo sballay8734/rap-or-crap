@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import { RootState } from "../../redux/store"
 
-export default function LoadingModal() {
+export default function IsLoadingModal() {
   const modalIsShown = useSelector(
     (state: RootState) => state.loadingModal.isVisible
   )

@@ -9,6 +9,10 @@ import {
 import { PlayerSelections } from "../../../pages/GamePage"
 import { handleShowModal } from "../modals/resultModalSlice"
 import { PlayerStats } from "../../../../types/ClientDataTypes"
+import {
+  hideFetchingModal,
+  showFetchingModal
+} from "../modals/fetchingModalSlice"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats
@@ -36,7 +40,7 @@ export interface UpdateGameStateProps {
   promptId: string
 }
 
-// ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
+// NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
 // TODO: Need to update all endpoints to use "showLoadingModal" and apiUtils
 export const gameApi = createApi({
   reducerPath: "gameApi",
@@ -51,12 +55,25 @@ export const gameApi = createApi({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(
+          showFetchingModal({
+            message: "Checking for existing game...",
+            isSuccess: null
+          })
+        )
+        // TODO: Extract this logic and reorganize modal behavior
         try {
-          warnClient("FETCHING ACTIVE GAME.")
           const res = await queryFulfilled
+          dispatch(
+            showFetchingModal({
+              message: "Existing game found!",
+              isSuccess: true
+            })
+          )
           if (res.data === null) return
         } catch (err) {
           if (isCustomApiResponse(err)) {
+            dispatch(hideFetchingModal())
             dispatch(
               setResponseMessage({
                 successResult: false,
@@ -64,6 +81,7 @@ export const gameApi = createApi({
               })
             )
           } else {
+            dispatch(hideFetchingModal())
             dispatch(
               setResponseMessage({
                 successResult: false,

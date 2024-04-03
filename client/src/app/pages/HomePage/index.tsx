@@ -27,7 +27,7 @@ export default function HomePage() {
 
   // FIXME: After successful signup, Loading... shows
   // FIXME: Need to detect if action is signup and skip the query. There is no need to fetch the active game if the user just signed up.
-  if (isLoading) {
+  if (isLoading && user?.isNewUser === false) {
     return (
       <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
         <div>Checking for active game...</div>
@@ -130,7 +130,7 @@ export default function HomePage() {
             className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
             type="submit"
           >
-            {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGNOUT"}
+            {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGN OUT"}
           </button>
         </div>
       )}

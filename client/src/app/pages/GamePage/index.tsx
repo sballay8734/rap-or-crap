@@ -19,7 +19,6 @@ export interface PlayerSelections {
 // TODO: Clear answers when Next Lyric is clicked in modal. Might need to reconsider local state organization in the Selection Card
 
 export default function GamePage() {
-  // FIXME: wrong "isLoading" - throttle connection to find what is rendering, where it's rendering, and when.
   const [updateGame, { isLoading }] = useUpdateGameStateMutation()
   const [playerSelections, setPlayerSelections] = useState<PlayerSelections>({})
   const { players, gameId, promptId } = useFetchActiveGameQuery(undefined, {

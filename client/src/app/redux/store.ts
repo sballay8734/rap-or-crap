@@ -22,6 +22,7 @@ import serverResponseReducer from "./features/serverResponse/serverResponseSlice
 import userReducer from "./features/user/userSlice"
 import resultModalReducer from "./features/modals/resultModalSlice"
 import loadingModalReducer from "./features/modals/loadingModalSlice"
+import fetchingModalReducer from "./features/modals/fetchingModalSlice"
 import { gameApi } from "./features/game/gameApi"
 import { authApi } from "./features/auth/authApi"
 
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   resultModal: resultModalReducer,
   loadingModal: loadingModalReducer,
+  fetchingModal: fetchingModalReducer,
   [gameApi.reducerPath]: gameApi.reducer,
   [authApi.reducerPath]: authApi.reducer
 })

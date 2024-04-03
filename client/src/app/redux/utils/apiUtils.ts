@@ -12,9 +12,10 @@ interface IArgMap {
 
 // Contains all actions you'd like to dispatch (noAction is for clarity)
 const ArgMap: IArgMap = {
-  noAction: () => console.log("No action"),
   setUser: (data: User) => setUser(data),
-  clearUser: () => clearUser()
+  clearUser: () => clearUser(),
+  //
+  noAction: () => console.log("No action")
 }
 
 export function handleErrorSilently() {}

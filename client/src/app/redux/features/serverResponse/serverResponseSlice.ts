@@ -8,7 +8,6 @@ export interface ServerResponse {
 }
 
 // Here however, it is possible for the state to be null BUT,
-// FIXME: I think new methodology allows you to use true and false without null
 // You are no longer rendering conditionally
 export interface ServerResponseState {
   successResult: true | false | null
