@@ -7,7 +7,7 @@ import { clearResponseMessage } from "../../redux/features/serverResponse/server
 export default function ResponseModal() {
   const dispatch = useDispatch()
   const { successResult, responseMessage } = useSelector(
-    (state: RootState) => state.serverResponseSlice
+    (state: RootState) => state.serverResponse
   )
 
   // * handle styling based on success or fail

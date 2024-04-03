@@ -13,7 +13,7 @@ export default function ConfirmModal() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const modalIsShown = useSelector(
-    (state: RootState) => state.confirmModal.showConfirmModal
+    (state: RootState) => state.confirmModal.isVisible
   )
   const modalMessage = useSelector(
     (state: RootState) => state.confirmModal.message

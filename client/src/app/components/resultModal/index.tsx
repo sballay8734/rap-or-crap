@@ -18,8 +18,8 @@ export default function ResultModal() {
   })
   const dispatch = useDispatch()
   const [getNewPrompt] = useUpdateWithNewPromptMutation()
-  const { modalIsShown, data } = useSelector(
-    (state: RootState) => state.resultModalSlice
+  const { isVisible, data } = useSelector(
+    (state: RootState) => state.resultModal
   )
 
   async function handleContinueGame() {
@@ -128,5 +128,5 @@ export default function ResultModal() {
   const modalContainer = document.getElementById("modal-container")!
 
   // Render it only if modalIsShown === true
-  return modalIsShown && createPortal(children, modalContainer)
+  return isVisible && createPortal(children, modalContainer)
 }

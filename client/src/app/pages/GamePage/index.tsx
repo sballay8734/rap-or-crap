@@ -5,8 +5,8 @@ import {
   useUpdateGameStateMutation
 } from "../../redux/features/game/gameApi"
 import { errorClient, logClient } from "../../helpers/logFormatter"
-import MemoizedSelectionCard from "../../components/SelectionCard/SelectionCard"
-import PromptCard from "../../components/PromptCard/PromptCard"
+import MemoizedSelectionCard from "../../components/selectionCard"
+import PromptCard from "../../components/promptCard"
 
 // TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
 

@@ -2,14 +2,14 @@ import { useSelector } from "react-redux"
 import { useEffect } from "react"
 import { Outlet, Navigate, useLocation, useNavigate } from "react-router-dom"
 import { RootState } from "./redux/store"
-import ConfirmModal from "./components/ConfirmModal"
-import ResponseModal from "./components/ResponseModal"
-import ResultModal from "./components/ResultModal/ResultModal"
-import LoadingModal from "./components/REUSABLE/LoadingModal"
+import ConfirmModal from "./components/confirmModal"
+import ResponseModal from "./components/responseModal"
+import ResultModal from "./components/resultModal"
+import LoadingModal from "./components/reusable/LoadingModal"
 
 function App(): JSX.Element {
   // TODO: Need to use React Router. This is just a temporary solution
-  const user = useSelector((state: RootState) => state.userSlice.user)
+  const user = useSelector((state: RootState) => state.user.user)
 
   // const location = useLocation()
   // const navigate = useNavigate()
@@ -28,7 +28,7 @@ function App(): JSX.Element {
     (state: RootState) => state.confirmModal.isVisible
   )
   const resultModalIsShown = useSelector(
-    (state: RootState) => state.resultModalSlice.isVisible
+    (state: RootState) => state.resultModal.isVisible
   )
 
   return (
