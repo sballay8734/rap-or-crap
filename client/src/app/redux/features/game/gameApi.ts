@@ -37,7 +37,7 @@ export interface UpdateGameStateProps {
 }
 
 // ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
-
+// TODO: Need to update all endpoints to use "showLoadingModal" and apiUtils
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
