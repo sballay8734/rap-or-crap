@@ -37,13 +37,10 @@ export default function NotificationModal({ notification }: ModalProps) {
     }
   }, [isSuccess])
 
-  console.log(isVisible)
-  console.log("RENDERING...")
-
   // Modal to render
   const children = (
     <div
-      className={`modal-background fixed inset-0 z-[1001] flex items-start justify-center bg-black/80 px-4 mt-4 transition-opacity duration-300 ${
+      className={`modal-background fixed inset-0 z-[1001] flex items-start justify-center px-4 mt-4 transition-opacity duration-300 ${
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >

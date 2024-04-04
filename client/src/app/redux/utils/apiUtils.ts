@@ -5,8 +5,9 @@ import { User, clearUser, setUser } from "../features/user/userSlice"
 import { setResponseMessage } from "../features/modals/responseModalSlice"
 import { hideLoadingModal } from "../features/modals/loadingModalSlice"
 import { addModal } from "../features/modals/handleModalsSlice"
+import { InitializedGameInstance } from "../features/game/gameApi"
 
-type DataType = User | NotifyModal
+type DataType = User | NotifyModal | InitializedGameInstance
 
 interface IArgMap {
   [action: string]: any
@@ -18,19 +19,22 @@ const ArgMap: IArgMap = {
   signin: (data: User) => setUser(data),
   signout: () => clearUser(),
   //
+  fetchActiveGame: () => console.log("No action"), // managed by Apis NOT slices
   noAction: () => console.log("No action")
 }
 
 const modalActionMap: { [action: string]: string } = {
   signup: "signup",
   signin: "signin",
-  signout: "signout"
+  signout: "signout",
+  fetchActiveGame: "fetchActiveGame"
 }
 
 const successMsgMap: { [action: string]: string } = {
   signup: "Account creation successful!",
   signin: "You are signed in!",
-  signout: "You have been logged out."
+  signout: "You have been logged out.",
+  fetchActiveGame: "Existing game found!"
 }
 
 export function handleErrorAndNotify(dispatch: Dispatch, message: string) {
@@ -41,9 +45,11 @@ export function handleErrorAndNotify(dispatch: Dispatch, message: string) {
 export function handleSuccessAndNotify(
   dispatch: Dispatch,
   action: string,
-  data: DataType
+  data?: DataType
 ) {
-  dispatch(ArgMap[action](data))
+  if (data) {
+    dispatch(ArgMap[action](data))
+  }
   dispatch(hideLoadingModal())
   dispatch(
     addModal({

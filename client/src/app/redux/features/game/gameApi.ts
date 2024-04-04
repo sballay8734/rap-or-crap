@@ -13,6 +13,8 @@ import {
   hideFetchingModal,
   showFetchingModal
 } from "../modals/fetchingModalSlice"
+import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
+import { handleSuccessAndNotify } from "../../utils/apiUtils"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats
@@ -42,6 +44,7 @@ export interface UpdateGameStateProps {
 
 // NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
 // TODO: Need to update all endpoints to use "showLoadingModal" and apiUtils
+// TODO: Need to extract error logic like you did for authApi
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
@@ -55,21 +58,12 @@ export const gameApi = createApi({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(
-          showFetchingModal({
-            message: "Checking for existing game...",
-            isSuccess: null
-          })
-        )
-        // TODO: Extract this logic and reorganize modal behavior
+        // BUG: This modal never disappears
+        dispatch(showLoadingModal("Checking for existing game..."))
         try {
           const res = await queryFulfilled
-          dispatch(
-            showFetchingModal({
-              message: "Existing game found!",
-              isSuccess: true
-            })
-          )
+          dispatch(hideLoadingModal())
+          handleSuccessAndNotify(dispatch, "fetchActiveGame")
           if (res.data === null) return
         } catch (err) {
           if (isCustomApiResponse(err)) {

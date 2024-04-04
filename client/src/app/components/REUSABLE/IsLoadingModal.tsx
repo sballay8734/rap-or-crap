@@ -8,6 +8,11 @@ export default function IsLoadingModal() {
   const modalIsShown = useSelector(
     (state: RootState) => state.loadingModal.isVisible
   )
+  const modalMessage = useSelector(
+    (state: RootState) => state.loadingModal.message
+  )
+
+  console.log(modalIsShown)
   // Modal to render
   const children = (
     <div
@@ -17,8 +22,9 @@ export default function IsLoadingModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="modal-content relative flex min-w-full flex-col overflow-hidden rounded-3xl text-white items-center gap-2"
+        className="modal-content relative flex min-w-full flex-col overflow-hidden rounded-3xl text-white items-center gap-4"
       >
+        <span>{modalMessage}</span>
         <span className="animate-spin">
           <AiOutlineLoading3Quarters size={20} />
         </span>

@@ -29,7 +29,7 @@ const authApi = createApi({
     signup: builder.mutation<CreatedUser, SignUpFormData>({
       query: (body) => ({ url: "signup", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal())
+        dispatch(showLoadingModal("Signing you up..."))
         dispatch(initializeModal("signup"))
         try {
           const res = await queryFulfilled
@@ -50,7 +50,7 @@ const authApi = createApi({
     signin: builder.mutation<CreatedUser, SignInFormData>({
       query: (body) => ({ url: "signin", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal())
+        dispatch(showLoadingModal("Signing you in..."))
         dispatch(initializeModal("signin"))
         try {
           const res = await queryFulfilled
@@ -72,7 +72,7 @@ const authApi = createApi({
     signout: builder.mutation<{}, void>({
       query: () => ({ url: "signout", method: "POST" }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal())
+        dispatch(showLoadingModal("Signing out..."))
         dispatch(initializeModal("signout"))
         try {
           await queryFulfilled

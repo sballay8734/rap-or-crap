@@ -1,19 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 interface LoadingModalState {
   isVisible: boolean
+  message: string | null
 }
 
 const initialState: LoadingModalState = {
-  isVisible: false
+  isVisible: false,
+  message: null
 }
 
 const loadingModalSlice = createSlice({
   name: "loadingModalSlice",
   initialState,
   reducers: {
-    showLoadingModal: (state) => {
+    showLoadingModal: (state, action: PayloadAction<string>) => {
       state.isVisible = true
+      state.message = action.payload
     },
     hideLoadingModal: (state) => {
       state.isVisible = false

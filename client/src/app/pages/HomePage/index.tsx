@@ -15,6 +15,7 @@ import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
+import { useEffect } from "react"
 
 export default function HomePage() {
   const [signout] = useSignoutMutation()
@@ -25,8 +26,10 @@ export default function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // FIXME: After successful signup, Loading... shows
-  // FIXME: Need to detect if action is signup and skip the query. There is no need to fetch the active game if the user just signed up.
+  useEffect(() => {
+    console.log(user)
+  }, [user])
+
   if (isLoading && user?.isNewUser === false) {
     return (
       <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
@@ -78,6 +81,8 @@ export default function HomePage() {
       console.error("Something went wrong")
     }
   }
+
+  // FIXME: Even when active game is found, "Resume Game" is not rendering (probably caused by skip?)
 
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
