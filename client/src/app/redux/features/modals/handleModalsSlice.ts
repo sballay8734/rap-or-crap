@@ -46,15 +46,20 @@ const notifyModalsSlice = createSlice({
         message: data.message
       }
     },
-    removeModal: (state, action: PayloadAction<string>) => {
+    hideModal: (state, action: PayloadAction<string>) => {
       const modalId = action.payload
 
       state.modalsToRender[modalId].isVisible = false
       state.modalsToRender[modalId].isSuccess = null
+    },
+    removeModal: (state, action: PayloadAction<string>) => {
+      const modalId = action.payload
+
+      delete state.modalsToRender[modalId]
     }
   }
 })
 
-export const { addModal, removeModal, initializeModal } =
+export const { addModal, hideModal, removeModal, initializeModal } =
   notifyModalsSlice.actions
 export default notifyModalsSlice.reducer

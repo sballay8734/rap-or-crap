@@ -50,7 +50,7 @@ export default function HomePage() {
       return
     }
 
-    // * If active game is null/undefined go to game setup, don't show modal
+    // If active game is null/undefined go to game setup, don't show modal
     navigate("/game-setup")
   }
 

@@ -2,19 +2,17 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
 import NotificationModal from "../reusable/NotificationModal"
 import { createPortal } from "react-dom"
+import { useDispatch } from "react-redux"
 
 export function RenderModals() {
   const notifyModals = useSelector(
     (state: RootState) => state.notifyModals.modalsToRender
   )
   // Transform notifyModals to an array
-  const modalsToRender = Object.entries(notifyModals)
-    // .filter(([_, data]) => data.isVisible === true)
-    .map(([modalId, data]) => ({ modalId, ...data }))
+  const modalsToRender = Object.entries(notifyModals).map(
+    ([modalId, data]) => ({ modalId, ...data })
+  )
 
-  console.log("LENGTH:", modalsToRender.length)
-
-  // FIXME: filter is not working properly. This code works. But length continues to increase. Need to debug filter function.
   const children = (
     <div
       className={`modal-background fixed inset-0 z-[1001] flex flex-col gap-2 items-center justify-start px-4 mt-4 transition-opacity duration-300 pointer-events-none ${
