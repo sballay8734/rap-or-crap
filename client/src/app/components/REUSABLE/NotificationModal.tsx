@@ -27,10 +27,10 @@ export default function NotificationModal({ notification }: ModalProps) {
   )
 
   useEffect(() => {
-    if (isVisible !== null) {
+    if (true) {
       const timeoutId = setTimeout(() => {
         dispatch(removeModal(notification.modalId))
-      }, 5000)
+      }, 2000)
 
       return () => clearTimeout(timeoutId)
     }

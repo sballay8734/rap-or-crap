@@ -49,7 +49,8 @@ const notifyModalsSlice = createSlice({
     removeModal: (state, action: PayloadAction<string>) => {
       const modalId = action.payload
 
-      delete state.modalsToRender[modalId]
+      state.modalsToRender[modalId].isVisible = false
+      state.modalsToRender[modalId].isSuccess = null
     }
   }
 })
