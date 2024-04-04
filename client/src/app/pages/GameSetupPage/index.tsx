@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { setResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
+import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { IoIosAdd, IoIosClose } from "react-icons/io"
 import { FaCheckCircle } from "react-icons/fa"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"

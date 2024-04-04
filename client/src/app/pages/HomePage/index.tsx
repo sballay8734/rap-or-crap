@@ -12,7 +12,7 @@ import { ImSpinner11, ImSpinner2 } from "react-icons/im"
 import { showConfirmModal } from "../../redux/features/modals/confirmModalSlice"
 import { useSignoutMutation } from "../../redux/features/auth/authApi"
 import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
-import { setResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
+import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
 

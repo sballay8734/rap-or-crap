@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { createPortal } from "react-dom"
 
 import { RootState } from "../../redux/store"
-import { clearResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
+import { clearResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { FaCheck } from "react-icons/fa6"
 import { useEffect } from "react"
 

@@ -13,6 +13,7 @@ import {
   handleSuccessAndNotify
 } from "../../utils/apiUtils"
 import { gameApi } from "../game/gameApi"
+import { initializeModal } from "../modals/handleModalsSlice"
 
 // ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
 
@@ -29,14 +30,13 @@ const authApi = createApi({
       query: (body) => ({ url: "signup", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         dispatch(showLoadingModal())
+        dispatch(initializeModal("signup"))
         try {
           const res = await queryFulfilled
-          handleSuccessAndNotify(
-            dispatch,
-            "setUser",
-            { ...res.data, isNewUser: true },
-            "Account creation successful!"
-          )
+          handleSuccessAndNotify(dispatch, "signup", {
+            ...res.data,
+            isNewUser: true
+          })
         } catch (err) {
           if (isCustomApiResponse(err)) {
             // The error message here comes from server (see authController)
@@ -51,14 +51,13 @@ const authApi = createApi({
       query: (body) => ({ url: "signin", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         dispatch(showLoadingModal())
+        dispatch(initializeModal("signin"))
         try {
           const res = await queryFulfilled
-          handleSuccessAndNotify(
-            dispatch,
-            "setUser",
-            { ...res.data, isNewUser: false },
-            "You are signed in!"
-          )
+          handleSuccessAndNotify(dispatch, "signin", {
+            ...res.data,
+            isNewUser: false
+          })
         } catch (err) {
           dispatch(hideLoadingModal())
           if (isCustomApiResponse(err)) {
@@ -74,18 +73,20 @@ const authApi = createApi({
       query: () => ({ url: "signout", method: "POST" }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         dispatch(showLoadingModal())
+        dispatch(initializeModal("signout"))
         try {
           await queryFulfilled
           // WARNING: You need to have only ONE api. Should not be calling two methods to clear the cache
           // HACK: Temporary work-around
           dispatch(authApi.util.resetApiState())
           dispatch(gameApi.util.resetApiState())
-          handleSuccessAndNotify(
-            dispatch,
-            "clearUser",
-            null,
-            "You have been logged out."
-          )
+          handleSuccessAndNotify(dispatch, "signout", {
+            _id: "",
+            email: "",
+            displayName: "",
+            activeGameId: "",
+            isNewUser: false
+          })
         } catch (err) {
           if (isCustomApiResponse(err)) {
             // The error message here comes from server (see authController)

@@ -18,11 +18,12 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 
 import confirmModalReducer from "./features/modals/confirmModalSlice"
 // TODO: Change to "requestModalReducer" (should handle err AND success)
-import serverResponseReducer from "./features/serverResponse/serverResponseSlice"
+import serverResponseReducer from "./features/modals/responseModalSlice"
 import userReducer from "./features/user/userSlice"
 import resultModalReducer from "./features/modals/resultModalSlice"
 import loadingModalReducer from "./features/modals/loadingModalSlice"
 import fetchingModalReducer from "./features/modals/fetchingModalSlice"
+import notifyModalsReducer from "./features/modals/handleModalsSlice"
 import { gameApi } from "./features/game/gameApi"
 import { authApi } from "./features/auth/authApi"
 
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   resultModal: resultModalReducer,
   loadingModal: loadingModalReducer,
   fetchingModal: fetchingModalReducer,
+  notifyModals: notifyModalsReducer,
   [gameApi.reducerPath]: gameApi.reducer,
   [authApi.reducerPath]: authApi.reducer
 })

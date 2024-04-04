@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { setResponseMessage } from "../serverResponse/serverResponseSlice"
+import { setResponseMessage } from "../modals/responseModalSlice"
 import { isCustomApiResponse } from "../../../helpers/errorReform"
 import {
   errorClient,

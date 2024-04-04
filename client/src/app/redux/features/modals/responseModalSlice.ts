@@ -19,8 +19,8 @@ const initialState: ServerResponseState = {
   responseMessage: null
 }
 
-const serverResponseSlice = createSlice({
-  name: "errorSlice",
+const responseModalSlice = createSlice({
+  name: "responseModalSlice",
   initialState,
   reducers: {
     setResponseMessage: (
@@ -42,5 +42,5 @@ const serverResponseSlice = createSlice({
 })
 
 export const { setResponseMessage, clearResponseMessage } =
-  serverResponseSlice.actions
-export default serverResponseSlice.reducer
+  responseModalSlice.actions
+export default responseModalSlice.reducer

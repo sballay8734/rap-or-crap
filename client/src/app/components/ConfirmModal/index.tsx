@@ -6,7 +6,7 @@ import { RootState } from "../../redux/store"
 import { hideConfirmModal } from "../../redux/features/modals/confirmModalSlice"
 import { IoMdCloseCircle } from "react-icons/io"
 import { useDeleteGameMutation } from "../../redux/features/game/gameApi"
-import { setResponseMessage } from "../../redux/features/serverResponse/serverResponseSlice"
+import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 
 export default function ConfirmModal() {
   const [deleteGame] = useDeleteGameMutation()
