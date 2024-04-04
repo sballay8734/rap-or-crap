@@ -26,13 +26,13 @@ const answersSlice = createSlice({
       state,
       action: PayloadAction<{ playerName: string; answer: Answer }>
     ) => {
-      console.log("RUNNING...")
       const { playerName, answer } = action.payload
 
       state.playerAnswers[playerName] = answer
     },
     clearPlayerAnswers: (state) => {
-      for (const player in Object.keys(state.playerAnswers)) {
+      for (const player of Object.keys(state.playerAnswers)) {
+        console.log(`Clearing ${player}`)
         state.playerAnswers[player] = null
       }
     }

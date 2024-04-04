@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 import {
   useFetchActiveGameQuery,
@@ -7,11 +7,8 @@ import {
 import { errorClient, logClient } from "../../helpers/logFormatter"
 import MemoizedSelectionCard from "../../components/selectionCard"
 import PromptCard from "../../components/promptCard"
-import { useDispatch } from "react-redux"
-import {
-  clearPlayerAnswers,
-  setPlayerAnswer
-} from "../../redux/features/game/answersSlice"
+import { clearPlayerAnswers } from "../../redux/features/game/answersSlice"
+import { RootState } from "../../redux/store"
 
 // TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
 
@@ -21,12 +18,12 @@ export interface PlayerSelections {
   [playerName: string]: Selection
 }
 
-// TODO: Clear answers when Next Lyric is clicked in modal. Might need to reconsider local state organization in the Selection Card
-
 export default function GamePage() {
   const dispatch = useDispatch()
+  const playerSelections = useSelector(
+    (state: RootState) => state.answers.playerAnswers
+  )
   const [updateGame, { isLoading, isSuccess }] = useUpdateGameStateMutation()
-  const [playerSelections, setPlayerSelections] = useState<PlayerSelections>({})
   const { players, gameId, promptId } = useFetchActiveGameQuery(undefined, {
     selectFromResult: ({ data }) => ({
       players: data?.playersObject,
@@ -48,19 +45,9 @@ export default function GamePage() {
       promptId: promptId
     }
 
-    await updateGame(submissionObject)
-
     dispatch(clearPlayerAnswers())
-    setPlayerSelections({})
-  }
 
-  function handleSelection(playerName: string, selection: Selection) {
-    dispatch(setPlayerAnswer({ playerName, answer: selection }))
-    // REMOVE: Remove the below line when you have another way to update count
-    setPlayerSelections((prevSelections) => ({
-      ...prevSelections,
-      [playerName]: selection
-    }))
+    await updateGame(submissionObject)
   }
 
   const playerData = players && Object.entries(players)
@@ -73,10 +60,14 @@ export default function GamePage() {
     )
   }
 
-  const count = Object.keys(playerSelections).length
-  const disabled = Object.keys(playerSelections).length < playerData.length
+  // only count if player has answered
+  const count = Object.values(playerSelections).filter(
+    (selection) => selection !== null
+  ).length
 
-  // Render this when loading is complete
+  // check if submit button should be disabled
+  const disabled = count < playerData.length
+
   const renderedItems = (
     <>
       <PromptCard />
@@ -88,7 +79,6 @@ export default function GamePage() {
                 key={playerName}
                 playerName={playerName}
                 playerData={playerData}
-                handleSelection={handleSelection}
               />
             )
           })}

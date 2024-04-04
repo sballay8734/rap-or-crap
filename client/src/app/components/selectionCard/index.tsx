@@ -1,33 +1,27 @@
-// FIXME: memo is doing nothing right now because of the passed function.
+// WARNING: memo is doing nothing right now because of the passed function.
 // FIXME: Updates to a single card re-render ALL cards (Not good)
 import { useState, memo, useEffect } from "react"
 import { PlayerStats } from "../../../types/ClientDataTypes"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
-import { useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { setPlayerAnswer } from "../../redux/features/game/answersSlice"
+import { RootState } from "../../redux/store"
 
 interface SelectionCardProps {
   playerName: string
-  handleSelection: (playerName: string, selection: Selection) => void
   playerData: PlayerStats
 }
 
 type Selection = "rap" | "crap" | "skip" | null
 
-function SelectionCard({ playerName, handleSelection }: SelectionCardProps) {
+function SelectionCard({ playerName, playerData }: SelectionCardProps) {
   const dispatch = useDispatch()
-  const [activeBtn, setActiveBtn] = useState<Selection | null>(null)
-  const answer = useSelector(
+  const activeAnswer = useSelector(
     (state: RootState) => state.answers.playerAnswers[playerName]
   )
 
-  // FIXME: You made a mess of this before end of break. Review the new code that uses a slice to handle the player selections.
   function handleAnswerSelect(selection: Selection) {
-    setActiveBtn(selection)
     dispatch(setPlayerAnswer({ playerName, answer: selection }))
-    handleSelection(playerName, selection)
   }
 
   return (
@@ -39,7 +33,7 @@ function SelectionCard({ playerName, handleSelection }: SelectionCardProps) {
       <button
         onClick={() => handleAnswerSelect("crap")}
         className={`${
-          activeBtn === "crap"
+          activeAnswer === "crap"
             ? "bg-red-700 text-white border-2 border-red-500"
             : "bg-red-950 text-gray-400 border-2 border-transparent"
         } p-2 flex-grow`}
@@ -49,7 +43,7 @@ function SelectionCard({ playerName, handleSelection }: SelectionCardProps) {
       <button
         onClick={() => handleAnswerSelect("skip")}
         className={`${
-          activeBtn === "skip"
+          activeAnswer === "skip"
             ? "bg-slate-700 text-white border-2 border-slate-500"
             : "bg-slate-950 text-gray-400 border-2 border-transparent"
         } p-2 flex-grow`}
@@ -59,7 +53,7 @@ function SelectionCard({ playerName, handleSelection }: SelectionCardProps) {
       <button
         onClick={() => handleAnswerSelect("rap")}
         className={`${
-          activeBtn === "rap"
+          activeAnswer === "rap"
             ? "bg-green-700 text-white border-2 border-green-500"
             : "bg-slate-950 text-gray-400 border-2 border-transparent"
         } p-2 flex-grow`}
