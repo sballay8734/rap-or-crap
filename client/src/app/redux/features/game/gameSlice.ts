@@ -8,15 +8,17 @@ export interface SelectionsState {
 
 interface FullSelectionsState {
   playerAnswers: SelectionsState
+  localGameId: string | null
 }
 
 // INITIAL STATE
 const initialState: FullSelectionsState = {
-  playerAnswers: {}
+  playerAnswers: {},
+  localGameId: null
 }
 
-const answersSlice = createSlice({
-  name: "answersSlice",
+const gameSlice = createSlice({
+  name: "gameSlice",
   initialState,
   reducers: {
     initializePlayers: (state, action: PayloadAction<SelectionsState>) => {
@@ -32,13 +34,23 @@ const answersSlice = createSlice({
     },
     clearPlayerAnswers: (state) => {
       for (const player of Object.keys(state.playerAnswers)) {
-        console.log(`Clearing ${player}`)
         state.playerAnswers[player] = null
       }
+    },
+
+    // WARNING: The sole purpose of this reducer is to compare the fetched gameId with the current gameId and display the correct notification
+    // HACK: This is temporary until you refactor and optimize queries
+    setLocalGameId: (state, action: PayloadAction<string | null>) => {
+      console.log("SETTING LOCAL:", action.payload)
+      state.localGameId = action.payload
     }
   }
 })
 
-export const { initializePlayers, setPlayerAnswer, clearPlayerAnswers } =
-  answersSlice.actions
-export default answersSlice.reducer
+export const {
+  initializePlayers,
+  setPlayerAnswer,
+  clearPlayerAnswers,
+  setLocalGameId
+} = gameSlice.actions
+export default gameSlice.reducer

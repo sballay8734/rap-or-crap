@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux"
 
 import { IoMdSettings } from "react-icons/io"
 import { FaPlay } from "react-icons/fa"
-import { ImSpinner11, ImSpinner2 } from "react-icons/im"
+import { ImSpinner11 } from "react-icons/im"
 import { showConfirmModal } from "../../redux/features/modals/confirmModalSlice"
 import { useSignoutMutation } from "../../redux/features/auth/authApi"
 import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
@@ -19,7 +19,10 @@ import { RootState } from "../../redux/store"
 export default function HomePage() {
   const [signout] = useSignoutMutation()
   const user = useSelector((state: RootState) => state.user.user)
-  const { data: activeGame, isLoading } = useFetchActiveGameQuery(undefined, {
+  // HACK: localGameId is a temporary workaround for poor query structure
+  const localGameId = useSelector((state: RootState) => state.game.localGameId)
+
+  const { data: activeGame, isLoading } = useFetchActiveGameQuery(localGameId, {
     skip: !user
   })
   const dispatch = useDispatch()

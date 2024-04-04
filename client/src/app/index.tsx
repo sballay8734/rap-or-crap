@@ -24,11 +24,16 @@ function App(): JSX.Element {
           <Outlet />
         </>
       )}
-      {/* TODO: Don't use conditionals. Use opacity and pointer-events-none */}
-      <ResultModal />
-      <ConfirmModal />
+
       <IsLoadingModal />
-      <RenderModals />
+
+      {isUserLoggedIn ? (
+        <>
+          <ResultModal />
+          <ConfirmModal />
+          <RenderModals />
+        </>
+      ) : null}
     </div>
   )
 }

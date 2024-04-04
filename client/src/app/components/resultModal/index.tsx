@@ -9,9 +9,14 @@ import {
   useFetchActiveGameQuery,
   useUpdateWithNewPromptMutation
 } from "../../redux/features/game/gameApi"
+import { useNavigate } from "react-router-dom"
 
 export default function ResultModal() {
-  const { gameId } = useFetchActiveGameQuery(undefined, {
+  // HACK: localGameId is a temporary workaround for poor query structure
+  const localGameId = useSelector((state: RootState) => state.game.localGameId)
+  const navigate = useNavigate()
+
+  const { gameId } = useFetchActiveGameQuery(localGameId, {
     selectFromResult: ({ data }) => ({
       gameId: data?._id
     })
@@ -21,6 +26,17 @@ export default function ResultModal() {
   const { isVisible, data } = useSelector(
     (state: RootState) => state.resultModal
   )
+
+  async function handleBackToMainMenu() {
+    if (gameId) {
+      await getNewPrompt(gameId)
+    } else {
+      errorClient("gameId is undefined. Cannot fetch new prompt.")
+    }
+
+    dispatch(hideResultModal())
+    navigate("/home")
+  }
 
   async function handleContinueGame() {
     if (gameId) {
@@ -110,7 +126,7 @@ export default function ResultModal() {
           </div>
           <div className="flex gap-6">
             <button
-              onClick={() => warnClient("Add nav to main menu!")}
+              onClick={handleBackToMainMenu}
               className="rounded-md bg-red-500 px-4 py-2"
             >
               Main Menu

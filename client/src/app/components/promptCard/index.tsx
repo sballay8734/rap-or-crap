@@ -1,7 +1,12 @@
+import { useSelector } from "react-redux"
 import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
+import { RootState } from "../../redux/store"
 
 export default function PromptCard() {
-  const { promptId, lyric } = useFetchActiveGameQuery(undefined, {
+  // HACK: localGameId is a temporary workaround for poor query structure
+  const localGameId = useSelector((state: RootState) => state.game.localGameId)
+
+  const { promptId, lyric } = useFetchActiveGameQuery(localGameId, {
     selectFromResult: ({ data }) => ({
       promptId: data?.currentPromptId,
       lyric: data?.currentLyric

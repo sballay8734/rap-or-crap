@@ -8,9 +8,12 @@ import { PlayerStats } from "../../../../types/ClientDataTypes"
 import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
 import {
   handleErrorAndNotify,
-  handleSuccessAndNotify
+  handleSuccessAndNotify,
+  handleSuccessSilently
 } from "../../utils/apiUtils"
 import { initializeModal } from "../modals/handleModalsSlice"
+import { RootState } from "../../store"
+import { setLocalGameId } from "./gameSlice"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats
@@ -38,7 +41,6 @@ export interface UpdateGameStateProps {
   promptId: string
 }
 
-// REMEMBER: Manually triggered QUERIES be of type "lazy" while manually
 // FIXME: You need a way to differentiate between and fetched old game and a newly initialized game in order to display proper messages to user.
 export const gameApi = createApi({
   reducerPath: "gameApi",
@@ -48,11 +50,11 @@ export const gameApi = createApi({
   }),
   tagTypes: ["ActiveGame"],
   endpoints: (builder) => ({
-    // first is response, second is req obj
-    fetchActiveGame: builder.query<InitializedGameInstance, void>({
+    // if active game exists in state, the gameId will be passed as and argument
+    fetchActiveGame: builder.query<InitializedGameInstance, string | null>({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      async onQueryStarted(gameId, { dispatch, queryFulfilled }) {
         dispatch(showLoadingModal("Checking for existing game..."))
         dispatch(initializeModal("fetchActiveGame"))
         try {
@@ -62,8 +64,16 @@ export const gameApi = createApi({
             dispatch(hideLoadingModal())
             return
           }
-          // Notify "Existing game found!"
-          handleSuccessAndNotify(dispatch, "fetchActiveGame")
+
+          // if DB _id !== localId -> it is first fetch ("Game found")
+          if (res.data._id !== gameId) {
+            handleSuccessAndNotify(dispatch, "fetchActiveGame")
+            dispatch(setLocalGameId(res.data._id))
+            return
+          }
+
+          // if DB _id === localId -> game was already fetched
+          handleSuccessSilently(dispatch)
         } catch (err) {
           if (isCustomApiResponse(err)) {
             handleErrorAndNotify(dispatch, err.error.data.message)

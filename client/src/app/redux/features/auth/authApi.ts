@@ -14,6 +14,8 @@ import {
 } from "../../utils/apiUtils"
 import { gameApi } from "../game/gameApi"
 import { initializeModal } from "../modals/handleModalsSlice"
+import { setUser } from "../user/userSlice"
+import gameSlice from "../game/gameSlice"
 
 const authApi = createApi({
   reducerPath: "authApi",
@@ -32,10 +34,11 @@ const authApi = createApi({
         dispatch(initializeModal("signup"))
         try {
           const res = await queryFulfilled
-          handleSuccessAndNotify(dispatch, "signup", {
-            ...res.data,
-            isNewUser: true
-          })
+          const data = { ...res.data, isNewUser: false }
+
+          dispatch(setUser(data))
+
+          handleSuccessAndNotify(dispatch, "signup")
         } catch (err) {
           if (isCustomApiResponse(err)) {
             // The error message here comes from server (see authController)
@@ -53,10 +56,11 @@ const authApi = createApi({
         dispatch(initializeModal("signin"))
         try {
           const res = await queryFulfilled
-          handleSuccessAndNotify(dispatch, "signin", {
-            ...res.data,
-            isNewUser: false
-          })
+          const data = { ...res.data, isNewUser: false }
+
+          dispatch(setUser(data))
+
+          handleSuccessAndNotify(dispatch, "signin")
         } catch (err) {
           dispatch(hideLoadingModal())
           if (isCustomApiResponse(err)) {
@@ -79,13 +83,8 @@ const authApi = createApi({
           // HACK: Temporary work-around
           dispatch(authApi.util.resetApiState())
           dispatch(gameApi.util.resetApiState())
-          handleSuccessAndNotify(dispatch, "signout", {
-            _id: "",
-            email: "",
-            displayName: "",
-            activeGameId: "",
-            isNewUser: false
-          })
+
+          handleSuccessAndNotify(dispatch, "signout")
         } catch (err) {
           if (isCustomApiResponse(err)) {
             // The error message here comes from server (see authController)

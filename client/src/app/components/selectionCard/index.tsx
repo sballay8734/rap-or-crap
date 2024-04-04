@@ -4,7 +4,7 @@ import { useState, memo, useEffect } from "react"
 import { PlayerStats } from "../../../types/ClientDataTypes"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 import { useDispatch, useSelector } from "react-redux"
-import { setPlayerAnswer } from "../../redux/features/game/answersSlice"
+import { setPlayerAnswer } from "../../redux/features/game/gameSlice"
 import { RootState } from "../../redux/store"
 
 interface SelectionCardProps {
@@ -17,7 +17,7 @@ type Selection = "rap" | "crap" | "skip" | null
 function SelectionCard({ playerName, playerData }: SelectionCardProps) {
   const dispatch = useDispatch()
   const activeAnswer = useSelector(
-    (state: RootState) => state.answers.playerAnswers[playerName]
+    (state: RootState) => state.game.playerAnswers[playerName]
   )
 
   function handleAnswerSelect(selection: Selection) {

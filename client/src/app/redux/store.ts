@@ -24,7 +24,7 @@ import resultModalReducer from "./features/modals/resultModalSlice"
 import loadingModalReducer from "./features/modals/loadingModalSlice"
 import fetchingModalReducer from "./features/modals/fetchingModalSlice"
 import notifyModalsReducer from "./features/modals/handleModalsSlice"
-import answersReducer from "./features/game/answersSlice"
+import gameReducer from "./features/game/gameSlice"
 import { gameApi } from "./features/game/gameApi"
 import { authApi } from "./features/auth/authApi"
 
@@ -36,7 +36,7 @@ const rootReducer = combineReducers({
   loadingModal: loadingModalReducer,
   fetchingModal: fetchingModalReducer,
   notifyModals: notifyModalsReducer,
-  answers: answersReducer,
+  game: gameReducer,
   [gameApi.reducerPath]: gameApi.reducer,
   [authApi.reducerPath]: authApi.reducer
 })

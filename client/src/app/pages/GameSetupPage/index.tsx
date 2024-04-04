@@ -14,13 +14,17 @@ import {
   useInitializeGameMutation
 } from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
+import { clearPlayerAnswers } from "../../redux/features/game/gameSlice"
 
 const MAX_PLAYERS = 10
 
 export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
+  // HACK: localGameId is a temporary workaround for poor query structure
+  const localGameId = useSelector((state: RootState) => state.game.localGameId)
+
   const userId = useSelector((state: RootState) => state.user.user?._id)
-  const { activeGameId, isFetching } = useFetchActiveGameQuery(undefined, {
+  const { activeGameId, isFetching } = useFetchActiveGameQuery(localGameId, {
     selectFromResult: ({ data, isFetching }) => ({
       activeGameId: data?._id,
       isFetching
@@ -155,6 +159,7 @@ export default function GameSetupPage() {
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
+        dispatch(clearPlayerAnswers())
         navigate("/game")
         return
       }
