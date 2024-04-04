@@ -7,6 +7,11 @@ import {
 import { errorClient, logClient } from "../../helpers/logFormatter"
 import MemoizedSelectionCard from "../../components/selectionCard"
 import PromptCard from "../../components/promptCard"
+import { useDispatch } from "react-redux"
+import {
+  clearPlayerAnswers,
+  setPlayerAnswer
+} from "../../redux/features/game/answersSlice"
 
 // TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
 
@@ -19,7 +24,8 @@ export interface PlayerSelections {
 // TODO: Clear answers when Next Lyric is clicked in modal. Might need to reconsider local state organization in the Selection Card
 
 export default function GamePage() {
-  const [updateGame, { isLoading }] = useUpdateGameStateMutation()
+  const dispatch = useDispatch()
+  const [updateGame, { isLoading, isSuccess }] = useUpdateGameStateMutation()
   const [playerSelections, setPlayerSelections] = useState<PlayerSelections>({})
   const { players, gameId, promptId } = useFetchActiveGameQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -43,9 +49,14 @@ export default function GamePage() {
     }
 
     await updateGame(submissionObject)
+
+    dispatch(clearPlayerAnswers())
+    setPlayerSelections({})
   }
 
   function handleSelection(playerName: string, selection: Selection) {
+    dispatch(setPlayerAnswer({ playerName, answer: selection }))
+    // REMOVE: Remove the below line when you have another way to update count
     setPlayerSelections((prevSelections) => ({
       ...prevSelections,
       [playerName]: selection

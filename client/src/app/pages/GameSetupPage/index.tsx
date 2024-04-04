@@ -14,7 +14,6 @@ import {
   useInitializeGameMutation
 } from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
-import { logClient } from "../../helpers/logFormatter"
 
 const MAX_PLAYERS = 10
 
@@ -28,16 +27,12 @@ export default function GameSetupPage() {
     })
   })
 
-  if (isFetching) {
-    logClient("Fetching...")
-  }
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [players, setPlayers] = useState<string[]>([])
   const [input, setInput] = useState<string>("")
 
-  // NOTE: Always call useEffect BEFORE any early returns
+  // REMEMBER: Always call useEffect BEFORE any early returns
   // https://react.dev/warnings/invalid-hook-call-warning
 
   useEffect(() => {

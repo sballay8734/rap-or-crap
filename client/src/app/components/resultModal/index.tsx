@@ -10,7 +10,6 @@ import {
   useUpdateWithNewPromptMutation
 } from "../../redux/features/game/gameApi"
 
-// TODO: Remove conditional render (use opacity and pointer-events-none)
 export default function ResultModal() {
   const { gameId } = useFetchActiveGameQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -25,8 +24,7 @@ export default function ResultModal() {
 
   async function handleContinueGame() {
     if (gameId) {
-      const updatedGame = await getNewPrompt(gameId)
-      logClient("UPDATED GAME:", updatedGame)
+      await getNewPrompt(gameId)
     } else {
       errorClient("gameId is undefined. Cannot fetch new prompt.")
     }
@@ -35,7 +33,11 @@ export default function ResultModal() {
 
   // Modal to render
   const children = (
-    <div className="modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4">
+    <div
+      className={`modal-background fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
+        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      } `}
+    >
       <div
         onClick={(e) => e.stopPropagation()}
         className="modal-content relative flex min-w-full flex-col overflow-hidden rounded-3xl bg-white"
@@ -128,6 +130,5 @@ export default function ResultModal() {
   // Where to render modal
   const modalContainer = document.getElementById("modal-container")!
 
-  // Render it only if modalIsShown === true
-  return isVisible && createPortal(children, modalContainer)
+  return createPortal(children, modalContainer)
 }

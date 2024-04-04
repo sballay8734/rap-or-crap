@@ -1,20 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+
 import { setResponseMessage } from "../modals/responseModalSlice"
 import { isCustomApiResponse } from "../../../helpers/errorReform"
-import {
-  errorClient,
-  logClient,
-  warnClient
-} from "../../../helpers/logFormatter"
 import { PlayerSelections } from "../../../pages/GamePage"
 import { handleShowModal } from "../modals/resultModalSlice"
 import { PlayerStats } from "../../../../types/ClientDataTypes"
-import {
-  hideFetchingModal,
-  showFetchingModal
-} from "../modals/fetchingModalSlice"
 import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
-import { handleSuccessAndNotify } from "../../utils/apiUtils"
+import {
+  handleErrorAndNotify,
+  handleSuccessAndNotify
+} from "../../utils/apiUtils"
+import { initializeModal } from "../modals/handleModalsSlice"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats
@@ -42,9 +38,8 @@ export interface UpdateGameStateProps {
   promptId: string
 }
 
-// NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
-// TODO: Need to update all endpoints to use "showLoadingModal" and apiUtils
-// TODO: Need to extract error logic like you did for authApi
+// REMEMBER: Manually triggered QUERIES be of type "lazy" while manually
+// FIXME: You need a way to differentiate between and fetched old game and a newly initialized game in order to display proper messages to user.
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
@@ -58,30 +53,22 @@ export const gameApi = createApi({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        // BUG: This modal never disappears
         dispatch(showLoadingModal("Checking for existing game..."))
+        dispatch(initializeModal("fetchActiveGame"))
         try {
           const res = await queryFulfilled
-          dispatch(hideLoadingModal())
-          if (res.data === null) return // request was okay but no active game
+          // if there is no active game don't show "Existing game found!"
+          if (res.data === null) {
+            dispatch(hideLoadingModal())
+            return
+          }
+          // Notify "Existing game found!"
           handleSuccessAndNotify(dispatch, "fetchActiveGame")
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            dispatch(hideFetchingModal())
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: err.error.data.message
-              })
-            )
+            handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
-            dispatch(hideFetchingModal())
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: "Something went wrong searching for an active game."
-              })
-            )
+            handleErrorAndNotify(dispatch, "Something went wrong.")
           }
         }
       }
@@ -90,23 +77,16 @@ export const gameApi = createApi({
       query: () => ({ url: "delete-game", method: "DELETE" }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        // dispatch(showLoadingModal("Deleting your old game..."))
+        // dispatch(initializeModal("deleteGame"))
         try {
           await queryFulfilled
+          // handleSuccessAndNotify(dispatch, "deleteGame")
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: err.error.data.message
-              })
-            )
+            handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: "Something went wrong searching for an active game."
-              })
-            )
+            handleErrorAndNotify(dispatch, "Something went wrong.")
           }
         }
       }
@@ -116,23 +96,16 @@ export const gameApi = createApi({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        // dispatch(showLoadingModal("Initializing a new game..."))
+        // dispatch(initializeModal("initializeGame"))
         try {
-          const res = await queryFulfilled
+          await queryFulfilled
+          // handleSuccessAndNotify(dispatch, "initializeGame")
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: err.error.data.message
-              })
-            )
+            handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: "Something went wrong searching for an active game."
-              })
-            )
+            handleErrorAndNotify(dispatch, "Something went wrong.")
           }
         }
       }
@@ -180,7 +153,6 @@ export const gameApi = createApi({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const res = await queryFulfilled
-          logClient("gameHandlingApi/get-new-prompt", res)
           // if ("data" in res) {
           //   const gameId = res.data?._id ?? "No ID found"
           //   if (gameId !== "No ID found") {

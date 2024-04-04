@@ -38,7 +38,6 @@ const notifyModalsSlice = createSlice({
       action: PayloadAction<{ modalId: string; data: NotifyModal }>
     ) => {
       const { modalId, data } = action.payload
-      console.log(modalId, data)
 
       state.modalsToRender[modalId] = {
         isVisible: data.isVisible,

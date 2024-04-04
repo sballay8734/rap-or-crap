@@ -34,8 +34,14 @@ const successMsgMap: { [action: string]: string } = {
   signup: "Account creation successful!",
   signin: "You are signed in!",
   signout: "You have been logged out.",
-  fetchActiveGame: "Existing game found!"
+  fetchActiveGame: "Existing game found!",
+  deleteGame: "Game deleted!",
+  initializeGame: "Game initialized!",
+  createGame: "New game initialized!"
 }
+
+// export function handleSuccessSilently() {}
+// export function handleErrorSilently() {}
 
 export function handleErrorAndNotify(dispatch: Dispatch, message: string) {
   dispatch(hideLoadingModal())
@@ -58,6 +64,3 @@ export function handleSuccessAndNotify(
     })
   )
 }
-
-export function handleSuccessSilently() {}
-export function handleErrorSilently() {}

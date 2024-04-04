@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux"
+import { createPortal } from "react-dom"
+
 import { RootState } from "../../redux/store"
 import NotificationModal from "../reusable/NotificationModal"
-import { createPortal } from "react-dom"
-import { useDispatch } from "react-redux"
 
 export function RenderModals() {
   const notifyModals = useSelector(

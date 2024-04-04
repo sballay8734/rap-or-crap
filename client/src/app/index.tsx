@@ -11,15 +11,6 @@ function App(): JSX.Element {
 
   const isUserLoggedIn = user !== null
 
-  // Are you sure? Modal
-  const confirmModalIsShown = useSelector(
-    (state: RootState) => state.confirmModal.isVisible
-  )
-  // Answer results
-  const resultModalIsShown = useSelector(
-    (state: RootState) => state.resultModal.isVisible
-  )
-
   return (
     <div className="container flex h-full w-full items-center justify-center">
       {isUserLoggedIn ? (
@@ -34,8 +25,8 @@ function App(): JSX.Element {
         </>
       )}
       {/* TODO: Don't use conditionals. Use opacity and pointer-events-none */}
-      {confirmModalIsShown && <ConfirmModal />}
-      {resultModalIsShown && <ResultModal />}
+      <ResultModal />
+      <ConfirmModal />
       <IsLoadingModal />
       <RenderModals />
     </div>

@@ -15,8 +15,6 @@ import {
 import { gameApi } from "../game/gameApi"
 import { initializeModal } from "../modals/handleModalsSlice"
 
-// ! NOTE: Manually triggered queries must be of type "lazy" while manually triggered mutations do not
-
 const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({

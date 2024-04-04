@@ -25,7 +25,6 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
-      console.log("USER SET TO:", action.payload)
     },
     clearUser: (state) => {
       state.user = null

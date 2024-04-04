@@ -1,8 +1,12 @@
 // FIXME: memo is doing nothing right now because of the passed function.
 // FIXME: Updates to a single card re-render ALL cards (Not good)
-import { useState, memo } from "react"
+import { useState, memo, useEffect } from "react"
 import { PlayerStats } from "../../../types/ClientDataTypes"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
+import { useSelector } from "react-redux"
+import { RootState } from "../../redux/store"
+import { useDispatch } from "react-redux"
+import { setPlayerAnswer } from "../../redux/features/game/answersSlice"
 
 interface SelectionCardProps {
   playerName: string
@@ -12,15 +16,17 @@ interface SelectionCardProps {
 
 type Selection = "rap" | "crap" | "skip" | null
 
-function SelectionCard({
-  playerName,
-  handleSelection,
-  playerData
-}: SelectionCardProps) {
+function SelectionCard({ playerName, handleSelection }: SelectionCardProps) {
+  const dispatch = useDispatch()
   const [activeBtn, setActiveBtn] = useState<Selection | null>(null)
+  const answer = useSelector(
+    (state: RootState) => state.answers.playerAnswers[playerName]
+  )
 
+  // FIXME: You made a mess of this before end of break. Review the new code that uses a slice to handle the player selections.
   function handleAnswerSelect(selection: Selection) {
     setActiveBtn(selection)
+    dispatch(setPlayerAnswer({ playerName, answer: selection }))
     handleSelection(playerName, selection)
   }
 

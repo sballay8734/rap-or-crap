@@ -45,7 +45,9 @@ export default function ConfirmModal() {
   const children = (
     <div
       onClick={closeModal}
-      className="modal-background fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 px-4"
+      className={`modal-background fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
+        modalIsShown ? "opacity-100" : "opacity-0 pointer-events-none"
+      } `}
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -100,5 +102,5 @@ export default function ConfirmModal() {
   const modalContainer = document.getElementById("modal-container")!
 
   // Render it only if modalIsShown === true
-  return modalIsShown && createPortal(children, modalContainer)
+  return createPortal(children, modalContainer)
 }
