@@ -27,43 +27,31 @@ export default function NotificationModal({ notification }: ModalProps) {
   )
 
   useEffect(() => {
-    if (isSuccess !== null) {
+    if (isVisible !== null) {
       const timeoutId = setTimeout(() => {
         dispatch(removeModal(notification.modalId))
-      }, 1500)
+      }, 5000)
 
       return () => clearTimeout(timeoutId)
     }
-  }, [isSuccess])
+  }, [isVisible, isSuccess])
 
   // Modal to render
-  const children = (
+  return (
     <div
-      className={`modal-background fixed inset-0 z-[1001] flex items-start justify-center px-4 mt-4 transition-opacity duration-300 ${
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      onClick={(e) => e.stopPropagation()}
+      className={`modal-content relative flex h-12 min-w-full overflow-hidden items-center justify-center gap-4 rounded-sm bg-gray-900 text-gray-200 -translate-x-96 transition-translate duration-200 ${
+        isVisible ? "translate-x-0" : "-translate-x-96"
       }`}
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className={`modal-content relative flex h-12 min-w-full overflow-hidden items-center justify-center gap-4 rounded-sm bg-gray-900 text-gray-200 -translate-x-96 transition-translate duration-200 ${
-          isVisible ? "translate-x-0" : "-translate-x-96"
-        }`}
-      >
-        <span>{message}</span>
-        {isSuccess ? (
-          <FaCheck color="green" />
-        ) : (
-          <span className="animate-spin">
-            <AiOutlineLoading3Quarters />
-          </span>
-        )}
-      </div>
+      <span>{message}</span>
+      {isSuccess ? (
+        <FaCheck color="green" />
+      ) : (
+        <span className="animate-spin">
+          <AiOutlineLoading3Quarters />
+        </span>
+      )}
     </div>
   )
-
-  // Where to render modal
-  const modalContainer = document.getElementById("modal-container")!
-
-  // Render it only if modalIsShown === true
-  return createPortal(children, modalContainer)
 }

@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux"
-import { useEffect } from "react"
 import { Outlet, Navigate } from "react-router-dom"
 import { RootState } from "./redux/store"
 import ConfirmModal from "./components/confirmModal"
 import ResultModal from "./components/resultModal"
-import NotificationModal from "./components/reusable/NotificationModal"
 import IsLoadingModal from "./components/reusable/IsLoadingModal"
+import { RenderModals } from "./components/renderModals"
 
 function App(): JSX.Element {
   const user = useSelector((state: RootState) => state.user.user)
@@ -19,17 +18,6 @@ function App(): JSX.Element {
   // Answer results
   const resultModalIsShown = useSelector(
     (state: RootState) => state.resultModal.isVisible
-  )
-  // All notification modals
-  const notifyModals = useSelector(
-    (state: RootState) => state.notifyModals.modalsToRender
-  )
-  // Transform notifyModals to an array
-  const modalsToRender = Object.entries(notifyModals).map(
-    ([modalId, data]) => ({
-      modalId,
-      ...data
-    })
   )
 
   return (
@@ -49,11 +37,7 @@ function App(): JSX.Element {
       {confirmModalIsShown && <ConfirmModal />}
       {resultModalIsShown && <ResultModal />}
       <IsLoadingModal />
-      {modalsToRender.map((notification, index) => {
-        return <NotificationModal key={index} notification={notification} />
-      })}
-      {/* <ResponseModal />
-      <IsFetchingModal /> */}
+      <RenderModals />
     </div>
   )
 }

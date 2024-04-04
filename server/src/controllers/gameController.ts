@@ -65,14 +65,11 @@ export const fetchActiveGame = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("GETTING ACTIVE GAME")
   const userId = req.userId
-  console.log("USER ID:", userId)
 
   if (!userId) return next(errorHandler(401, "Unauthorized."))
 
   const user = await User.findById(userId)
-  console.log("USER:", user)
 
   if (user === null) return next(errorHandler(400, "User not found."))
 
@@ -81,10 +78,7 @@ export const fetchActiveGame = async (
     return res.status(200).json(null)
   }
 
-  console.log("ACTIVE GAME ID:", activeGameId)
-
   const activeGame = await Game.findById(activeGameId)
-  console.log("ACTIVE GAME:", activeGame)
 
   if (activeGame === null) {
     logServer("gameController/fetchActiveGame", activeGame)

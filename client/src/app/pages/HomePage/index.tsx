@@ -15,7 +15,6 @@ import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
-import { useEffect } from "react"
 
 export default function HomePage() {
   const [signout] = useSignoutMutation()
@@ -66,8 +65,6 @@ export default function HomePage() {
     }
   }
 
-  // FIXME: Even when active game is found, "Resume Game" is not rendering (probably caused by skip?)
-
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
       <div className="flex h-1/2 flex-col items-center">
@@ -100,7 +97,7 @@ export default function HomePage() {
             className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
             type="submit"
           >
-            {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGNOUT"}
+            SIGN OUT
           </button>
         </div>
       ) : (
@@ -119,7 +116,7 @@ export default function HomePage() {
             className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
             type="submit"
           >
-            {isLoading ? <ImSpinner2 className="animate-spin" /> : "SIGN OUT"}
+            SIGN IN
           </button>
         </div>
       )}

@@ -103,7 +103,3 @@ const authApi = createApi({
 export const { useSignupMutation, useSigninMutation, useSignoutMutation } =
   authApi
 export { authApi }
-
-/* 
-  
-*/
