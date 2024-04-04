@@ -26,22 +26,6 @@ export default function HomePage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log(user)
-  }, [user])
-
-  if (isLoading && user?.isNewUser === false) {
-    return (
-      <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
-        <div>Checking for active game...</div>
-      </div>
-    )
-  }
-
-  // TODO: Does nothing right now
-  if (activeGame !== null && activeGame !== undefined) {
-  }
-
   function handleResumeGame() {
     if (activeGame !== null) {
       navigate("/game")
@@ -94,7 +78,7 @@ export default function HomePage() {
           RAP OR CRAP
         </h1>
       </div>
-      {activeGame ? (
+      {activeGame !== null && activeGame !== undefined ? (
         <div className="flex w-full flex-col items-center gap-4">
           <button
             onClick={handleResumeGame}

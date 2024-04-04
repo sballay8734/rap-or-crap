@@ -20,7 +20,7 @@ const MAX_PLAYERS = 10
 
 export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
-  const userId = useSelector((state: RootState) => state.userSlice.user?._id)
+  const userId = useSelector((state: RootState) => state.user.user?._id)
   const { activeGameId, isFetching } = useFetchActiveGameQuery(undefined, {
     selectFromResult: ({ data, isFetching }) => ({
       activeGameId: data?._id,

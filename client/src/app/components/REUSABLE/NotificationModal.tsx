@@ -27,7 +27,6 @@ export default function NotificationModal({ notification }: ModalProps) {
   )
 
   useEffect(() => {
-    console.log(isSuccess)
     if (isSuccess !== null) {
       const timeoutId = setTimeout(() => {
         dispatch(removeModal(notification.modalId))

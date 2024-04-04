@@ -6,7 +6,6 @@ import { IoIosClose } from "react-icons/io"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useSigninMutation } from "../../redux/features/auth/authApi"
-import { ImSpinner2 } from "react-icons/im"
 // import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
 
 interface FormData {

@@ -63,8 +63,8 @@ export const gameApi = createApi({
         try {
           const res = await queryFulfilled
           dispatch(hideLoadingModal())
+          if (res.data === null) return // request was okay but no active game
           handleSuccessAndNotify(dispatch, "fetchActiveGame")
-          if (res.data === null) return
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(hideFetchingModal())

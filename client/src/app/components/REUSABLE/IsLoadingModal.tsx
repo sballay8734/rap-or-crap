@@ -12,7 +12,6 @@ export default function IsLoadingModal() {
     (state: RootState) => state.loadingModal.message
   )
 
-  console.log(modalIsShown)
   // Modal to render
   const children = (
     <div
