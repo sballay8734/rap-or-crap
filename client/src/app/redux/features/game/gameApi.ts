@@ -80,8 +80,10 @@ export const gameApi = createApi({
         } catch (err) {
           if (isCustomApiResponse(err)) {
             handleErrorAndNotify(dispatch, err.error.data.message)
+            dispatch(removeModal("fetchActiveGame"))
           } else {
             handleErrorAndNotify(dispatch, "Something went wrong.")
+            dispatch(removeModal("fetchActiveGame"))
           }
         }
       }

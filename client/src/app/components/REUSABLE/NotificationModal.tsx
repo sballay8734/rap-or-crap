@@ -1,11 +1,10 @@
-import { createPortal } from "react-dom"
 import { useSelector } from "react-redux"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 
 import { RootState } from "../../redux/store"
 
-import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { IoClose } from "react-icons/io5"
 import { FaCheck } from "react-icons/fa6"
 import {
   hideModal,
@@ -29,10 +28,6 @@ export default function NotificationModal({ notification }: ModalProps) {
       state.notifyModals.modalsToRender[notification.modalId]
   )
 
-  const modalsToRender = useSelector(
-    (state: RootState) => state.notifyModals.modalsToRender
-  )
-
   // Removes modal from store to prevent index problems AFTER transition ends
   function handleTransitionEnd() {
     if (!notification.isVisible) {
@@ -51,8 +46,6 @@ export default function NotificationModal({ notification }: ModalProps) {
     }
   }, [isVisible, isSuccess])
 
-  console.log(modalsToRender)
-
   return (
     <div
       // REMEMBER: onTransitionEnd is a godsend for smooth transitions
@@ -62,16 +55,15 @@ export default function NotificationModal({ notification }: ModalProps) {
         isVisible
           ? "translate-x-0 opacity-100"
           : "-translate-x-[1000px] opacity-0"
+      } ${
+        // BUG: When isSuccess switches to "null", the color changes to red because "null" is not "true"
+        isSuccess
+          ? "bg-green-900/90 text-green-500"
+          : "bg-red-900/90 text-red-500"
       }`}
     >
       <span>{message}</span>
-      {isSuccess ? (
-        <FaCheck color="green" />
-      ) : (
-        <span className="animate-spin">
-          <AiOutlineLoading3Quarters />
-        </span>
-      )}
+      {isSuccess ? <FaCheck color="green" /> : <IoClose color="red" />}
     </div>
   )
 }

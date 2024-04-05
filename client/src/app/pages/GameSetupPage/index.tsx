@@ -22,13 +22,15 @@ export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
   // HACK: localGameId is a temporary workaround for poor query structure
   const localGameId = useSelector((state: RootState) => state.game.localGameId)
+  const user = useSelector((state: RootState) => state.user.user)
 
   const userId = useSelector((state: RootState) => state.user.user?._id)
   const { activeGameId, isFetching } = useFetchActiveGameQuery(localGameId, {
     selectFromResult: ({ data, isFetching }) => ({
       activeGameId: data?._id,
       isFetching
-    })
+    }),
+    skip: !user
   })
 
   const navigate = useNavigate()

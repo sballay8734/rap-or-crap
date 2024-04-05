@@ -26,12 +26,12 @@ function App(): JSX.Element {
       )}
 
       <IsLoadingModal />
+      <RenderModals />
 
       {isUserLoggedIn ? (
         <>
           <ResultModal />
           <ConfirmModal />
-          <RenderModals />
         </>
       ) : null}
     </div>

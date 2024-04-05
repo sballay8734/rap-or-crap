@@ -15,7 +15,6 @@ import {
 import { gameApi } from "../game/gameApi"
 import { initializeModal } from "../modals/handleModalsSlice"
 import { setUser } from "../user/userSlice"
-import gameSlice from "../game/gameSlice"
 
 const authApi = createApi({
   reducerPath: "authApi",
@@ -62,16 +61,16 @@ const authApi = createApi({
 
           handleSuccessAndNotify(dispatch, "signin")
         } catch (err) {
-          dispatch(hideLoadingModal())
           if (isCustomApiResponse(err)) {
             // The error message here comes from server (see authController)
             handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
+            handleErrorAndNotify(dispatch, "Could not sign you in.")
           }
         }
       }
     }),
+    // FIXME: Prevent fetchActive game on signout. Getting "unauthorized" error
     signout: builder.mutation<{}, void>({
       query: () => ({ url: "signout", method: "POST" }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {

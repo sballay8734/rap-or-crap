@@ -1,6 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit"
 
-import { setResponseMessage } from "../features/modals/responseModalSlice"
 import { hideLoadingModal } from "../features/modals/loadingModalSlice"
 import { addModal } from "../features/modals/handleModalsSlice"
 
@@ -28,7 +27,12 @@ export function handleSuccessSilently(dispatch: Dispatch) {
 
 export function handleErrorAndNotify(dispatch: Dispatch, message: string) {
   dispatch(hideLoadingModal())
-  dispatch(setResponseMessage({ successResult: false, message }))
+  dispatch(
+    addModal({
+      modalId: "signin",
+      data: { isVisible: true, isSuccess: false, message }
+    })
+  )
 }
 
 export function handleSuccessAndNotify(dispatch: Dispatch, action: string) {
