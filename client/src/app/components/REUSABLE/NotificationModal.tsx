@@ -29,6 +29,10 @@ export default function NotificationModal({ notification }: ModalProps) {
       state.notifyModals.modalsToRender[notification.modalId]
   )
 
+  const modalsToRender = useSelector(
+    (state: RootState) => state.notifyModals.modalsToRender
+  )
+
   // Removes modal from store to prevent index problems AFTER transition ends
   function handleTransitionEnd() {
     if (!notification.isVisible) {
@@ -38,7 +42,7 @@ export default function NotificationModal({ notification }: ModalProps) {
 
   // Hides modal for smooth transition
   useEffect(() => {
-    if (true) {
+    if (notification.isVisible) {
       const timeoutId = setTimeout(() => {
         dispatch(hideModal(notification.modalId))
       }, 2000)
@@ -46,6 +50,8 @@ export default function NotificationModal({ notification }: ModalProps) {
       return () => clearTimeout(timeoutId)
     }
   }, [isVisible, isSuccess])
+
+  console.log(modalsToRender)
 
   return (
     <div

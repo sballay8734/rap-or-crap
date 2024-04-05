@@ -1,13 +1,8 @@
 import { Dispatch } from "@reduxjs/toolkit"
 
-import { NotifyModal } from "../features/modals/handleModalsSlice"
-import { User } from "../features/user/userSlice"
 import { setResponseMessage } from "../features/modals/responseModalSlice"
 import { hideLoadingModal } from "../features/modals/loadingModalSlice"
 import { addModal } from "../features/modals/handleModalsSlice"
-import { InitializedGameInstance } from "../features/game/gameApi"
-
-type DataType = User | NotifyModal | InitializedGameInstance
 
 const modalActionMap: { [action: string]: string } = {
   signup: "signup",

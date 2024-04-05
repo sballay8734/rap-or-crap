@@ -14,7 +14,7 @@ import {
   useInitializeGameMutation
 } from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
-import { clearPlayerAnswers } from "../../redux/features/game/gameSlice"
+import { clearPlayers } from "../../redux/features/game/gameSlice"
 
 const MAX_PLAYERS = 10
 
@@ -155,11 +155,12 @@ export default function GameSetupPage() {
       userId: userId
     }
 
+    dispatch(clearPlayers())
+
     // Errors are handled in createApi so no real need for them here
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
-        dispatch(clearPlayerAnswers())
         navigate("/game")
         return
       }

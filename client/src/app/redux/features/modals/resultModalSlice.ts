@@ -49,6 +49,7 @@ const resultModalSlice = createSlice({
       }
 
       // show modal
+      console.log("Setting ResultModal isVisible to TRUE")
       state.isVisible = true
     },
     hideResultModal: (state) => {

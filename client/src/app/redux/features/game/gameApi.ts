@@ -11,8 +11,7 @@ import {
   handleSuccessAndNotify,
   handleSuccessSilently
 } from "../../utils/apiUtils"
-import { initializeModal } from "../modals/handleModalsSlice"
-import { RootState } from "../../store"
+import { initializeModal, removeModal } from "../modals/handleModalsSlice"
 import { setLocalGameId } from "./gameSlice"
 
 export interface PlayersObject {
@@ -62,6 +61,8 @@ export const gameApi = createApi({
           // if there is no active game don't show "Existing game found!"
           if (res.data === null) {
             dispatch(hideLoadingModal())
+            // need to remove modal here
+            dispatch(removeModal("fetchActiveGame"))
             return
           }
 
@@ -74,6 +75,8 @@ export const gameApi = createApi({
 
           // if DB _id === localId -> game was already fetched
           handleSuccessSilently(dispatch)
+          // need to remove modal here also
+          dispatch(removeModal("fetchActiveGame"))
         } catch (err) {
           if (isCustomApiResponse(err)) {
             handleErrorAndNotify(dispatch, err.error.data.message)
@@ -152,7 +155,6 @@ export const gameApi = createApi({
         }
       }
     }),
-    // TODO: NOT DONE YET (NEITHER IS getNewPrompt endpoint in controller!!!)
     updateWithNewPrompt: builder.mutation<InitializedGameInstance, string>({
       query: (gameId) => ({
         url: `get-new-prompt/${gameId}`,

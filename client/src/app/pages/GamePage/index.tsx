@@ -42,10 +42,6 @@ export default function GamePage() {
     }
   )
 
-  // REMOVE: temp
-  console.log("LOCAL:", localGameId)
-  console.log("DB___:", gameId)
-
   async function handleSubmission() {
     if (!gameId || !promptId) {
       errorClient("Missing gameId or promptId")
@@ -58,9 +54,16 @@ export default function GamePage() {
       promptId: promptId
     }
 
+    console.log(submissionObject)
+
     dispatch(clearPlayerAnswers())
 
     await updateGame(submissionObject)
+  }
+
+  function handleNavToMainMenu() {
+    dispatch(clearPlayerAnswers())
+    navigate("/home")
   }
 
   const playerData = players && Object.entries(players)
@@ -100,7 +103,7 @@ export default function GamePage() {
       {currentLyric === "No more lyrics" ? (
         <button
           className="bg-red-950/70 w-full min-h-12 rounded-sm text-red-500"
-          onClick={() => navigate("/home")}
+          onClick={handleNavToMainMenu}
         >
           Main Menu
         </button>
