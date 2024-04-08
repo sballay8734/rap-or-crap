@@ -212,3 +212,11 @@ export const {
   useUpdateGameStateMutation,
   useUpdateWithNewPromptMutation
 } = gameApi
+
+// On signin
+// ---Check for active game
+// ---If no active game, go home
+
+// On "New game"
+// ---Invalidate current game
+// --- initialize current game
