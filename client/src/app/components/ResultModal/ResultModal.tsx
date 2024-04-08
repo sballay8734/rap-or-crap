@@ -17,12 +17,15 @@ export default function ResultModal() {
   const user = useSelector((state: RootState) => state.user.user)
   const navigate = useNavigate()
 
-  const { gameId } = useFetchActiveGameQuery(localGameId, {
-    selectFromResult: ({ data }) => ({
-      gameId: data?._id
-    }),
-    skip: !user
-  })
+  const { gameId } = useFetchActiveGameQuery(
+    { gameId: localGameId, flag: "skip" },
+    {
+      selectFromResult: ({ data }) => ({
+        gameId: data?._id
+      }),
+      skip: !user
+    }
+  )
   const dispatch = useDispatch()
   const [getNewPrompt] = useUpdateWithNewPromptMutation()
   const { isVisible, data } = useSelector(

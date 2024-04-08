@@ -1,3 +1,5 @@
+// BUG: Difficult to pinpoint. When navigating to home after sign in, screen goes black for some reason. Any other time a modal is triggered this does not happen. Only when signing in
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 import { setResponseMessage } from "../modals/responseModalSlice"
@@ -40,7 +42,11 @@ export interface UpdateGameStateProps {
   promptId: string
 }
 
-// FIXME: You need a way to differentiate between and fetched old game and a newly initialized game in order to display proper messages to user.
+interface FetchGameArgs {
+  gameId: string | null
+  flag: "skip" | "run"
+}
+
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
@@ -50,10 +56,14 @@ export const gameApi = createApi({
   tagTypes: ["ActiveGame"],
   endpoints: (builder) => ({
     // if active game exists in state, the gameId will be passed as and argument
-    fetchActiveGame: builder.query<InitializedGameInstance, string | null>({
+    fetchActiveGame: builder.query<InitializedGameInstance, FetchGameArgs>({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
-      async onQueryStarted(gameId, { dispatch, queryFulfilled }) {
+      // flag = skip
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        const { gameId, flag } = args ?? { gameId: null, flag: "skip" }
+        if (flag === "skip") return
+
         dispatch(showLoadingModal("Checking for existing game..."))
         dispatch(initializeModal("fetchActiveGame"))
         try {

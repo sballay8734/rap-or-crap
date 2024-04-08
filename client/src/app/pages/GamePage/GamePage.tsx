@@ -32,7 +32,7 @@ export default function GamePage() {
 
   const [updateGame, { isLoading }] = useUpdateGameStateMutation()
   const { players, gameId, promptId, currentLyric } = useFetchActiveGameQuery(
-    localGameId,
+    { gameId: localGameId, flag: "skip" },
     {
       selectFromResult: ({ data }) => ({
         players: data?.playersObject,
@@ -71,21 +71,13 @@ export default function GamePage() {
 
   const playerData = players && Object.entries(players)
 
-  if (!playerData || playerData.length < 1) {
-    return (
-      <div className="z-1 relative flex h-svh w-full flex-col items-center justify-center gap-2 p-4 text-white">
-        Something is wrong
-      </div>
-    )
-  }
-
   // only count if player has answered
   const count = Object.values(playerSelections).filter(
     (selection) => selection !== null
   ).length
 
   // check if submit button should be disabled
-  const disabled = count < playerData.length
+  const disabled = playerData && count < playerData.length
 
   const renderedItems = (
     <>

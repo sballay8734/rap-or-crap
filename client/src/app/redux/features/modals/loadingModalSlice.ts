@@ -18,11 +18,15 @@ const loadingModalSlice = createSlice({
       state.isVisible = true
       state.message = action.payload
     },
-    hideLoadingModal: (state) => {
-      state.isVisible = false
+    hideLoadingModal: () => {
+      return initialState
     }
   }
 })
 
 export const { hideLoadingModal, showLoadingModal } = loadingModalSlice.actions
 export default loadingModalSlice.reducer
+
+// "I'm Sure" triggers "Checking for existing game"
+// "Start" triggers "Checking for existing game"
+// "Something is wrong" also gets displayed

@@ -25,13 +25,16 @@ export default function GameSetupPage() {
   const user = useSelector((state: RootState) => state.user.user)
 
   const userId = useSelector((state: RootState) => state.user.user?._id)
-  const { activeGameId, isFetching } = useFetchActiveGameQuery(localGameId, {
-    selectFromResult: ({ data, isFetching }) => ({
-      activeGameId: data?._id,
-      isFetching
-    }),
-    skip: !user
-  })
+  const { activeGameId, isFetching } = useFetchActiveGameQuery(
+    { gameId: localGameId, flag: "skip" },
+    {
+      selectFromResult: ({ data, isFetching }) => ({
+        activeGameId: data?._id,
+        isFetching
+      }),
+      skip: !user
+    }
+  )
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -159,7 +162,6 @@ export default function GameSetupPage() {
 
     dispatch(clearPlayers())
 
-    // Errors are handled in createApi so no real need for them here
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
