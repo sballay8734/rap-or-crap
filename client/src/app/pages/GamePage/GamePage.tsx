@@ -4,12 +4,13 @@ import {
   useFetchActiveGameQuery,
   useUpdateGameStateMutation
 } from "../../redux/features/game/gameApi"
-import { errorClient, logClient } from "../../helpers/logFormatter"
+import { errorClient } from "../../helpers/logFormatter"
 import MemoizedSelectionCard from "../../components/SelectionCard/SelectionCard"
 import PromptCard from "../../components/PromptCard/PromptCard"
 import { clearPlayerAnswers } from "../../redux/features/game/gameSlice"
 import { RootState } from "../../redux/store"
 import { useNavigate } from "react-router-dom"
+import { showScoreboard } from "../../redux/features/modals/scoreboardModalSlice"
 
 // TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
 
@@ -68,10 +69,6 @@ export default function GamePage() {
     navigate("/home")
   }
 
-  function handleScoreboard() {
-    console.log("Show")
-  }
-
   const playerData = players && Object.entries(players)
 
   if (!playerData || playerData.length < 1) {
@@ -107,12 +104,24 @@ export default function GamePage() {
       </article>
 
       {currentLyric === "No more lyrics" ? (
-        <button
-          className="bg-red-950/70 w-full min-h-12 rounded-sm text-red-500"
-          onClick={handleNavToMainMenu}
-        >
-          Main Menu
-        </button>
+        <div className="flex w-full gap-2">
+          <button
+            className="bg-red-950/70 w-full min-h-12 rounded-sm text-red-500"
+            onClick={handleNavToMainMenu}
+          >
+            Main Menu
+          </button>
+          <button
+            onClick={() => dispatch(showScoreboard())}
+            className="px-4 py-1 bg-green-300 rounded-sm"
+          >
+            <img
+              className="h-12 w-12 object-contain"
+              src="/scoreboard.png"
+              alt=""
+            />
+          </button>
+        </div>
       ) : (
         <div className="flex w-full gap-2">
           <button
@@ -127,7 +136,7 @@ export default function GamePage() {
               : `Submit Answers ${count}`}
           </button>
           <button
-            onClick={handleScoreboard}
+            onClick={() => dispatch(showScoreboard())}
             className="px-4 py-1 bg-green-300 rounded-sm"
           >
             <img

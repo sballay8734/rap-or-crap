@@ -65,16 +65,8 @@ export default function SigninPage() {
             {...register("password", { required: "Password is required" })}
           />
         </div>
-        <div className="flex justify-between">
-          <label className="flex cursor-pointer items-center gap-2 font-light text-gray-500">
-            <input
-              className="h-4 w-4 rounded border-gray-300 bg-gray-700 text-green-600 accent-green-600 opacity-20 checked:opacity-100"
-              type="checkbox"
-              {...register("rememberMe")}
-            />
-            Remember me
-          </label>
-          <button type="button" className="font-light text-green-700">
+        <div className="flex justify-end">
+          <button type="button" className="font-light text-sm text-green-700">
             Forgot password
           </button>
         </div>

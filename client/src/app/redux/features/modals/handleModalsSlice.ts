@@ -50,7 +50,7 @@ const notifyModalsSlice = createSlice({
       const modalId = action.payload
 
       state.modalsToRender[modalId].isVisible = false
-      state.modalsToRender[modalId].isSuccess = null
+      // state.modalsToRender[modalId].isSuccess = null
     },
     removeModal: (state, action: PayloadAction<string>) => {
       const modalId = action.payload

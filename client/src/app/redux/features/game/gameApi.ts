@@ -13,7 +13,6 @@ import {
 } from "../../utils/apiUtils"
 import { initializeModal, removeModal } from "../modals/handleModalsSlice"
 import { setLocalGameId } from "./gameSlice"
-import { RootState } from "../../store"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats
