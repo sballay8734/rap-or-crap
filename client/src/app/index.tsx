@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux"
 import { Outlet, Navigate } from "react-router-dom"
 import { RootState } from "./redux/store"
-import ConfirmModal from "./components/confirmModal"
-import ResultModal from "./components/resultModal"
+import ConfirmModal from "./components/ConfirmModal/ConfirmModal"
+import ResultModal from "./components/ResultModal/ResultModal"
 import IsLoadingModal from "./components/reusable/IsLoadingModal"
-import { RenderModals } from "./components/renderModals"
+import { RenderModals } from "./components/RenderModals/RenderModals"
 
 function App(): JSX.Element {
   const user = useSelector((state: RootState) => state.user.user)

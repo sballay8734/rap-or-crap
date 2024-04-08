@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 import { setResponseMessage } from "../modals/responseModalSlice"
 import { isCustomApiResponse } from "../../../helpers/errorReform"
-import { PlayerSelections } from "../../../pages/GamePage"
+import { PlayerSelections } from "../../../pages/GamePage/GamePage"
 import { handleShowModal } from "../modals/resultModalSlice"
 import { PlayerStats } from "../../../../types/ClientDataTypes"
 import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
@@ -13,6 +13,7 @@ import {
 } from "../../utils/apiUtils"
 import { initializeModal, removeModal } from "../modals/handleModalsSlice"
 import { setLocalGameId } from "./gameSlice"
+import { RootState } from "../../store"
 
 export interface PlayersObject {
   [playerName: string]: PlayerStats

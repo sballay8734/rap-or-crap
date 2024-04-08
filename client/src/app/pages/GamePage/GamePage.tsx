@@ -5,8 +5,8 @@ import {
   useUpdateGameStateMutation
 } from "../../redux/features/game/gameApi"
 import { errorClient, logClient } from "../../helpers/logFormatter"
-import MemoizedSelectionCard from "../../components/selectionCard"
-import PromptCard from "../../components/promptCard"
+import MemoizedSelectionCard from "../../components/SelectionCard/SelectionCard"
+import PromptCard from "../../components/PromptCard/PromptCard"
 import { clearPlayerAnswers } from "../../redux/features/game/gameSlice"
 import { RootState } from "../../redux/store"
 import { useNavigate } from "react-router-dom"
@@ -68,6 +68,10 @@ export default function GamePage() {
     navigate("/home")
   }
 
+  function handleScoreboard() {
+    console.log("Show")
+  }
+
   const playerData = players && Object.entries(players)
 
   if (!playerData || playerData.length < 1) {
@@ -110,17 +114,29 @@ export default function GamePage() {
           Main Menu
         </button>
       ) : (
-        <button
-          onClick={handleSubmission}
-          disabled={disabled}
-          className={`w-full ${
-            disabled ? "bg-slate-800 text-gray-500" : "bg-green-500"
-          } min-h-12 rounded-sm`}
-        >
-          {disabled
-            ? `All players must answer (${count}/${playerData.length})`
-            : `Submit Answers ${count}`}
-        </button>
+        <div className="flex w-full gap-2">
+          <button
+            onClick={handleSubmission}
+            disabled={disabled}
+            className={`w-full ${
+              disabled ? "bg-slate-800 text-gray-500" : "bg-green-500"
+            } min-h-12 rounded-sm`}
+          >
+            {disabled
+              ? `All players must answer (${count}/${playerData.length})`
+              : `Submit Answers ${count}`}
+          </button>
+          <button
+            onClick={handleScoreboard}
+            className="px-4 py-1 bg-green-300 rounded-sm"
+          >
+            <img
+              className="h-12 w-12 object-contain"
+              src="/scoreboard.png"
+              alt=""
+            />
+          </button>
+        </div>
       )}
     </>
   )

@@ -14,7 +14,7 @@ import {
 } from "../../utils/apiUtils"
 import { gameApi } from "../game/gameApi"
 import { initializeModal } from "../modals/handleModalsSlice"
-import { setUser } from "../user/userSlice"
+import { clearUser, setUser } from "../user/userSlice"
 
 const authApi = createApi({
   reducerPath: "authApi",
@@ -82,6 +82,7 @@ const authApi = createApi({
           // HACK: Temporary work-around
           dispatch(authApi.util.resetApiState())
           dispatch(gameApi.util.resetApiState())
+          dispatch(clearUser())
 
           handleSuccessAndNotify(dispatch, "signout")
         } catch (err) {

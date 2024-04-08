@@ -6,12 +6,12 @@ import { PersistGate } from "redux-persist/integration/react"
 import { Provider } from "react-redux"
 
 import App from "./app"
-import ErrorPage from "./app/pages/ErrorPage"
-import SigninPage from "./app/pages/SigninPage"
-import SignupPage from "./app/pages/SignupPage"
-import GamePage from "./app/pages/GamePage"
-import HomePage from "./app/pages/HomePage"
-import GameSetupPage from "./app/pages/GameSetupPage"
+import ErrorPage from "./app/pages/ErrorPage/ErrorPage"
+import SigninPage from "./app/pages/SigninPage/SigninPage"
+import SignupPage from "./app/pages/SignupPage/SignupPage"
+import GamePage from "./app/pages/GamePage/GamePage"
+import HomePage from "./app/pages/HomePage/HomePage"
+import GameSetupPage from "./app/pages/GameSetupPage/GameSetupPage"
 import "./index.css"
 
 // TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
