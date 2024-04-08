@@ -19,15 +19,22 @@ import { RootState } from "../../redux/store"
 export default function HomePage() {
   const [signout] = useSignoutMutation()
   const user = useSelector((state: RootState) => state.user.user)
+
+  // TODO: This works but is not ideal. Need another way to disable the signout button
+
+  const modalVisible =
+    useSelector((state: RootState) =>
+      Object.keys(state.notifyModals.modalsToRender)
+    ).length > 0
+
   // HACK: localGameId is a temporary workaround for poor query structure
   const localGameId = useSelector((state: RootState) => state.game.localGameId)
 
-  const { data: activeGame, isLoading } = useFetchActiveGameQuery(
-    { gameId: localGameId, flag: "run" },
-    {
-      skip: !user
-    }
-  )
+  const { data: activeGame, isLoading } = useFetchActiveGameQuery({
+    gameId: localGameId,
+    flag: "skip"
+  })
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -71,13 +78,7 @@ export default function HomePage() {
     }
   }
 
-  // FIXME: I'm not sure why background disappears when active game is loading
-  if (isLoading) {
-    return (
-      <div className="z-0 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white bg-black/80"></div>
-    )
-  }
-
+  // TODO: Refactor this entire section and add transitions/animations
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
       <div className="flex h-1/2 flex-col items-center">
@@ -88,7 +89,9 @@ export default function HomePage() {
           RAP OR CRAP
         </h1>
       </div>
-      {activeGame !== null && activeGame !== undefined ? (
+      {isLoading === true ? (
+        <div>Loading...</div>
+      ) : activeGame !== null && activeGame !== undefined ? (
         <div className="flex w-full flex-col items-center gap-4">
           <button
             onClick={handleResumeGame}
@@ -109,6 +112,7 @@ export default function HomePage() {
             onClick={handleSignout}
             className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
             type="submit"
+            disabled={modalVisible}
           >
             SIGN OUT
           </button>

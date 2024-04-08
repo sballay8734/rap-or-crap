@@ -20,13 +20,6 @@ export interface PlayersObject {
   [playerName: string]: PlayerStats
 }
 
-export interface IGameInstance {
-  _id?: string // created by mongoDB
-  userId: string // the signed in user who initialized the game
-  gameStartDate?: string
-  playersObject: PlayersObject
-}
-
 export interface InitializedGameInstance {
   _id: string // created by mongoDB
   userId: string // the signed in user who initialized the game
@@ -34,6 +27,13 @@ export interface InitializedGameInstance {
   playersObject: PlayersObject
   currentLyric: string
   currentPromptId: string
+}
+
+export interface IGameInstance {
+  _id?: string // created by mongoDB
+  userId: string // the signed in user who initialized the game
+  gameStartDate?: string
+  playersObject: PlayersObject
 }
 
 export interface UpdateGameStateProps {
@@ -102,17 +102,20 @@ export const gameApi = createApi({
       query: () => ({ url: "delete-game", method: "DELETE" }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        // dispatch(showLoadingModal("Deleting your old game..."))
-        // dispatch(initializeModal("deleteGame"))
+        dispatch(showLoadingModal("Deleting your old game..."))
+        dispatch(initializeModal("deleteGame"))
         try {
           await queryFulfilled
-          // handleSuccessAndNotify(dispatch, "deleteGame")
+          dispatch(hideLoadingModal())
+          dispatch(removeModal("deleteGame"))
+          handleSuccessAndNotify(dispatch, "deleteGame")
         } catch (err) {
           if (isCustomApiResponse(err)) {
             handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
             handleErrorAndNotify(dispatch, "Something went wrong.")
           }
+          dispatch(removeModal("deleteGame"))
         }
       }
     }),
@@ -121,17 +124,30 @@ export const gameApi = createApi({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        // dispatch(showLoadingModal("Initializing a new game..."))
-        // dispatch(initializeModal("initializeGame"))
+        dispatch(showLoadingModal("Initializing a new game..."))
+        dispatch(initializeModal("initializeGame"))
         try {
-          await queryFulfilled
-          // handleSuccessAndNotify(dispatch, "initializeGame")
+          const newGame = await queryFulfilled
+          if ("data" in newGame) {
+            dispatch(hideLoadingModal())
+            dispatch(removeModal("initializeGame"))
+            handleSuccessAndNotify(dispatch, "initializeGame")
+            dispatch(
+              gameApi.util.updateQueryData(
+                "fetchActiveGame",
+                { gameId: null, flag: "run" },
+                newGame.data
+              )
+            )
+          }
         } catch (err) {
           if (isCustomApiResponse(err)) {
             handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
+            console.log("Hit error...")
+            handleErrorAndNotify(dispatch, "Error initializing...")
           }
+          dispatch(removeModal("initializeGame"))
         }
       }
     }),
@@ -208,15 +224,23 @@ export const gameApi = createApi({
 export const {
   useInitializeGameMutation,
   useFetchActiveGameQuery,
+  useLazyFetchActiveGameQuery,
   useDeleteGameMutation,
   useUpdateGameStateMutation,
   useUpdateWithNewPromptMutation
 } = gameApi
 
-// On signin
-// ---Check for active game
-// ---If no active game, go home
+// FIXME: START HERE *************************************
+// FIXME: START HERE *************************************
+// FIXME: START HERE *************************************
+// FIXME: START HERE *************************************
+// FIXME: Problems
+// On log in
+// ---- "existing game found" pops up twice on slow internet only (but actually doesn't happen on REALLY slow internet... wierd but minor)
+// ---- logging out too quickly causes error
 
-// On "New game"
-// ---Invalidate current game
-// --- initialize current game
+// "unauthorized" still happening on logout
+
+// Start button needs to be preloaded
+
+// gameApi newGame.data error - Argument of type 'InitializedGameInstance' is not assignable to parameter of type 'Recipe<InitializedGameInstance>'.

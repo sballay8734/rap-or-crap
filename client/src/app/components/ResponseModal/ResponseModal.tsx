@@ -38,7 +38,7 @@ export default function ResponseModal() {
   const children = (
     <div
       onClick={handleCloseResponseModal}
-      className={`modal-background fixed inset-0 z-[1000] flex items-start justify-center bg-black/80 px-4 translate-y-20 ${
+      className={`modal-background fixed inset-0 z-[1002] flex items-start justify-center bg-black/80 px-4 translate-y-20 ${
         successResult !== null ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >

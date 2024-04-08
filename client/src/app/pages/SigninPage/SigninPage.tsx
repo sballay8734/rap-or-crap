@@ -6,7 +6,7 @@ import { IoIosClose } from "react-icons/io"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useSigninMutation } from "../../redux/features/auth/authApi"
-// import { useLazyFetchActiveGameQuery } from "../../redux/GameHandling/gameHandlingApi"
+import { useLazyFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 
 interface FormData {
   email: string
@@ -15,6 +15,7 @@ interface FormData {
 }
 
 export default function SigninPage() {
+  const [getActiveGame, result] = useLazyFetchActiveGameQuery()
   const [signin] = useSigninMutation()
   // const [fetchActiveGame] = useLazyFetchActiveGameQuery()
   const navigate = useNavigate()
@@ -29,7 +30,10 @@ export default function SigninPage() {
       const res = await signin(signinData)
       // * if ("data" in res) then it was successful
       if ("data" in res) {
-        navigate("/home")
+        const activeGame = await getActiveGame({ gameId: null, flag: "run" })
+        if ("data" in activeGame) {
+          navigate("/home")
+        }
       }
     } catch (error) {
       console.error("Something went wrong!")

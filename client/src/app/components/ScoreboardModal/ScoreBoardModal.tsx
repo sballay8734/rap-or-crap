@@ -24,8 +24,7 @@ export default function ScoreboardModal() {
     {
       selectFromResult: ({ data }) => ({
         players: data?.playersObject
-      }),
-      skip: !user
+      })
     }
   )
 

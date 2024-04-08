@@ -15,7 +15,7 @@ export default function IsLoadingModal() {
   // Modal to render
   const children = (
     <div
-      className={`modal-background fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
+      className={`modal-background fixed inset-0 z-[1001] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
         modalIsShown ? "opacity-100" : "opacity-0 pointer-events-none"
       } `}
     >

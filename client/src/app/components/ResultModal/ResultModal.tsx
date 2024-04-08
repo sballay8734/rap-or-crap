@@ -22,8 +22,7 @@ export default function ResultModal() {
     {
       selectFromResult: ({ data }) => ({
         gameId: data?._id
-      }),
-      skip: !user
+      })
     }
   )
   const dispatch = useDispatch()

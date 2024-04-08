@@ -17,7 +17,8 @@ const successMsgMap: { [action: string]: string } = {
   fetchActiveGame: "Existing game found!",
   deleteGame: "Game deleted!",
   initializeGame: "Game initialized!",
-  createGame: "New game initialized!"
+  createGame: "New game initialized!",
+  updateGame: "Game updated!"
 }
 
 // export function handleErrorSilently() {}

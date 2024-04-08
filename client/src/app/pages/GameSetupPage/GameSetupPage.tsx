@@ -10,7 +10,6 @@ import { FaCheckCircle } from "react-icons/fa"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 import {
   IGameInstance,
-  useFetchActiveGameQuery,
   useInitializeGameMutation
 } from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
@@ -20,21 +19,8 @@ const MAX_PLAYERS = 10
 
 export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
-  // HACK: localGameId is a temporary workaround for poor query structure
-  const localGameId = useSelector((state: RootState) => state.game.localGameId)
-  const user = useSelector((state: RootState) => state.user.user)
 
   const userId = useSelector((state: RootState) => state.user.user?._id)
-  const { activeGameId, isFetching } = useFetchActiveGameQuery(
-    { gameId: localGameId, flag: "skip" },
-    {
-      selectFromResult: ({ data, isFetching }) => ({
-        activeGameId: data?._id,
-        isFetching
-      }),
-      skip: !user
-    }
-  )
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -44,26 +30,18 @@ export default function GameSetupPage() {
   // REMEMBER: Always call useEffect BEFORE any early returns
   // https://react.dev/warnings/invalid-hook-call-warning
 
-  useEffect(() => {
-    if (!activeGameId || isFetching) {
-      return
-    } else {
-      navigate("/home")
-    }
-  }, [activeGameId, isFetching])
+  // useEffect(() => {
+  //   if (!activeGameId) {
+  //     return
+  //   } else {
+  //     navigate("/home")
+  //   }
+  // }, [activeGameId])
 
   if (!userId) {
     return (
       <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-8 px-8 py-10 text-white">
         <h1 className="text-4xl text-center">You must be logged in!</h1>
-      </div>
-    )
-  }
-
-  if (isFetching) {
-    return (
-      <div className="z-1 relative flex h-screen w-full flex-col items-center justify-between gap-8 px-8 py-10 text-white">
-        <h1 className="text-4xl">Fetching...</h1>
       </div>
     )
   }
