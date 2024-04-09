@@ -15,17 +15,18 @@ import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 export default function HomePage() {
   const [signout] = useSignoutMutation()
   const user = useSelector((state: RootState) => state.user.user)
 
-  // TODO: This works but is not ideal. Need another way to disable the signout button
-
-  const modalVisible =
-    useSelector((state: RootState) =>
-      Object.keys(state.notifyModals.modalsToRender)
-    ).length > 0
+  const modalVisible = useSelector(
+    (state: RootState) =>
+      (state.notifyModals.modalsToRender["signin"]?.isVisible ||
+        state.notifyModals.modalsToRender["fetchActiveGame"]?.isVisible) ??
+      false
+  )
 
   // HACK: localGameId is a temporary workaround for poor query structure
   const localGameId = useSelector((state: RootState) => state.game.localGameId)
@@ -110,11 +111,17 @@ export default function HomePage() {
           </button>
           <button
             onClick={handleSignout}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3 h-12"
             type="submit"
             disabled={modalVisible}
           >
-            SIGN OUT
+            {modalVisible ? (
+              <span className="animate-spin">
+                <AiOutlineLoading3Quarters size={18} />
+              </span>
+            ) : (
+              "SIGN OUT"
+            )}
           </button>
         </div>
       ) : (
@@ -130,11 +137,17 @@ export default function HomePage() {
           </button>
           <button
             onClick={handleSignout}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3 h-12"
             type="submit"
             disabled={modalVisible}
           >
-            SIGN OUT
+            {modalVisible ? (
+              <span className="animate-spin">
+                <AiOutlineLoading3Quarters size={18} />
+              </span>
+            ) : (
+              "SIGN OUT"
+            )}
           </button>
         </div>
       )}

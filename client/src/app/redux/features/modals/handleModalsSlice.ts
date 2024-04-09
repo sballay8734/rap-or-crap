@@ -7,6 +7,7 @@ export interface NotifyModal {
   isVisible: boolean
   isSuccess: boolean | null
   message: string | null
+  index: number
 }
 
 interface ModalsObject {
@@ -27,23 +28,39 @@ const notifyModalsSlice = createSlice({
   reducers: {
     initializeModal: (state, action: PayloadAction<string>) => {
       const modalId = action.payload
+      const currentModalIds = Object.keys(state.modalsToRender)
+      const index = currentModalIds.length > 0 ? currentModalIds.length : 0
 
       state.modalsToRender[modalId] = {
         isVisible: false,
         isSuccess: null,
-        message: null
+        message: null,
+        index
       }
     },
     addModal: (
       state,
-      action: PayloadAction<{ modalId: string; data: NotifyModal }>
+      action: PayloadAction<{
+        modalId: string
+        data: Omit<NotifyModal, "index">
+      }>
     ) => {
       const { modalId, data } = action.payload
+      const currentModalIds = Object.keys(state.modalsToRender)
+      const index = currentModalIds.indexOf(modalId)
 
-      state.modalsToRender[modalId] = {
-        isVisible: data.isVisible,
-        isSuccess: data.isSuccess,
-        message: data.message
+      if (index === -1) {
+        // If the modal hasn't been added yet, set the index to the end of the array
+        state.modalsToRender[modalId] = {
+          ...data,
+          index: currentModalIds.length
+        }
+      } else {
+        // If the modal has already been added, update the index
+        state.modalsToRender[modalId] = {
+          ...data,
+          index
+        }
       }
     },
     hideModal: (state, action: PayloadAction<string>) => {

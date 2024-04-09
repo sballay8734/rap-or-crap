@@ -236,7 +236,7 @@ export const {
 // FIXME: START HERE *************************************
 // FIXME: Problems
 // On log in
-// ---- "existing game found" pops up twice on slow internet only (but actually doesn't happen on REALLY slow internet... wierd but minor)
+// ---- "existing game found" pops up twice on slow internet only (but actually doesn't happen on REALLY slow internet... weird but minor)
 // ---- logging out too quickly causes error
 
 // "unauthorized" still happening on logout
