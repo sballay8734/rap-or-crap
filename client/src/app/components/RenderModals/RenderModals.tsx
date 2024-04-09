@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux"
-import { createPortal } from "react-dom"
 
 import { RootState } from "../../redux/store"
 import NotificationModal from "../reusable/NotificationModal"
@@ -13,23 +12,22 @@ export function RenderModals() {
     ([modalId, data]) => ({ modalId, ...data })
   )
 
-  const children = (
-    <div
-      className={`notification-modal-container fixed inset-0 z-[1001] flex flex-col gap-2 items-center justify-start px-4 mt-2 transition-opacity duration-300 pointer-events-none ${
-        modalsToRender.length > 0
-          ? "opacity-100"
-          : "opacity-0 pointer-events-none"
-      }`}
-    >
-      {modalsToRender.map((notification, index) => {
-        return <NotificationModal key={index} notification={notification} />
-      })}
-    </div>
-  )
+  return modalsToRender.map((notification) => {
+    const modalId = notification.modalId
+    const isVisible = notification.isVisible
+    const isSuccess = notification.isSuccess
+    const message = notification.message
+    const modalIndex = notification.index
 
-  // Where to render modal
-  const modalContainer = document.getElementById("modal-container")!
-
-  // Render it only if modalIsShown === true
-  return createPortal(children, modalContainer)
+    return (
+      <NotificationModal
+        key={modalId}
+        modalId={modalId}
+        isVisible={isVisible}
+        isSuccess={isSuccess}
+        message={message}
+        modalIndex={modalIndex}
+      />
+    )
+  })
 }
