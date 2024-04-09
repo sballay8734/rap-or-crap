@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { setResponseMessage } from "../modals/responseModalSlice"
 import { isCustomApiResponse } from "../../../helpers/errorReform"
 import { PlayerSelections } from "../../../pages/GamePage/GamePage"
-import { handleShowModal } from "../modals/resultModalSlice"
+import { showResultModal } from "../modals/resultModalSlice"
 import { PlayerStats } from "../../../../types/ClientDataTypes"
 import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
 import {
@@ -21,8 +21,8 @@ export interface PlayersObject {
 }
 
 export interface InitializedGameInstance {
-  _id: string // created by mongoDB
-  userId: string // the signed in user who initialized the game
+  _id: string
+  userId: string
   gameStartDate: string
   playersObject: PlayersObject
   currentLyric: string
@@ -135,7 +135,7 @@ export const gameApi = createApi({
             dispatch(
               gameApi.util.upsertQueryData(
                 "fetchActiveGame",
-                { gameId: null, flag: "run" },
+                { gameId: null, flag: "skip" },
                 newGame.data
               )
             )
@@ -158,11 +158,19 @@ export const gameApi = createApi({
       query: (body) => ({ url: "update-game", method: "PATCH", body }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(showLoadingModal("Checking your answers..."))
         try {
           const updatedGame = await queryFulfilled
           if ("data" in updatedGame) {
-            // pass the updatedGame to the modal to handle modal display
-            dispatch(handleShowModal(updatedGame.data))
+            dispatch(hideLoadingModal())
+            dispatch(
+              gameApi.util.upsertQueryData(
+                "fetchActiveGame",
+                { gameId: null, flag: "skip" },
+                updatedGame.data
+              )
+            )
+            dispatch(showResultModal(updatedGame.data))
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {
@@ -191,14 +199,19 @@ export const gameApi = createApi({
       }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(showLoadingModal("Getting new lyric..."))
         try {
-          const res = await queryFulfilled
-          // if ("data" in res) {
-          //   const gameId = res.data?._id ?? "No ID found"
-          //   if (gameId !== "No ID found") {
-          //     dispatch(setUserActiveGame(gameId))
-          //   }
-          // }
+          const updatedGame = await queryFulfilled
+          if ("data" in updatedGame) {
+            dispatch(hideLoadingModal())
+            dispatch(
+              gameApi.util.upsertQueryData(
+                "fetchActiveGame",
+                { gameId: null, flag: "skip" },
+                updatedGame.data
+              )
+            )
+          }
         } catch (err) {
           if (isCustomApiResponse(err)) {
             dispatch(
@@ -231,16 +244,7 @@ export const {
 } = gameApi
 
 // FIXME: START HERE *************************************
-// FIXME: START HERE *************************************
-// FIXME: START HERE *************************************
-// FIXME: START HERE *************************************
-// FIXME: Problems
 // On log in
-// ---- "existing game found" pops up twice on slow internet only (but actually doesn't happen on REALLY slow internet... weird but minor)
 // ---- logging out too quickly causes error
-
 // "unauthorized" still happening on logout
-
 // Start button needs to be preloaded
-
-// gameApi newGame.data error - Argument of type 'InitializedGameInstance' is not assignable to parameter of type 'Recipe<InitializedGameInstance>'.

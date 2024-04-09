@@ -29,7 +29,7 @@ const resultModalSlice = createSlice({
   name: "resultModalSlice",
   initialState,
   reducers: {
-    handleShowModal: (
+    showResultModal: (
       state,
       action: PayloadAction<InitializedGameInstance>
     ) => {
@@ -58,5 +58,5 @@ const resultModalSlice = createSlice({
   }
 })
 
-export const { hideResultModal, handleShowModal } = resultModalSlice.actions
+export const { hideResultModal, showResultModal } = resultModalSlice.actions
 export default resultModalSlice.reducer
