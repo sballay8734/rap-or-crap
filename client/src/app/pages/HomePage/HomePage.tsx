@@ -1,7 +1,5 @@
-// TODO: Move requests to Api to handle loading states (signOut)
-// TODO: Modal animation
-// TODO: Modal should accept a duration so you can more easily control it
-// TODO: Buttons need hover & active effects and stuff
+// TODO: Shrink text and icons to fit on smaller screens
+// TODO: Musical note raining animation
 
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
@@ -63,7 +61,7 @@ export default function HomePage() {
         showConfirmModal({
           details:
             "Starting a new game will delete your previous game forever!",
-          message: "Are you sure you want to do this?"
+          message: "Delete your old game forever?"
         })
       )
       return
@@ -86,19 +84,30 @@ export default function HomePage() {
 
   // TODO: Refactor this entire section and add transitions/animations
   return (
-    <div className="z-1 relative flex h-screen w-full flex-col items-center px-8 py-10 text-white">
-      <div className="flex h-1/2 flex-col items-center">
-        <p className="text-xl font-extralight tracking-wider text-gray-600">
+    <div className="z-1 relative flex h-screen w-full flex-col items-center px-6 py-8 text-white">
+      <div className="flex h-3/4 flex-col items-center">
+        <p className="text-xl font-extralight tracking-wider text-heroP">
           Hi {user?.displayName}!
         </p>
-        <h1 className="flex flex-grow items-center text-center text-7xl">
+        <h1 className="flex items-center text-center text-7xl font-display tracking-wider flex-grow mt-10 text-primaryLighter">
           RAP OR CRAP
         </h1>
+        <p className="text-center font-light text-sm max-w-[80%] text-heroP">
+          A game that might just convince you that you've got what it takes to
+          be a rapper.
+        </p>
+        <div className="flex flex-grow items-center">
+          <img
+            src="/musicNote.png"
+            alt=""
+            className="w-40 h-40 flex items-center justify-center brightness-50"
+          />
+        </div>
       </div>
       {isLoading === true ? (
         <div>Loading...</div>
       ) : activeGame !== null && activeGame !== undefined ? (
-        <div className="flex w-full flex-col items-center gap-4">
+        <div className="flex flex-grow w-full flex-col items-center gap-4 justify-end">
           <button
             onClick={handleResumeGame}
             className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3"
@@ -130,7 +139,7 @@ export default function HomePage() {
           </button>
         </div>
       ) : (
-        <div className="flex w-full flex-col items-center gap-4">
+        <div className="flex flex-grow w-full flex-col items-center gap-4 justify-end">
           <button
             onClick={handleNewGame}
             className="relative flex w-full items-center justify-center rounded-sm bg-primary text-black px-4 py-3"
@@ -156,6 +165,13 @@ export default function HomePage() {
           </button>
         </div>
       )}
+
+      {/* ANIMATED NOTES */}
+      <div className="absolute flex items-center justify-center pointer-events-none top-0 left-0 w-full h-full z-[2000]">
+        <div className="absolute -translate-x-24 text-[10px] opacity-0 animate-music text-primary">
+          &#9835;
+        </div>
+      </div>
     </div>
   )
 }

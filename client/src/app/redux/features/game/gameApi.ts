@@ -242,5 +242,22 @@ export const {
 } = gameApi
 
 // FIXME: START HERE *************************************
-// logging out too quickly causes error (you've disabled the button while loading for now but might not be best)
-// Start button needs to be preloaded
+// MINOR: logging out too quickly causes error (you've disabled the button while loading for now but might not be best)
+
+// MINOR: Start button needs to be preloaded
+
+// MINOR: Style resultModal
+
+// MINOR: Style Scoreboard
+
+// MINOR: Style Game Setup Page
+
+// MINOR: Style Game Page
+
+// MINOR: Add Nav to home on Game Page
+
+// MINOR: RAP OR CRAP LOGO
+
+// MINOR: Dark mode warning modal (confirmModal)
+
+// MINOR: Add functionality to "Rules" button
