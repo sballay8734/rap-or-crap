@@ -50,7 +50,7 @@ export default function SigninPage() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex h-2/5 w-full flex-col"
       >
-        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-green-600 focus-within:text-green-600">
+        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
           <MdOutlineMail size={20} />
           <input
             className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-700"
@@ -60,7 +60,7 @@ export default function SigninPage() {
             {...register("email", { required: "Email is required" })}
           />
         </div>
-        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-green-600 focus-within:text-green-600">
+        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
           <CiLock size={20} />
           <input
             className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-700"
@@ -70,7 +70,7 @@ export default function SigninPage() {
           />
         </div>
         <div className="flex justify-end">
-          <button type="button" className="font-light text-sm text-green-700">
+          <button type="button" className="font-light text-sm text-primary">
             Forgot password
           </button>
         </div>
@@ -88,14 +88,14 @@ export default function SigninPage() {
           )}
         </div>
         <button
-          className="mt-10 flex items-center justify-center rounded-sm bg-green-700 py-3 min-h-14"
+          className="mt-10 flex items-center justify-center rounded-sm bg-primary text-black py-3 h-12"
           type="submit"
         >
           LOG IN
         </button>
       </form>
-      <Link to="/signup" className="absolute bottom-8 flex-grow">
-        Don't have an account? <span className="text-green-700">Sign up</span>
+      <Link to="/signup" className="absolute bottom-8 flex-grow font-light">
+        Don't have an account? <span className="text-primary">Sign up</span>
       </Link>
     </div>
   )

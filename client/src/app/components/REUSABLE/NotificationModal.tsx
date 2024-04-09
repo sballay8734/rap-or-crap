@@ -1,8 +1,11 @@
 import { memo, useEffect } from "react"
 import { useDispatch } from "react-redux"
 
-import { IoClose } from "react-icons/io5"
-import { FaCheck } from "react-icons/fa6"
+import {
+  IoIosCheckmarkCircleOutline,
+  IoIosCloseCircleOutline
+} from "react-icons/io"
+
 import {
   hideModal,
   removeModal
@@ -34,8 +37,9 @@ const NotificationModal = memo(
     }
 
     // Hides modal for smooth transition
+    // WARNING: You removed this for testing. Add back when done
     useEffect(() => {
-      if (isVisible) {
+      if (isVisible && isSuccess) {
         const timeoutId = setTimeout(() => {
           dispatch(hideModal(modalId))
         }, 1500)
@@ -53,21 +57,42 @@ const NotificationModal = memo(
           position: "absolute",
           left: 0,
           right: 0,
-          top: `${8 + modalIndex * 55}px`,
+          top: `${11 + modalIndex * 55}px`,
           margin: "0 auto"
         }}
-        className={`notify-modal flex h-12 w-[95%] overflow-hidden items-center justify-center gap-4 rounded-sm bg-gray-900 text-gray-200 -translate-x-96 transition-translate duration-200 z-[1003] ${
+        className={`notify-modal flex h-16 w-[95%] overflow-hidden items-center rounded-md bg-test text-gray-200 -translate-x-96 transition-translate duration-200 z-[1003] ${
           isVisible
             ? "translate-x-0 opacity-100"
             : "-translate-x-[1000px] opacity-0"
-        } ${
-          isSuccess
-            ? "bg-green-900/90 text-green-500"
-            : "bg-red-900/90 text-red-500"
-        }`}
+        } ${isSuccess ? "border border-success" : "border border-error"}`}
       >
-        <span>{message}</span>
-        {isSuccess ? <FaCheck color="green" /> : <IoClose color="red" />}
+        <div
+          className={`icon h-full flex items-center justify-center min-w-16 ${
+            isSuccess ? "bg-success" : "bg-error"
+          }`}
+        >
+          {isSuccess ? (
+            <IoIosCheckmarkCircleOutline size={35} color={"#FFFFFF"} />
+          ) : (
+            <IoIosCloseCircleOutline size={35} color={"#FFFFFF"} />
+          )}
+        </div>
+        <div className="message flex flex-col leading-tight justify-center w-full pl-3">
+          <h2
+            className={`text-md text-black font-light ${
+              isSuccess ? "text-success" : "text-error"
+            }`}
+          >
+            {isSuccess ? "Success!" : "Error"}
+          </h2>
+          <p className="text-xs font-extralight text-faded">{message}</p>
+        </div>
+        <button
+          onClick={() => dispatch(hideModal(modalId))}
+          className="close text-[9px] min-w-16 flex items-center justify-center text-faded font-light tracking-wider border-l border-[#2b2b2b] h-[75%]"
+        >
+          CLOSE
+        </button>
       </div>
     )
     // Where to render modal

@@ -48,7 +48,7 @@ export default function SignupPage() {
       >
         {/* EMAIL */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-green-600 focus-within:text-green-600 ${
+          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.email && "border-red-500"
           }`}
         >
@@ -63,7 +63,7 @@ export default function SignupPage() {
         </div>
         {/* WHAT SHOULD WE CALL YOU? */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-green-600 focus-within:text-green-600 ${
+          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.displayName && "border-red-500"
           }`}
         >
@@ -81,7 +81,7 @@ export default function SignupPage() {
         </div>
         {/* PASSWORD */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-green-600 focus-within:text-green-600 ${
+          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.password && "border-red-500"
           }`}
         >
@@ -102,7 +102,7 @@ export default function SignupPage() {
         </div>
         {/* CONFIRM PASSWORD */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-green-600 focus-within:text-green-600 ${
+          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.confirmPassword && "border-red-500"
           }`}
         >
@@ -138,15 +138,15 @@ export default function SignupPage() {
           )}
         </div>
         <button
-          className="mt-2 flex items-center justify-center rounded-sm bg-green-700 py-3"
+          className="mt-2 flex items-center justify-center rounded-sm bg-primary text-black py-3 h-12"
           type="submit"
         >
           SIGN UP
         </button>
       </form>
-      <p className="absolute bottom-8 flex-grow">
+      <p className="absolute bottom-8 flex-grow font-light">
         Already have an account?{" "}
-        <Link to="/signin" className="text-green-700">
+        <Link to="/signin" className="text-primary">
           Sign in
         </Link>
       </p>

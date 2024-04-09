@@ -19,12 +19,16 @@ export default {
         background: "#121212",
         error: "#CF6679",
         overlay: "#383838",
+        faded: "#ababab",
+        test: "#121212",
 
         onPrimary: "#000000",
         onSecondary: "#000000",
         onBackground: "#FFFFFF",
         onSurface: "#FFFFFF",
-        onError: "#000000"
+        onError: "#000000",
+        success: "#51cf66",
+        error: "#ff6a6a"
       },
       keyframes: {
         skeleton: {

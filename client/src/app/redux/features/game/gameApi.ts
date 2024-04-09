@@ -1,5 +1,3 @@
-// BUG: Difficult to pinpoint. When navigating to home after sign in, screen goes black for some reason. Any other time a modal is triggered this does not happen. Only when signing in
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 import { setResponseMessage } from "../modals/responseModalSlice"
