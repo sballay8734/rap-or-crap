@@ -89,7 +89,7 @@ export default function HomePage() {
         <p className="text-xl font-extralight tracking-wider text-heroP">
           Hi {user?.displayName}!
         </p>
-        <h1 className="flex items-center text-center text-7xl font-display tracking-wider flex-grow mt-10 text-primaryLighter">
+        <h1 className="flex items-center text-center text-7xl font-display tracking-wider flex-grow mt-10 text-white">
           RAP OR CRAP
         </h1>
         <p className="text-center font-light text-sm max-w-[80%] text-heroP">
@@ -110,17 +110,17 @@ export default function HomePage() {
         <div className="flex flex-grow w-full flex-col items-center gap-4 justify-end">
           <button
             onClick={handleResumeGame}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black"
           >
             Resume Game <ImSpinner11 className="absolute right-4" />
           </button>
           <button
             onClick={handleNewGame}
-            className="relative flex w-full items-center justify-center rounded-sm bg-primary text-black px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black"
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3">
+          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black">
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
           <button
@@ -142,11 +142,11 @@ export default function HomePage() {
         <div className="flex flex-grow w-full flex-col items-center gap-4 justify-end">
           <button
             onClick={handleNewGame}
-            className="relative flex w-full items-center justify-center rounded-sm bg-primary text-black px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black"
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3">
+          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black">
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
           <button

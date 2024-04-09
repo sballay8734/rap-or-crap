@@ -1,5 +1,10 @@
 // TODO: Player-enter input should be highlighted by default
 // TODO: Start Game text is too dark against surfaceBG
+// TODO: Show errors when same name is attempted
+// TODO: Don't wipe players when navigating back
+// TODO: Add max players somewhere?
+// TODO: Warning modal is too harsh
+// TODO: Colored shadows are way to bright
 
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -16,6 +21,7 @@ import {
 import { RootState } from "../../redux/store"
 import { clearPlayers } from "../../redux/features/game/gameSlice"
 import { FaArrowLeftLong } from "react-icons/fa6"
+import { MdOutlinePersonAddAlt } from "react-icons/md"
 
 const MAX_PLAYERS = 10
 
@@ -156,23 +162,31 @@ export default function GameSetupPage() {
 
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-between text-white bg-primaryInactive">
-      <div className="header-and-list-wrapper flex flex-col flex-grow w-full bg-surface items-center">
+      <div className="header-and-list-wrapper flex flex-col flex-grow w-full bg-surface items-center overflow-auto">
         {/* HEADER ********************************************************* */}
         <div className="bg-transparent py-8 px-6 h-1/3 flex flex-col justify-betweenf flex-shrink-0">
           <div className="flex flex-grow">
             <div className="flex flex-col justify-between flex-grow">
-              <Link to="/home" className="flex gap-2 items-center">
+              <button
+                onClick={() => navigate(-1)}
+                className="flex gap-2 items-center"
+              >
                 <FaArrowLeftLong size={20} />
-              </Link>
-              <h2 className="text-2xl">Let's go! Add players to begin.</h2>
-              <div className="buttonWrapper flex gap-2 items-center">
-                <button className="flex items-center bg-secondary rounded-full justify-center p-2 w-[44px] h-[44px] animate-pulse shadow-lg">
+              </button>
+              <h2 className="text-2xl font-main font-bold text-lightGray">
+                Let's go! Add players to begin.
+              </h2>
+              <div
+                onClick={handleStartGame}
+                className="buttonWrapper flex gap-2 items-center bg-primary p-2 rounded-md"
+              >
+                <button className="flex items-center bg-surface rounded-full justify-center p-2 w-[44px] h-[44px] animate-pulse shadow-lg">
                   <img
                     src="/play.png"
                     className="w-6 h-6 object-contain ml-1 contrast-2 drop-shadow-lg"
                   />
                 </button>
-                <p className="font-startGame text-2xl text-secondary">
+                <p className="font-startGame text-2xl text-surface">
                   Start Game
                 </p>
               </div>
@@ -183,28 +197,30 @@ export default function GameSetupPage() {
           </div>
         </div>
         {/* SPACER ********************************************************* */}
-        <div className="spacer bg-surfaceLighter h-1 rounded-full w-[80%] "></div>
+        <div className="spacer bg-transparent h-1 rounded-full w-full px-4">
+          <div className="spacer bg-surfaceLighter h-[2px] rounded-full w-full"></div>
+        </div>
         {/* LIST *********************************************************** */}
-        <ul className="relative flex h-full w-full flex-col items-center gap-3 overflow-auto bg-transparent mt-8">
+        <ul className="relative px-4 flex h-full w-full flex-col items-center gap-2 overflow-auto bg-transparent pt-4 pb-4">
           {players.map((player, index) => {
             return (
               <li
                 key={player}
-                className="flex min-h-12 w-full items-center justify-between overflow-hidden rounded-md border-[1px] border-gray-700 bg-gray-700/30 pl-4"
+                className="flex min-h-8 max-h-12 w-full items-center justify-between overflow-hidden rounded-sm border-[1px] border-secondaryDarker bg-gray-700/30 pl-3 shadow-main"
               >
                 <span className="mr-2 text-xs opacity-30">{index + 1}</span>
                 <div className="icon flex h-5 w-5 items-center justify-center rounded-full">
-                  <FaCheckCircle className="text-green-700" size={15} />
+                  <FaCheckCircle className="text-secondary" size={15} />
                 </div>
                 <p
-                  className="ml-3 mr-auto bg-transparent"
+                  className="ml-3 mr-auto bg-transparent text-sm"
                   onChange={handleInputChange}
                 >
                   {formatNameFirstLastName(player)}
                 </p>
                 <button
                   onClick={() => handleRemovePlayer(player)}
-                  className="bg-red-700 px-3 py-3"
+                  className="bg-secondary px-3 py-3"
                 >
                   <IoIosClose size={20} />
                 </button>
@@ -214,11 +230,12 @@ export default function GameSetupPage() {
         </ul>
       </div>
       {/* INPUT ************************************************************ */}
-      <div className="h-16 bg-surfaceLightest w-full flex">
+      <div className="h-16 bg-surfaceLightest w-full flex border-t-2 border-surfaceLighter items-center flex-shrink-0">
+        <MdOutlinePersonAddAlt size={20} className="text-surfaceLighter ml-3" />
         <input
           type="text"
           placeholder="Add player"
-          className="ml-3 mr-auto bg-transparent font-light tracking-wide placeholder:text-secondary placeholder:opacity-30 text-secondary"
+          className="ml-3 mr-auto bg-transparent font-semibold tracking-wide placeholder:text-primary placeholder:font-normal placeholder:opacity-30 text-primary font-main"
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           value={input}
@@ -226,7 +243,7 @@ export default function GameSetupPage() {
         />
         <button
           onClick={handleAddPlayer}
-          className="bg-secondary h-full min-w-16 flex items-center justify-center text-black"
+          className="bg-primary h-full min-w-16 flex items-center justify-center text-black"
         >
           <IoIosAdd size={40} />
         </button>

@@ -127,9 +127,8 @@ export default function GamePage() {
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="px-4 py-1 bg-transparent rounded-sm"
+            className="px-4 py-1 bg-transparent rounded-sm border border-primary text-primary"
           >
-            {" "}
             Score
             {/* <img
               className="h-12 w-12 object-contain"
