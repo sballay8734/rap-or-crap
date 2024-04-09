@@ -133,7 +133,7 @@ export const gameApi = createApi({
             dispatch(removeModal("initializeGame"))
             handleSuccessAndNotify(dispatch, "initializeGame")
             dispatch(
-              gameApi.util.updateQueryData(
+              gameApi.util.upsertQueryData(
                 "fetchActiveGame",
                 { gameId: null, flag: "run" },
                 newGame.data
