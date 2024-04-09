@@ -25,7 +25,7 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
   }
 
   return (
-    <article className="w-full border-slate-900 border-[1px] bg-green-50 text-black flex justify-between">
+    <article className="w-full bg-surfaceLighter text-white flex justify-between border-b-2 border-primaryInactive">
       <div className="p-2">
         <h2 className="min-w-24">{formatNameFirstLastName(playerName)}</h2>
         <p className="text-[10px] font-light">20 points</p>
@@ -34,8 +34,8 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
         onClick={() => handleAnswerSelect("crap")}
         className={`${
           activeAnswer === "crap"
-            ? "bg-red-700 text-white border-2 border-red-500"
-            : "bg-red-950 text-gray-400 border-2 border-transparent"
+            ? "bg-primary text-black"
+            : "bg-primaryInactive text-gray-500"
         } p-2 flex-grow`}
       >
         Crap
@@ -44,8 +44,8 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
         onClick={() => handleAnswerSelect("skip")}
         className={`${
           activeAnswer === "skip"
-            ? "bg-slate-700 text-white border-2 border-slate-500"
-            : "bg-slate-950 text-gray-400 border-2 border-transparent"
+            ? "bg-slate-700 text-white"
+            : "bg-background text-gray-500"
         } p-2 flex-grow`}
       >
         Skip
@@ -54,8 +54,8 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
         onClick={() => handleAnswerSelect("rap")}
         className={`${
           activeAnswer === "rap"
-            ? "bg-green-700 text-white border-2 border-green-500"
-            : "bg-slate-950 text-gray-400 border-2 border-transparent"
+            ? "bg-secondary text-black"
+            : "bg-secondaryInactive text-gray-500"
         } p-2 flex-grow`}
       >
         Rap

@@ -43,7 +43,9 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.88);
+  /* REMOVE: (maybe) Just temporary to see if it looks better */
+  background-color: rgba(0, 0, 0, 1);
+  /* background-color: rgba(0, 0, 0, 0.88); */
 }
 
 input {

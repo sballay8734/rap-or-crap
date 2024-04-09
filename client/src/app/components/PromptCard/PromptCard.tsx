@@ -17,8 +17,8 @@ export default function PromptCard() {
   )
 
   return (
-    <article className="lyric-card flex h-1/5 w-full items-center justify-center rounded-md bg-white p-4">
-      <p className="w-full text-center text-black">
+    <article className="lyric-card flex h-1/5 w-full items-center justify-center rounded-md bg-primaryInactive p-4">
+      <p className="w-full text-center text-primary">
         {!lyric
           ? "Loading..."
           : lyric === "No more lyrics"

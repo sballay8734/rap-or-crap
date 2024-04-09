@@ -78,7 +78,7 @@ export default function GamePage() {
   const renderedItems = (
     <>
       <PromptCard />
-      <article className="answer-select w-full flex-1 rounded-md bg-red-900 overflow-auto">
+      <article className="answer-select w-full flex flex-col rounded-md bg-background overflow-auto border-0">
         {playerData &&
           playerData.map(([playerName, playerData]) => {
             return (
@@ -116,22 +116,26 @@ export default function GamePage() {
             onClick={handleSubmission}
             disabled={disabled}
             className={`w-full ${
-              disabled ? "bg-slate-800 text-gray-500" : "bg-green-500"
+              disabled
+                ? "bg-primaryInactive text-gray-400"
+                : "bg-primaryVariant"
             } min-h-12 rounded-sm`}
           >
             {disabled
               ? `All players must answer (${count}/${playerData.length})`
-              : `Submit Answers ${count}`}
+              : `Submit Answers`}
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="px-4 py-1 bg-green-300 rounded-sm"
+            className="px-4 py-1 bg-transparent rounded-sm border-[2px] border-primaryVariant"
           >
-            <img
+            {" "}
+            Score
+            {/* <img
               className="h-12 w-12 object-contain"
               src="/scoreboard.png"
               alt=""
-            />
+            /> */}
           </button>
         </div>
       )}
@@ -139,7 +143,7 @@ export default function GamePage() {
   )
 
   return (
-    <section className="z-1 relative flex h-svh w-full flex-col items-center justify-center gap-2 p-4 text-white">
+    <section className="z-1 relative flex h-svh w-full flex-col items-center justify-between gap-2 p-4 text-white">
       {renderedItems}
     </section>
   )

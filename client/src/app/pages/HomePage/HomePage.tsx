@@ -95,22 +95,22 @@ export default function HomePage() {
         <div className="flex w-full flex-col items-center gap-4">
           <button
             onClick={handleResumeGame}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3"
           >
             Resume Game <ImSpinner11 className="absolute right-4" />
           </button>
           <button
             onClick={handleNewGame}
-            className="relative flex w-full items-center justify-center rounded-sm bg-green-700 px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm bg-primary text-black px-4 py-3"
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3">
+          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3">
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
           <button
             onClick={handleSignout}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3"
             type="submit"
             disabled={modalVisible}
           >
@@ -121,17 +121,18 @@ export default function HomePage() {
         <div className="flex w-full flex-col items-center gap-4">
           <button
             onClick={handleNewGame}
-            className="relative flex w-full items-center justify-center rounded-sm bg-green-700 px-4 py-3 active:opacity-90"
+            className="relative flex w-full items-center justify-center rounded-sm bg-primary text-black px-4 py-3"
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-green-700 bg-gray-900/20 px-4 py-3">
+          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3">
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
           <button
             onClick={handleSignout}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-red-700 bg-gray-900/10 px-4 py-3"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3"
             type="submit"
+            disabled={modalVisible}
           >
             SIGN OUT
           </button>
