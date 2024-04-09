@@ -17,7 +17,8 @@ export default {
         surface: "#121212",
         surfaceLigher: "#4d4d4d",
         background: "#121212",
-        error: "#CF6679",
+        error: "#cf6679",
+        errorText: "#f44336",
         overlay: "#383838",
         faded: "#ababab",
         test: "#121212",
@@ -27,8 +28,7 @@ export default {
         onBackground: "#FFFFFF",
         onSurface: "#FFFFFF",
         onError: "#000000",
-        success: "#51cf66",
-        error: "#ff6a6a"
+        success: "#66bb6a"
       },
       keyframes: {
         skeleton: {

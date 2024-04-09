@@ -57,7 +57,7 @@ const NotificationModal = memo(
           position: "absolute",
           left: 0,
           right: 0,
-          top: `${11 + modalIndex * 55}px`,
+          top: `${11 + modalIndex * 72}px`,
           margin: "0 auto"
         }}
         className={`notify-modal flex h-16 w-[95%] overflow-hidden items-center rounded-md bg-test text-gray-200 -translate-x-96 transition-translate duration-200 z-[1003] ${

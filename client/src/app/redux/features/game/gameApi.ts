@@ -242,7 +242,5 @@ export const {
 } = gameApi
 
 // FIXME: START HERE *************************************
-// On log in
-// ---- logging out too quickly causes error
-// "unauthorized" still happening on logout
+// logging out too quickly causes error (you've disabled the button while loading for now but might not be best)
 // Start button needs to be preloaded

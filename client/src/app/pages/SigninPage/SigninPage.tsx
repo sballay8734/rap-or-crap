@@ -75,7 +75,7 @@ export default function SigninPage() {
           </button>
         </div>
         {/* ERRORS */}
-        <div className="flex h-8 flex-col items-start gap-1 py-4 text-xs text-red-500">
+        <div className="flex h-8 flex-col items-start gap-1 py-4 text-xs text-error">
           {errors.email && (
             <span className="flex items-center">
               <IoIosClose size={16} /> {errors.email.message?.toString()}

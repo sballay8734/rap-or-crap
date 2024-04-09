@@ -25,7 +25,6 @@ const authApi = createApi({
   tagTypes: ["User"],
   endpoints: (builder) => ({
     // first is response, second is req obj you're sending
-    // FIXME: Refactor modal logic to one function call, "handleModalCascade()"
     signup: builder.mutation<CreatedUser, SignUpFormData>({
       query: (body) => ({ url: "signup", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
