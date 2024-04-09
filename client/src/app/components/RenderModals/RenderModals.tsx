@@ -15,7 +15,7 @@ export function RenderModals() {
 
   const children = (
     <div
-      className={`modal-background fixed inset-0 z-[1001] flex flex-col gap-2 items-center justify-start px-4 mt-2 transition-opacity duration-300 pointer-events-none ${
+      className={`notification-modal-container fixed inset-0 z-[1001] flex flex-col gap-2 items-center justify-start px-4 mt-2 transition-opacity duration-300 pointer-events-none ${
         modalsToRender.length > 0
           ? "opacity-100"
           : "opacity-0 pointer-events-none"

@@ -58,11 +58,13 @@ input:focus {
   outline: none;
   border: none;
 }
-
+/* TODO: Add these comment starters to todotree config */
+/* REVIEW: Possible breaking change (changed relative, h-0, w-0 to current) */
 #modal-container {
-  position: relative;
-  height: 0;
-  width: 0;
+  position: fixed;
+  top: 0;
+  height: 0px;
+  width: 100%;
 }
 
 button {

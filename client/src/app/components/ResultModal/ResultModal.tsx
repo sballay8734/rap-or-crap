@@ -2,7 +2,7 @@ import { createPortal } from "react-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 import { RootState } from "../../redux/store"
-import { errorClient, logClient, warnClient } from "../../helpers/logFormatter"
+import { errorClient } from "../../helpers/logFormatter"
 import { hideResultModal } from "../../redux/features/modals/resultModalSlice"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 import {
@@ -54,7 +54,7 @@ export default function ResultModal() {
   // Modal to render
   const children = (
     <div
-      className={`modal-background fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
+      className={`result-modal-container fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       } `}
     >

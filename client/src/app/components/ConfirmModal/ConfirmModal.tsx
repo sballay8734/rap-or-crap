@@ -45,7 +45,7 @@ export default function ConfirmModal() {
   const children = (
     <div
       onClick={closeModal}
-      className={`modal-background fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
+      className={`confirm-modal-container fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
         modalIsShown ? "opacity-100" : "opacity-0 pointer-events-none"
       } `}
     >

@@ -51,7 +51,7 @@ export default function ScoreboardModal() {
   const children = (
     <div
       onClick={() => dispatch(hideScoreboard())}
-      className={`modal-background fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 transition-all duration-300 ${
+      className={`scoreboard-modal-container fixed inset-0 z-[1002] flex flex-col items-center justify-center bg-black/80 transition-all duration-300 ${
         scoreboardIsShown
           ? "opacity-100 translate-y-0"
           : "opacity-0 pointer-events-none -translate-y-full"
