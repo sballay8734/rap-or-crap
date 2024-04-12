@@ -2,8 +2,9 @@
 // TODO: Need to refactor how response modals are rendered (Dispatching an initalize action is not ideal)
 
 // TODO: Colored shadows are way to bright
+// TODO: Pressing "back" while in the game brings you back to the GameSetupPage. It should take you to the HomePage
 
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
@@ -22,7 +23,10 @@ import { addModal } from "../../redux/features/modals/handleModalsSlice"
 
 import { IoPerson } from "react-icons/io5"
 import { IoPersonOutline } from "react-icons/io5"
-import { useInitializeGameMutation } from "../../redux/features/game/gameApi"
+import {
+  useFetchActiveGameQuery,
+  useInitializeGameMutation
+} from "../../redux/features/game/gameApi"
 import { IGameInstance } from "../../../types/ClientDataTypes"
 
 const MAX_PLAYERS = 10
@@ -32,6 +36,11 @@ export default function GameSetupPage() {
 
   const userId = useSelector((state: RootState) => state.user.user?._id)
   const players = useSelector((state: RootState) => state.game.playerList)
+  const gameId = useFetchActiveGameQuery("skip", {
+    selectFromResult: ({ data }) => ({
+      gameId: data?._id
+    })
+  })
 
   const navigate = useNavigate()
   const dispatch = useDispatch()

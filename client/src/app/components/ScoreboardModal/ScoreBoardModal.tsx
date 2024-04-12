@@ -16,17 +16,13 @@ export default function ScoreboardModal() {
     (state: RootState) => state.scoreboard.isVisible
   )
 
-  const localGameId = useSelector((state: RootState) => state.game.localGameId)
   const user = useSelector((state: RootState) => state.user.user)
 
-  const { players } = useFetchActiveGameQuery(
-    { gameId: localGameId, flag: "skip" },
-    {
-      selectFromResult: ({ data }) => ({
-        players: data?.playersObject
-      })
-    }
-  )
+  const { players } = useFetchActiveGameQuery("skip", {
+    selectFromResult: ({ data }) => ({
+      players: data?.playersObject
+    })
+  })
 
   // TODO: Sort players by best score
   function sortPlayers() {

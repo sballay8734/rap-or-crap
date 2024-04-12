@@ -2,18 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 import { isCustomApiResponse } from "../../../helpers/errorReform"
 import { showResultModal } from "../modals/resultModalSlice"
-
-import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
+import { modalCascade } from "../../utils/apiUtils"
 import {
-  handleErrorAndNotify,
-  handleSuccessAndNotify,
-  handleSuccessSilently,
-  modalCascade
-} from "../../utils/apiUtils"
-import { initializeModal, removeModal } from "../modals/handleModalsSlice"
-import { setLocalGameId } from "./gameSlice"
-import {
-  FetchGameArgs,
   IGameInstance,
   InitializedGameInstance,
   UpdateGameStateProps
@@ -27,36 +17,28 @@ export const gameApi = createApi({
   }),
   tagTypes: ["ActiveGame"],
   endpoints: (builder) => ({
-    // if active game exists in state, the gameId will be passed as and argument
-    fetchActiveGame: builder.query<InitializedGameInstance, FetchGameArgs>({
+    fetchActiveGame: builder.query<InitializedGameInstance, "skip" | "run">({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      async onQueryStarted(flag, { dispatch, queryFulfilled }) {
         const modalId = "fetchActiveGame"
-        const { gameId, flag } = args ?? { gameId: null, flag: "skip" }
         if (flag === "skip") return
 
         modalCascade().start(dispatch, true, modalId)
 
         try {
           const res = await queryFulfilled
-          // if there is no active game, handle success silently
           if (res.data === null) {
+            // if no active game, handle success silently
             modalCascade().endWithSuccess(dispatch, false, modalId)
-          } else if (res.data._id !== gameId) {
-            // if DB _id !== localId -> it is first fetch ("Game found")
-            modalCascade().endWithSuccess(dispatch, true, modalId)
-            dispatch(setLocalGameId(res.data._id))
           } else {
-            // if DB _id === localId -> game was already fetched
-            modalCascade().endWithSuccess(dispatch, false, modalId)
+            // notify "Existing game found!"
+            modalCascade().endWithSuccess(dispatch, true, modalId)
           }
-          // need to remove modal here also
-          dispatch(removeModal("fetchActiveGame"))
         } catch (err) {
           if (isCustomApiResponse(err)) {
             const errorMsg = err.error.data.message
-            modalCascade().endWithError(dispatch, false, modalId, errorMsg)
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
             modalCascade().endWithError(dispatch, false, modalId)
           }
@@ -67,20 +49,20 @@ export const gameApi = createApi({
       query: () => ({ url: "delete-game", method: "DELETE" }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal("Deleting your old game..."))
-        dispatch(initializeModal("deleteGame"))
+        const modalId = "deleteGame"
+
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           await queryFulfilled
-          dispatch(hideLoadingModal())
-          dispatch(removeModal("deleteGame"))
-          handleSuccessAndNotify(dispatch, "deleteGame")
+          modalCascade().endWithSuccess(dispatch, true, modalId)
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            handleErrorAndNotify(dispatch, err.error.data.message)
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
+            modalCascade().endWithError(dispatch, false, modalId)
           }
-          dispatch(removeModal("deleteGame"))
         }
       }
     }),
@@ -89,30 +71,29 @@ export const gameApi = createApi({
       query: (body) => ({ url: "initialize-game", method: "POST", body }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal("Initializing a new game..."))
-        dispatch(initializeModal("initializeGame"))
+        const modalId = "initializeGame"
+
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           const newGame = await queryFulfilled
           if ("data" in newGame) {
-            dispatch(hideLoadingModal())
-            dispatch(removeModal("initializeGame"))
-            handleSuccessAndNotify(dispatch, "initializeGame")
+            modalCascade().endWithSuccess(dispatch, true, modalId)
             dispatch(
               gameApi.util.upsertQueryData(
                 "fetchActiveGame",
-                { gameId: null, flag: "skip" },
+                "skip",
                 newGame.data
               )
             )
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            handleErrorAndNotify(dispatch, err.error.data.message)
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
-            console.log("Hit error...")
-            handleErrorAndNotify(dispatch, "Error initializing...")
+            modalCascade().endWithError(dispatch, false, modalId)
           }
-          dispatch(removeModal("initializeGame"))
         }
       }
     }),
@@ -123,15 +104,18 @@ export const gameApi = createApi({
       query: (body) => ({ url: "update-game", method: "PATCH", body }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal("Checking your answers..."))
+        const modalId = "updateGame"
+
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           const updatedGame = await queryFulfilled
           if ("data" in updatedGame) {
-            dispatch(hideLoadingModal())
+            modalCascade().endWithSuccess(dispatch, false, modalId)
             dispatch(
               gameApi.util.upsertQueryData(
                 "fetchActiveGame",
-                { gameId: null, flag: "skip" },
+                "skip",
                 updatedGame.data
               )
             )
@@ -139,9 +123,10 @@ export const gameApi = createApi({
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            handleErrorAndNotify(dispatch, err.error.data.message)
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
+            modalCascade().endWithError(dispatch, false, modalId)
           }
         }
       }
@@ -154,24 +139,28 @@ export const gameApi = createApi({
       }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal("Getting new lyric..."))
+        const modalId = "gettingNewLyric"
+
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           const updatedGame = await queryFulfilled
           if ("data" in updatedGame) {
-            dispatch(hideLoadingModal())
+            modalCascade().endWithSuccess(dispatch, false, modalId)
             dispatch(
               gameApi.util.upsertQueryData(
                 "fetchActiveGame",
-                { gameId: null, flag: "skip" },
+                "skip",
                 updatedGame.data
               )
             )
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            handleErrorAndNotify(dispatch, err.error.data.message)
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
+            modalCascade().endWithError(dispatch, true, modalId)
           }
         }
       }

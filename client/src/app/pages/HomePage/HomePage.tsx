@@ -26,18 +26,9 @@ export default function HomePage() {
       false
   )
 
-  // HACK: localGameId is a temporary workaround for poor query structure
-  const localGameId = useSelector((state: RootState) => state.game.localGameId)
-
-  const { data: activeGame, isLoading } = useFetchActiveGameQuery(
-    {
-      gameId: localGameId,
-      flag: "skip"
-    },
-    {
-      skip: !user
-    }
-  )
+  const { data: activeGame, isLoading } = useFetchActiveGameQuery("skip", {
+    skip: !user
+  })
 
   const dispatch = useDispatch()
   const navigate = useNavigate()

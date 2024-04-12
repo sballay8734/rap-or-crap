@@ -12,18 +12,13 @@ import {
 import { useNavigate } from "react-router-dom"
 
 export default function ResultModal() {
-  // HACK: localGameId is a temporary workaround for poor query structure
-  const localGameId = useSelector((state: RootState) => state.game.localGameId)
   const navigate = useNavigate()
 
-  const { gameId } = useFetchActiveGameQuery(
-    { gameId: localGameId, flag: "skip" },
-    {
-      selectFromResult: ({ data }) => ({
-        gameId: data?._id
-      })
-    }
-  )
+  const { gameId } = useFetchActiveGameQuery("skip", {
+    selectFromResult: ({ data }) => ({
+      gameId: data?._id
+    })
+  })
   const dispatch = useDispatch()
   const [getNewPrompt] = useUpdateWithNewPromptMutation()
   const { isVisible, data } = useSelector(

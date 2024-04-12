@@ -7,14 +7,11 @@ import {
 } from "../../../../types/ClientAuthTypes"
 import { CreatedUser } from "../../../../types/responsesFromServer"
 import { isCustomApiResponse } from "../../../helpers/errorReform"
-import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
-import {
-  handleErrorAndNotify,
-  handleSuccessAndNotify
-} from "../../utils/apiUtils"
+import { showLoadingModal } from "../modals/loadingModalSlice"
 import { gameApi } from "../game/gameApi"
 import { initializeModal } from "../modals/handleModalsSlice"
 import { clearUser, setUser } from "../user/userSlice"
+import { modalCascade } from "../../utils/apiUtils"
 
 const authApi = createApi({
   reducerPath: "authApi",
@@ -28,21 +25,23 @@ const authApi = createApi({
     signup: builder.mutation<CreatedUser, SignUpFormData>({
       query: (body) => ({ url: "signup", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal("Signing you up..."))
-        dispatch(initializeModal("signup"))
+        const modalId = "signup"
+
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           const res = await queryFulfilled
           const data = { ...res.data, isNewUser: false }
 
           dispatch(setUser(data))
 
-          handleSuccessAndNotify(dispatch, "signup")
+          modalCascade().endWithSuccess(dispatch, true, modalId)
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            // The error message here comes from server (see authController)
-            handleErrorAndNotify(dispatch, err.error.data.message)
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
+            modalCascade().endWithError(dispatch, true, modalId)
           }
         }
       }
@@ -50,31 +49,34 @@ const authApi = createApi({
     signin: builder.mutation<CreatedUser, SignInFormData>({
       query: (body) => ({ url: "signin", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal("Signing you in..."))
-        dispatch(initializeModal("signin"))
+        const modalId = "signin"
+
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           const res = await queryFulfilled
           const data = { ...res.data, isNewUser: false }
 
           dispatch(setUser(data))
 
-          handleSuccessAndNotify(dispatch, "signin")
+          modalCascade().endWithSuccess(dispatch, true, modalId)
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            // The error message here comes from server (see authController)
-            handleErrorAndNotify(dispatch, err.error.data.message)
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
-            handleErrorAndNotify(dispatch, "Could not sign you in.")
+            modalCascade().endWithError(dispatch, true, modalId)
           }
         }
       }
     }),
-    // FIXME: Prevent fetchActive game on signout. Getting "unauthorized" error
     signout: builder.mutation<{}, void>({
       query: () => ({ url: "signout", method: "POST" }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        dispatch(showLoadingModal("Signing out..."))
-        dispatch(initializeModal("signout"))
+        const modalId = "signout"
+
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           await queryFulfilled
           // WARNING: You need to have only ONE api. Should not be calling two methods to clear the cache
@@ -83,13 +85,13 @@ const authApi = createApi({
           dispatch(gameApi.util.resetApiState())
           dispatch(clearUser())
 
-          handleSuccessAndNotify(dispatch, "signout")
+          modalCascade().endWithSuccess(dispatch, true, modalId)
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            // The error message here comes from server (see authController)
-            handleErrorAndNotify(dispatch, err.error.data.message)
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
+            modalCascade().endWithError(dispatch, true, modalId)
           }
         }
       }

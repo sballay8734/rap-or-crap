@@ -18,15 +18,13 @@ export default function GamePage() {
   const playerSelections = useSelector(
     (state: RootState) => state.game.playerAnswers
   )
-  // HACK: localGameId is a temporary workaround for poor query structure
-  const localGameId = useSelector((state: RootState) => state.game.localGameId)
 
   const [updateGame] = useUpdateGameStateMutation()
 
   const { players, gameId, promptId, currentLyric } = useFetchActiveGameQuery(
-    { gameId: localGameId, flag: "skip" },
+    "skip",
     {
-      selectFromResult: ({ data, isFetching }) => ({
+      selectFromResult: ({ data }) => ({
         players: data?.playersObject,
         gameId: data?._id,
         promptId: data?.currentPromptId,

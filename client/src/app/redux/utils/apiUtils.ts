@@ -10,49 +10,6 @@ import {
   removeModal
 } from "../features/modals/handleModalsSlice"
 
-const modalActionMap: { [action: string]: string } = {
-  signup: "signup",
-  signin: "signin",
-  signout: "signout",
-  fetchActiveGame: "fetchActiveGame"
-}
-
-const successMsgMap: { [action: string]: string } = {
-  signup: "Account creation successful!",
-  signin: "You are signed in!",
-  signout: "You have been logged out.",
-  fetchActiveGame: "Existing game found!",
-  deleteGame: "Game deleted!",
-  initializeGame: "Game initialized!",
-  createGame: "New game initialized!",
-  updateGame: "Game updated!"
-}
-
-// export function handleErrorSilently() {}
-export function handleSuccessSilently(dispatch: Dispatch) {
-  dispatch(hideLoadingModal())
-}
-
-export function handleErrorAndNotify(dispatch: Dispatch, message: string) {
-  dispatch(hideLoadingModal())
-  dispatch(
-    addModal({
-      modalId: "signin",
-      data: { isSuccess: false, message }
-    })
-  )
-}
-
-export function handleSuccessAndNotify(dispatch: Dispatch, action: string) {
-  dispatch(hideLoadingModal())
-  dispatch(
-    addModal({
-      modalId: modalActionMap[action],
-      data: { isSuccess: true, message: successMsgMap[action] }
-    })
-  )
-}
-
 interface ModalCascadeProps {
   start: (
     dispatch: Dispatch,
@@ -73,11 +30,24 @@ interface ModalCascadeProps {
 }
 
 const startMsgMap: { [key: string]: string } = {
-  fetchActiveGame: "Checking for existing game..."
+  fetchActiveGame: "Checking for existing game...",
+  deleteGame: "Deleting your old game...",
+  initializeGame: "Initializing a new game...",
+  updateGame: "Checking your answers...",
+  gettingNewLyric: "Getting new lyric...",
+  signup: "Signing you up...",
+  signin: "Signing you in...",
+  signout: "Signing out..."
 }
 
 const sucMsgMap: { [key: string]: string } = {
-  fetchActiveGame: "Existing game found!"
+  fetchActiveGame: "Existing game found!",
+  deleteGame: "Game deleted!",
+  initializeGame: "Game initialized!",
+  updateGame: "",
+  signup: "Account creation successful!",
+  signin: "You are logged in!",
+  signout: "You are signed out!"
 }
 
 const failMsgMap: { [key: string]: string } = {
@@ -86,29 +56,26 @@ const failMsgMap: { [key: string]: string } = {
 
 const defaultErr = "Something went wrong."
 
+// NOTE: Modal is initialized before this function is called.
+// NOTE: addModal handles removing the modal on it's own which is why you ONLY need to call removeModal here if you are NOT showing the result to the user
 export function modalCascade(): ModalCascadeProps {
   return {
     start: (dispatch, shouldShowLoadingModal, modalKey) => {
       const msg = startMsgMap[modalKey] || "Loading..."
-
       shouldShowLoadingModal && dispatch(showLoadingModal(msg))
       dispatch(initializeModal(modalKey))
     },
-
     endWithSuccess: (dispatch, notifyUser, modalId) => {
       const data = { isSuccess: true, message: sucMsgMap[modalId] }
-
       dispatch(hideLoadingModal())
+      !notifyUser && dispatch(removeModal(modalId))
       notifyUser && dispatch(addModal({ modalId, data }))
-      // dispatch(removeModal(modalId)) // WARNING: Not sure if needed
     },
-
     endWithError: (dispatch, notifyUser, modalId, msg = defaultErr) => {
       const data = { isSuccess: false, message: msg }
-
       dispatch(hideLoadingModal())
+      !notifyUser && dispatch(removeModal(modalId))
       notifyUser && dispatch(addModal({ modalId, data }))
-      // dispatch(removeModal(modalId)) // WARNING: Not sure if needed
     }
   }
 }

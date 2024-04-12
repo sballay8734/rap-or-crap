@@ -40,8 +40,3 @@ export interface UpdateGameStateProps {
   gameId: string
   promptId: string
 }
-
-export interface FetchGameArgs {
-  gameId: string | null
-  flag: "skip" | "run"
-}
