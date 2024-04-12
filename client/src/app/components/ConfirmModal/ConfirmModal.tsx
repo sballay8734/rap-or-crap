@@ -76,7 +76,7 @@ export default function ConfirmModal() {
               {modalDetails}
             </p>
           )}
-          <p className="rounded-md px-3 pb-1 text-center text-sm font-bold text-red-600 opacity-90">
+          <p className="rounded-md px-3 pb-1 text-center text-sm font-bold text-red-500 opacity-90">
             {modalMessage}
           </p>
           <div className="flex gap-6">

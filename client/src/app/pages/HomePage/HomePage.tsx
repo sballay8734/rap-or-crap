@@ -2,7 +2,7 @@
 // TODO: Musical note raining animation
 
 import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import { IoMdSettings } from "react-icons/io"
 import { FaPlay } from "react-icons/fa"
@@ -11,9 +11,9 @@ import { showConfirmModal } from "../../redux/features/modals/confirmModalSlice"
 import { useSignoutMutation } from "../../redux/features/auth/authApi"
 import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
-import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import AnimatedNotes from "../../components/AnimatedNotes/AnimatedNotes"
 
 export default function HomePage() {
   const [signout] = useSignoutMutation()
@@ -89,7 +89,7 @@ export default function HomePage() {
         <p className="text-xl font-extralight tracking-wider text-heroP">
           Hi {user?.displayName}!
         </p>
-        <h1 className="flex items-center text-center text-7xl font-display tracking-wider flex-grow mt-10 text-white">
+        <h1 className="flex items-center text-center text-7xl font-display tracking-wider flex-grow mt-10 text-primaryLightest">
           RAP OR CRAP
         </h1>
         <p className="text-center font-light text-sm max-w-[80%] text-heroP">
@@ -165,13 +165,7 @@ export default function HomePage() {
           </button>
         </div>
       )}
-
-      {/* ANIMATED NOTES */}
-      <div className="absolute flex items-center justify-center pointer-events-none top-0 left-0 w-full h-full z-[2000]">
-        <div className="absolute -translate-x-24 text-[10px] opacity-0 animate-music text-primary">
-          &#9835;
-        </div>
-      </div>
+      <AnimatedNotes />
     </div>
   )
 }

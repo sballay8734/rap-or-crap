@@ -33,6 +33,7 @@ const responseModalSlice = createSlice({
 
       state.successResult = successResult
       state.responseMessage = message
+      console.log("HIT SLICE")
     },
     clearResponseMessage: (state) => {
       state.successResult = null

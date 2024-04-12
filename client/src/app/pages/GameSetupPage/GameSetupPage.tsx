@@ -1,14 +1,12 @@
-// TODO: Player-enter input should be highlighted by default
+// TODO: Response messages that are errors, should render the rest of the screen unclickable until it is closed
+// TODO: Need to refactor how response modals are rendered (Dispatching an initalize action is not ideal)
+
 // TODO: Start Game text is too dark against surfaceBG
-// TODO: Show errors when same name is attempted
-// TODO: Don't wipe players when navigating back
-// TODO: Add max players somewhere?
-// TODO: Warning modal is too harsh
 // TODO: Colored shadows are way to bright
 
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { IoIosAdd, IoIosClose } from "react-icons/io"
@@ -19,9 +17,17 @@ import {
   useInitializeGameMutation
 } from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
-import { clearPlayers } from "../../redux/features/game/gameSlice"
+import {
+  addPlayer,
+  clearPlayers,
+  removePlayer
+} from "../../redux/features/game/gameSlice"
 import { FaArrowLeftLong } from "react-icons/fa6"
 import { MdOutlinePersonAddAlt } from "react-icons/md"
+import { addModal } from "../../redux/features/modals/handleModalsSlice"
+
+import { IoPerson } from "react-icons/io5"
+import { IoPersonOutline } from "react-icons/io5"
 
 const MAX_PLAYERS = 10
 
@@ -29,22 +35,14 @@ export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
 
   const userId = useSelector((state: RootState) => state.user.user?._id)
+  const players = useSelector((state: RootState) => state.game.playerList)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [players, setPlayers] = useState<string[]>([])
   const [input, setInput] = useState<string>("")
 
   // REMEMBER: Always call useEffect BEFORE any early returns
   // https://react.dev/warnings/invalid-hook-call-warning
-
-  // useEffect(() => {
-  //   if (!activeGameId) {
-  //     return
-  //   } else {
-  //     navigate("/home")
-  //   }
-  // }, [activeGameId])
 
   if (!userId) {
     return (
@@ -59,10 +57,15 @@ export default function GameSetupPage() {
 
     // store all names as lowercase for easier comparison (format name in jsx)
     if (!error) {
-      setPlayers((prevPlayers) => [...prevPlayers, input.toLocaleLowerCase()])
+      dispatch(addPlayer(input.toLocaleLowerCase()))
       setInput("")
     } else {
-      dispatch(setResponseMessage({ successResult: false, message: error }))
+      dispatch(
+        addModal({
+          modalId: "addPlayer",
+          data: { isVisible: true, isSuccess: false, message: error }
+        })
+      )
     }
   }
 
@@ -77,15 +80,13 @@ export default function GameSetupPage() {
   }
 
   function handleRemovePlayer(player: string) {
-    const filteredPlayers = players.filter((p) => {
-      return p !== player
-    })
-    setPlayers(filteredPlayers)
+    dispatch(removePlayer(player))
   }
 
   function validatePlayer(name: string): string | null {
+    console.log(players)
     if (name.trim().length < 2) {
-      return "Player name must be at least 2 characters long."
+      return "Name must be at least 2 characters long."
     }
     if (name.split(" ").length > 2) {
       return "First and last name only."
@@ -94,7 +95,7 @@ export default function GameSetupPage() {
       return "That player already exists."
     }
     if (!/^[a-zA-Z\s]+$/.test(name.trim())) {
-      return "Player name can only contain letters and spaces."
+      return "Name can only contain letters and spaces."
     }
     if (players.length >= MAX_PLAYERS) {
       return "Maximum number of players reached."
@@ -160,16 +161,29 @@ export default function GameSetupPage() {
     }
   }
 
+  function handleAvatarRender() {
+    const avatars = []
+    for (let i = 0; i < MAX_PLAYERS; i++) {
+      if (i < players.length) {
+        avatars.push(<IoPerson key={i} className="text-secondary" />)
+      } else {
+        avatars.push(<IoPersonOutline key={i} className="text-secondary" />)
+      }
+    }
+
+    return avatars
+  }
+
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-between text-white bg-primaryInactive">
       <div className="header-and-list-wrapper flex flex-col flex-grow w-full bg-surface items-center overflow-auto">
         {/* HEADER ********************************************************* */}
-        <div className="bg-transparent py-8 px-6 h-1/3 flex flex-col justify-betweenf flex-shrink-0">
+        <div className="bg-transparent pt-8 px-6 pb-6 h-1/3 flex flex-col justify-betweenf flex-shrink-0">
           <div className="flex flex-grow">
             <div className="flex flex-col justify-between flex-grow">
               <button
                 onClick={() => navigate(-1)}
-                className="flex gap-2 items-center"
+                className="flex gap-2 items-center text-primaryLightest"
               >
                 <FaArrowLeftLong size={20} />
               </button>
@@ -178,17 +192,30 @@ export default function GameSetupPage() {
               </h2>
               <div
                 onClick={handleStartGame}
-                className="buttonWrapper flex gap-2 items-center bg-primary p-2 rounded-md"
+                className={`buttonWrapper flex gap-2 items-center p-2 rounded-md transition-all duration-200 ${
+                  players.length > 1 ? "bg-primary" : "bg-disabledBtnBg"
+                }`}
               >
-                <button className="flex items-center bg-surface rounded-full justify-center p-2 w-[44px] h-[44px] animate-pulse shadow-lg">
+                <button
+                  className={`flex items-center rounded-full justify-center p-2 w-[44px] h-[44px] transition-all duration-200 ${
+                    players.length > 1
+                      ? "animate-pulse bg-surface shadow-lg"
+                      : ""
+                  }`}
+                >
                   <img
                     src="/play.png"
-                    className="w-6 h-6 object-contain ml-1 contrast-2 drop-shadow-lg"
+                    className={`w-6 h-6 object-contain ml-1 contrast-2 drop-shadow-lg brightness-0 transition-all duration-200 ${
+                      players.length < 2 ? "brightness-0" : "brightness-100"
+                    }`}
                   />
                 </button>
                 <p className="font-startGame text-2xl text-surface">
                   Start Game
                 </p>
+              </div>
+              <div className="player-count flex justify-between gap-1">
+                {handleAvatarRender()}
               </div>
             </div>
             <div className="flex-grow self-end flex-shrink-0">
@@ -248,68 +275,6 @@ export default function GameSetupPage() {
           <IoIosAdd size={40} />
         </button>
       </div>
-
-      {/* <h1 className="text-xl py-4 text-black bg-primary w-full text-center">
-        Game Setup
-      </h1>
-      <button
-        className="h-20 w-full bg-primaryVariant"
-        onClick={handleStartGame}
-      >
-        START GAME
-      </button> */}
-      {/* INPUT CARD */}
-      {/* <div className="mt-auto flex min-h-12 min-w-[100%] items-center justify-between self-center overflow-hidden bg-black/90">
-        <input
-          type="text"
-          placeholder="Add player"
-          className="ml-3 mr-auto bg-transparent font-light tracking-wider opacity-30"
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          value={input}
-          minLength={2}
-        />
-        <button
-          onClick={handleAddPlayer}
-          className="bg-primary px-3 py-3 h-full"
-        >
-          <IoIosAdd size={20} />
-        </button>
-      </div> */}
-      {/* <div className="flex h-full w-full flex-col overflow-hidden">
-        <h2 className="flex w-full items-center justify-between bg-primary px-4 py-2 text-center text-xl">
-          <span className="text-xs opacity-50">Total: {players.length}</span>
-          Players
-          <span className="text-xs opacity-50">Max: {MAX_PLAYERS}</span>
-        </h2>
-        <ul className="relative flex h-full w-full flex-col items-center gap-3 overflow-auto p-2">
-          {players.map((player, index) => {
-            return (
-              <li
-                key={player}
-                className="flex min-h-12 w-full items-center justify-between overflow-hidden rounded-md border-[1px] border-gray-700 bg-gray-700/30 pl-4"
-              >
-                <span className="mr-2 text-xs opacity-30">{index + 1}</span>
-                <div className="icon flex h-5 w-5 items-center justify-center rounded-full">
-                  <FaCheckCircle className="text-green-700" size={15} />
-                </div>
-                <p
-                  className="ml-3 mr-auto bg-transparent"
-                  onChange={handleInputChange}
-                >
-                  {formatNameFirstLastName(player)}
-                </p>
-                <button
-                  onClick={() => handleRemovePlayer(player)}
-                  className="bg-red-700 px-3 py-3"
-                >
-                  <IoIosClose size={20} />
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      </div> */}
     </div>
   )
 }

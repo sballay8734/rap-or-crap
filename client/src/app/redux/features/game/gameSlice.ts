@@ -8,12 +8,14 @@ export interface SelectionsState {
 }
 
 interface FullSelectionsState {
+  playerList: string[]
   playerAnswers: SelectionsState
   localGameId: string | null
 }
 
 // INITIAL STATE
 const initialState: FullSelectionsState = {
+  playerList: [],
   playerAnswers: {},
   localGameId: null
 }
@@ -24,6 +26,18 @@ const gameSlice = createSlice({
   reducers: {
     initializePlayers: (state, action: PayloadAction<SelectionsState>) => {
       state.playerAnswers = action.payload
+    },
+    addPlayer: (state, action: PayloadAction<string>) => {
+      const newPlayer = action.payload
+
+      state.playerList = [...state.playerList, newPlayer]
+    },
+    removePlayer: (state, action: PayloadAction<string>) => {
+      const playerToRemove = action.payload
+
+      state.playerList = state.playerList.filter((p) => {
+        return p !== playerToRemove
+      })
     },
     setPlayerAnswer: (
       state,
@@ -60,6 +74,8 @@ export const {
   setPlayerAnswer,
   clearPlayerAnswers,
   clearPlayers,
-  setLocalGameId
+  setLocalGameId,
+  addPlayer,
+  removePlayer
 } = gameSlice.actions
 export default gameSlice.reducer

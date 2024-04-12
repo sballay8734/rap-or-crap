@@ -16,6 +16,7 @@ export default {
       colors: {
         primary: "#BB86FC",
         primaryLighter: "#d5b3ff",
+        primaryLightest: "#e9d6ff",
         primaryDarker: "#453659",
         primaryVariant: "#3700B3",
         primaryInactive: "#1f132b",
@@ -32,9 +33,11 @@ export default {
         overlay: "#383838",
         faded: "#ababab",
         heroP: "#b088cf",
-        warning: "#ffd24a",
+        warning: "#ffd764",
         warningDark: "#664d00",
         test: "#121212",
+        disabledBtnBg: "#303030",
+        disabledBtnText: "#c8c0b6",
 
         onPrimary: "#000000",
         onSecondary: "#000000",

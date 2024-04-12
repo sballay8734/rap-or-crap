@@ -43,27 +43,27 @@ export default function SigninPage() {
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white">
       {/* TODO: Replace this with logo */}
-      <div className="top-8 flex h-1/5 items-center text-center text-4xl">
-        Rap or Crap?
+      <div className="top-8 flex h-1/5 items-center text-center text-7xl font-display tracking-wider mt-10 text-white">
+        RAP OR CRAP
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex h-2/5 w-full flex-col"
       >
-        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
+        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-700 bg-gray-900/20 pl-3 text-sm font-light text-gray-500 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
           <MdOutlineMail size={20} />
           <input
-            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-700"
+            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-500"
             placeholder="Email"
             type="email"
             autoComplete="off"
             {...register("email", { required: "Email is required" })}
           />
         </div>
-        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-800 bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
+        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-700 bg-gray-900/20 pl-3 text-sm font-light text-gray-500 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
           <CiLock size={20} />
           <input
-            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-700"
+            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-500"
             placeholder="Password"
             type="password"
             {...register("password", { required: "Password is required" })}

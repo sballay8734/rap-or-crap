@@ -37,7 +37,6 @@ const NotificationModal = memo(
     }
 
     // Hides modal for smooth transition
-    // WARNING: You removed this for testing. Add back when done
     useEffect(() => {
       if (isVisible && isSuccess) {
         const timeoutId = setTimeout(() => {
