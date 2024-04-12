@@ -56,12 +56,14 @@ export default function ResultModal() {
         onClick={(e) => e.stopPropagation()}
         className="modal-content relative flex min-w-full flex-col overflow-hidden rounded-3xl bg-white"
       >
-        <h2 className="modal-header relative w-full min-h-20 bg-green-500 text-4xl flex items-center justify-center">
+        {/* HEADER */}
+        <h2 className="modal-header relative w-full min-h-20 bg-surfaceLighter text-4xl flex items-center justify-center">
           RESULTS
         </h2>
-        <div className="flex flex-col items-center justify-between px-4 py-4 gap-4">
-          <div className="correct">
-            <h2 className="text-2xl font-bold">Correct</h2>
+        {/* BODY */}
+        <div className="flex flex-col items-center justify-between">
+          <div className="correct bg-surface w-full flex flex-col items-center py-2 text-white">
+            <h2 className="text-2xl font-bold text-green-500">SAFE</h2>
             {data.correctPlayers.map((player) => {
               const playerName = Object.keys(player)[0]
               return (
@@ -78,8 +80,8 @@ export default function ResultModal() {
               )
             })}
           </div>
-          <div className="wrong">
-            <h2 className="text-2xl font-bold">Wrong</h2>
+          <div className="wrong bg-surface w-full flex flex-col items-center py-2 text-white">
+            <h2 className="text-2xl font-bold text-red-500">DRINK UP</h2>
             {data.wrongPlayers.map((player) => {
               const playerName = Object.keys(player)[0]
               return (
@@ -96,46 +98,21 @@ export default function ResultModal() {
               )
             })}
           </div>
-          {/* <div className="skipped">
-            <h2 className="text-2xl font-bold">Skipped</h2>
-            {data.skipped.map((player) => {
-              const playerName = Object.keys(player)[0]
-              return (
-                // TODO: Separate component
-                <div
-                  key={playerName}
-                  className="player-result-card flex items-center justify-center gap-2"
-                >
-                  <h3>{formatNameFirstLastName(playerName)}</h3>
-                  <p
-                    className={`${
-                      player[playerName].cCorrectStreak > 0
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {player[playerName].cCorrectStreak > 0
-                      ? player[playerName].cCorrectStreak
-                      : player[playerName].cWrongStreak}
-                  </p>
-                </div>
-              )
-            })}
-          </div> */}
-          <div className="flex gap-6">
-            <button
-              onClick={handleBackToMainMenu}
-              className="rounded-md bg-red-500 px-4 py-2"
-            >
-              Main Menu
-            </button>
-            <button
-              onClick={handleContinueGame}
-              className="rounded-md bg-green-500 px-4 py-2"
-            >
-              Next Lyric {">"}
-            </button>
-          </div>
+        </div>
+        {/* BUTTONS */}
+        <div className="flex w-full items-center justify-center">
+          <button
+            onClick={handleBackToMainMenu}
+            className="bg-primaryVariant px-4 py-4 w-full text-white"
+          >
+            Main Menu
+          </button>
+          <button
+            onClick={handleContinueGame}
+            className="bg-green-300 px-4 py-4 w-full"
+          >
+            Next Lyric {">"}
+          </button>
         </div>
       </div>
     </div>

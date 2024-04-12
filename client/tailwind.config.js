@@ -23,6 +23,7 @@ export default {
         secondary: "#03DAC6",
         secondaryDarker: "#007368",
         secondaryInactive: "#001a17",
+        secondaryVariant: "#0392da",
         surface: "#121212",
         lightGray: "#e0e0e0",
         surfaceLighter: "#4d4d4d",

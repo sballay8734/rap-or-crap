@@ -57,16 +57,15 @@ export default function ScoreboardModal() {
         onClick={(e) => e.stopPropagation()}
         className={`modal-content abosolute flex min-h-full min-w-full flex-col overflow-hidden bg-white`}
       >
-        <div className="header flex flex-col items-center justify-center gap-2 h-1/4 bg-primary">
+        <div className="header flex flex-col items-center justify-center gap-2 h-1/5 bg-secondary">
           <h1 className="text-2xl">LEADERBOARD</h1>
-          <p>Group Stats</p>
           <div className="flex gap-2">
             <RxAvatar size={50} />
             <RxAvatar size={50} />
             <RxAvatar size={50} />
           </div>
         </div>
-        <div className="players flex-grow bg-primaryInactive">
+        <div className="players flex-grow bg-secondaryInactive">
           {players &&
             sortPlayers().map((playerKey: string) => {
               const playerData = players[playerKey]

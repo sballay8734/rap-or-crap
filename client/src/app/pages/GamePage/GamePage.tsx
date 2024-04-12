@@ -102,21 +102,21 @@ export default function GamePage() {
       {currentLyric === "No more lyrics" ? (
         <div className="flex w-full">
           <button
-            className="bg-primaryVariant w-full min-h-16 rounded-sm text-white"
+            className="bg-primaryVariant w-3/4 min-h-16 rounded-sm text-white"
             onClick={handleNavToMainMenu}
           >
             Main Menu
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="bg-green-300 w-full text-black flex items-center justify-center gap-2"
+            className="bg-green-300 w-1/4 text-black flex items-center justify-center gap-2"
           >
             <img
               className="h-6 w-6 object-contain"
               src="/scoreboard.png"
               alt=""
             />
-            Scoreboard
+            Score
           </button>
         </div>
       ) : (
@@ -124,7 +124,7 @@ export default function GamePage() {
           <button
             onClick={handleSubmission}
             disabled={disabled}
-            className={`w-full font-light ${
+            className={`w-3/4 font-light ${
               disabled
                 ? "bg-primaryInactive text-gray-400"
                 : "bg-primaryVariant"
@@ -136,14 +136,14 @@ export default function GamePage() {
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="bg-green-300 w-full text-black flex items-center justify-center gap-2"
+            className="bg-green-300 w-1/4 text-black flex items-center justify-center gap-2"
           >
             <img
               className="h-6 w-6 object-contain"
               src="/scoreboard.png"
               alt=""
             />
-            Scoreboard
+            Score
           </button>
         </div>
       )}
