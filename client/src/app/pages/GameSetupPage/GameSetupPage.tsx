@@ -1,7 +1,6 @@
 // TODO: Response messages that are errors, should render the rest of the screen unclickable until it is closed
 // TODO: Need to refactor how response modals are rendered (Dispatching an initalize action is not ideal)
 
-// TODO: Start Game text is too dark against surfaceBG
 // TODO: Colored shadows are way to bright
 
 import { ChangeEvent, useState } from "react"
@@ -11,10 +10,6 @@ import { useNavigate } from "react-router-dom"
 import { IoIosAdd, IoIosClose } from "react-icons/io"
 import { FaCheckCircle } from "react-icons/fa"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
-import {
-  IGameInstance,
-  useInitializeGameMutation
-} from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
 import {
   addPlayer,
@@ -27,6 +22,8 @@ import { addModal } from "../../redux/features/modals/handleModalsSlice"
 
 import { IoPerson } from "react-icons/io5"
 import { IoPersonOutline } from "react-icons/io5"
+import { useInitializeGameMutation } from "../../redux/features/game/gameApi"
+import { IGameInstance } from "../../../types/ClientDataTypes"
 
 const MAX_PLAYERS = 10
 

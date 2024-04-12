@@ -1,9 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 import { isCustomApiResponse } from "../../../helpers/errorReform"
-import { PlayerSelections } from "../../../pages/GamePage/GamePage"
 import { showResultModal } from "../modals/resultModalSlice"
-import { PlayerStats } from "../../../../types/ClientDataTypes"
+
 import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
 import {
   handleErrorAndNotify,
@@ -12,37 +11,12 @@ import {
 } from "../../utils/apiUtils"
 import { initializeModal, removeModal } from "../modals/handleModalsSlice"
 import { setLocalGameId } from "./gameSlice"
-
-export interface PlayersObject {
-  [playerName: string]: PlayerStats
-}
-
-export interface InitializedGameInstance {
-  _id: string
-  userId: string
-  gameStartDate: string
-  playersObject: PlayersObject
-  currentLyric: string
-  currentPromptId: string
-}
-
-export interface IGameInstance {
-  _id?: string // created by mongoDB
-  userId: string // the signed in user who initialized the game
-  gameStartDate?: string
-  playersObject: PlayersObject
-}
-
-export interface UpdateGameStateProps {
-  answersObject: PlayerSelections
-  gameId: string
-  promptId: string
-}
-
-interface FetchGameArgs {
-  gameId: string | null
-  flag: "skip" | "run"
-}
+import {
+  FetchGameArgs,
+  IGameInstance,
+  InitializedGameInstance,
+  UpdateGameStateProps
+} from "../../../../types/ClientDataTypes"
 
 export const gameApi = createApi({
   reducerPath: "gameApi",

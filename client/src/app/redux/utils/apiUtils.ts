@@ -1,7 +1,14 @@
 import { Dispatch } from "@reduxjs/toolkit"
 
-import { hideLoadingModal } from "../features/modals/loadingModalSlice"
-import { addModal } from "../features/modals/handleModalsSlice"
+import {
+  hideLoadingModal,
+  showLoadingModal
+} from "../features/modals/loadingModalSlice"
+import {
+  addModal,
+  initializeModal,
+  removeModal
+} from "../features/modals/handleModalsSlice"
 
 const modalActionMap: { [action: string]: string } = {
   signup: "signup",
@@ -44,4 +51,41 @@ export function handleSuccessAndNotify(dispatch: Dispatch, action: string) {
       data: { isVisible: true, isSuccess: true, message: successMsgMap[action] }
     })
   )
+}
+
+interface ModalCascadeProps {
+  start: (
+    dispatch: Dispatch,
+    shouldShowLoadingModal: boolean,
+    modalKey: string,
+    loadingModalMsg?: string
+  ) => void
+  end: (dispatch: Dispatch, modalId: string) => void
+}
+
+// ON START **************************************************
+// dispatch
+// showLoadingModal: boolean
+// showLoadingModalMessage: string || null
+// modalKey: string
+
+// ON END ****************************************************
+// modalId
+
+export function modalCascade(): ModalCascadeProps {
+  return {
+    start: (
+      dispatch,
+      shouldShowLoadingModal,
+      modalKey,
+      loadingModalMsg = "Loading..."
+    ) => {
+      shouldShowLoadingModal && dispatch(showLoadingModal(loadingModalMsg))
+      dispatch(initializeModal(modalKey))
+    },
+    end: (dispatch, modalId) => {
+      dispatch(hideLoadingModal())
+      dispatch(removeModal(modalId))
+    }
+  }
 }

@@ -12,14 +12,6 @@ import { RootState } from "../../redux/store"
 import { useNavigate } from "react-router-dom"
 import { showScoreboard } from "../../redux/features/modals/scoreboardModalSlice"
 
-// TODO: Add a "view scoreboard" floating button and display the score AND results of the round after each round in a modal with a "next question" button
-
-type Selection = "rap" | "crap" | "skip" | null
-
-export interface PlayerSelections {
-  [playerName: string]: Selection
-}
-
 export default function GamePage() {
   const navigate = useNavigate()
   const dispatch = useDispatch()

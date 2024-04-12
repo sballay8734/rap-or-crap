@@ -18,7 +18,6 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 
 import confirmModalReducer from "./features/modals/confirmModalSlice"
 // TODO: Change to "requestModalReducer" (should handle err AND success)
-import serverResponseReducer from "./features/modals/responseModalSlice"
 import userReducer from "./features/user/userSlice"
 import resultModalReducer from "./features/modals/resultModalSlice"
 import loadingModalReducer from "./features/modals/loadingModalSlice"
@@ -30,7 +29,6 @@ import { authApi } from "./features/auth/authApi"
 
 const rootReducer = combineReducers({
   confirmModal: confirmModalReducer,
-  serverResponse: serverResponseReducer,
   user: userReducer,
   resultModal: resultModalReducer,
   loadingModal: loadingModalReducer,
