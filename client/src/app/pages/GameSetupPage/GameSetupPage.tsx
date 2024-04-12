@@ -59,7 +59,7 @@ export default function GameSetupPage() {
       dispatch(
         addModal({
           modalId: "addPlayer",
-          data: { isVisible: true, isSuccess: false, message: error }
+          data: { isSuccess: false, message: error }
         })
       )
     }
@@ -104,7 +104,6 @@ export default function GameSetupPage() {
       addModal({
         modalId: "startGame",
         data: {
-          isVisible: true,
           isSuccess: false,
           message: "At least one player is required."
         }
@@ -116,7 +115,6 @@ export default function GameSetupPage() {
       addModal({
         modalId: "startGame",
         data: {
-          isVisible: true,
           isSuccess: false,
           message: "You must be logged in."
         }

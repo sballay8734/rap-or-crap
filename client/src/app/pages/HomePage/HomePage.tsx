@@ -49,7 +49,6 @@ export default function HomePage() {
       addModal({
         modalId: "startGame",
         data: {
-          isVisible: true,
           isSuccess: false,
           message: "Hmm... You shouldn't be able to do that."
         }

@@ -38,7 +38,7 @@ export function handleErrorAndNotify(dispatch: Dispatch, message: string) {
   dispatch(
     addModal({
       modalId: "signin",
-      data: { isVisible: true, isSuccess: false, message }
+      data: { isSuccess: false, message }
     })
   )
 }
@@ -48,7 +48,7 @@ export function handleSuccessAndNotify(dispatch: Dispatch, action: string) {
   dispatch(
     addModal({
       modalId: modalActionMap[action],
-      data: { isVisible: true, isSuccess: true, message: successMsgMap[action] }
+      data: { isSuccess: true, message: successMsgMap[action] }
     })
   )
 }
@@ -57,35 +57,58 @@ interface ModalCascadeProps {
   start: (
     dispatch: Dispatch,
     shouldShowLoadingModal: boolean,
-    modalKey: string,
-    loadingModalMsg?: string
+    modalKey: string
   ) => void
-  end: (dispatch: Dispatch, modalId: string) => void
+  endWithSuccess: (
+    dispatch: Dispatch,
+    notifyUser: boolean,
+    modalId: string
+  ) => void
+  endWithError: (
+    dispatch: Dispatch,
+    notifyUser: boolean,
+    modalId: string,
+    msg?: string
+  ) => void
 }
 
-// ON START **************************************************
-// dispatch
-// showLoadingModal: boolean
-// showLoadingModalMessage: string || null
-// modalKey: string
+const startMsgMap: { [key: string]: string } = {
+  fetchActiveGame: "Checking for existing game..."
+}
 
-// ON END ****************************************************
-// modalId
+const sucMsgMap: { [key: string]: string } = {
+  fetchActiveGame: "Existing game found!"
+}
+
+const failMsgMap: { [key: string]: string } = {
+  fetchActiveGame: ""
+}
+
+const defaultErr = "Something went wrong."
 
 export function modalCascade(): ModalCascadeProps {
   return {
-    start: (
-      dispatch,
-      shouldShowLoadingModal,
-      modalKey,
-      loadingModalMsg = "Loading..."
-    ) => {
-      shouldShowLoadingModal && dispatch(showLoadingModal(loadingModalMsg))
+    start: (dispatch, shouldShowLoadingModal, modalKey) => {
+      const msg = startMsgMap[modalKey] || "Loading..."
+
+      shouldShowLoadingModal && dispatch(showLoadingModal(msg))
       dispatch(initializeModal(modalKey))
     },
-    end: (dispatch, modalId) => {
+
+    endWithSuccess: (dispatch, notifyUser, modalId) => {
+      const data = { isSuccess: true, message: sucMsgMap[modalId] }
+
       dispatch(hideLoadingModal())
-      dispatch(removeModal(modalId))
+      notifyUser && dispatch(addModal({ modalId, data }))
+      // dispatch(removeModal(modalId)) // WARNING: Not sure if needed
+    },
+
+    endWithError: (dispatch, notifyUser, modalId, msg = defaultErr) => {
+      const data = { isSuccess: false, message: msg }
+
+      dispatch(hideLoadingModal())
+      notifyUser && dispatch(addModal({ modalId, data }))
+      // dispatch(removeModal(modalId)) // WARNING: Not sure if needed
     }
   }
 }

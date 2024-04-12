@@ -7,7 +7,8 @@ import { hideLoadingModal, showLoadingModal } from "../modals/loadingModalSlice"
 import {
   handleErrorAndNotify,
   handleSuccessAndNotify,
-  handleSuccessSilently
+  handleSuccessSilently,
+  modalCascade
 } from "../../utils/apiUtils"
 import { initializeModal, removeModal } from "../modals/handleModalsSlice"
 import { setLocalGameId } from "./gameSlice"
@@ -30,41 +31,34 @@ export const gameApi = createApi({
     fetchActiveGame: builder.query<InitializedGameInstance, FetchGameArgs>({
       query: () => "active-game",
       providesTags: ["ActiveGame"],
-      // flag = skip
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        const modalId = "fetchActiveGame"
         const { gameId, flag } = args ?? { gameId: null, flag: "skip" }
         if (flag === "skip") return
 
-        dispatch(showLoadingModal("Checking for existing game..."))
-        dispatch(initializeModal("fetchActiveGame"))
+        modalCascade().start(dispatch, true, modalId)
+
         try {
           const res = await queryFulfilled
-          // if there is no active game don't show "Existing game found!"
+          // if there is no active game, handle success silently
           if (res.data === null) {
-            dispatch(hideLoadingModal())
-            // need to remove modal here
-            dispatch(removeModal("fetchActiveGame"))
-            return
-          }
-
-          // if DB _id !== localId -> it is first fetch ("Game found")
-          if (res.data._id !== gameId) {
-            handleSuccessAndNotify(dispatch, "fetchActiveGame")
+            modalCascade().endWithSuccess(dispatch, false, modalId)
+          } else if (res.data._id !== gameId) {
+            // if DB _id !== localId -> it is first fetch ("Game found")
+            modalCascade().endWithSuccess(dispatch, true, modalId)
             dispatch(setLocalGameId(res.data._id))
-            return
+          } else {
+            // if DB _id === localId -> game was already fetched
+            modalCascade().endWithSuccess(dispatch, false, modalId)
           }
-
-          // if DB _id === localId -> game was already fetched
-          handleSuccessSilently(dispatch)
           // need to remove modal here also
           dispatch(removeModal("fetchActiveGame"))
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            handleErrorAndNotify(dispatch, err.error.data.message)
-            dispatch(removeModal("fetchActiveGame"))
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, false, modalId, errorMsg)
           } else {
-            handleErrorAndNotify(dispatch, "Something went wrong.")
-            dispatch(removeModal("fetchActiveGame"))
+            modalCascade().endWithError(dispatch, false, modalId)
           }
         }
       }
