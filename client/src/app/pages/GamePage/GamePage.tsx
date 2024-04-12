@@ -55,6 +55,23 @@ export default function GamePage() {
     navigate("/home")
   }
 
+  // sort players by best performing
+  function sortPlayers() {
+    if (!players) return []
+
+    return Object.entries(players).sort(([a, aData], [b, bData]) => {
+      const aTotalAnswers = aData.cCorrect + aData.cWrong
+      const aPctCorrect =
+        aTotalAnswers > 0 ? (aData.cCorrect / aTotalAnswers) * 100 : 0
+
+      const bTotalAnswers = bData.cCorrect + bData.cWrong
+      const bPctCorrect =
+        bTotalAnswers > 0 ? (bData.cCorrect / bTotalAnswers) * 100 : 0
+
+      return bPctCorrect - aPctCorrect
+    })
+  }
+
   const playerData = players && Object.entries(players)
 
   // only count if player has answered
@@ -65,51 +82,53 @@ export default function GamePage() {
   // check if submit button should be disabled
   const disabled = playerData && count < playerData.length
 
+  const sortedPlayers = sortPlayers()
+
   const renderedItems = (
     <>
       <PromptCard />
-      <article className="answer-select w-full flex flex-col rounded-md bg-background overflow-auto border-0">
-        {playerData &&
-          playerData.map(([playerName, playerData]) => {
-            return (
-              <MemoizedSelectionCard
-                key={playerName}
-                playerName={playerName}
-                playerData={playerData}
-              />
-            )
-          })}
+      <article className="answer-select w-full flex flex-col overflow-auto border-0 flex-grow justify-start items-center p-2 gap-1">
+        {sortedPlayers.map(([playerName, playerData]) => {
+          return (
+            <MemoizedSelectionCard
+              key={playerName}
+              playerName={playerName}
+              playerData={playerData}
+            />
+          )
+        })}
       </article>
 
       {currentLyric === "No more lyrics" ? (
-        <div className="flex w-full gap-2">
+        <div className="flex w-full">
           <button
-            className="bg-red-950/70 w-full min-h-12 rounded-sm text-red-500"
+            className="bg-primaryVariant w-full min-h-16 rounded-sm text-white"
             onClick={handleNavToMainMenu}
           >
             Main Menu
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="px-4 py-1 bg-green-300 rounded-sm"
+            className="bg-green-300 w-full text-black flex items-center justify-center gap-2"
           >
             <img
-              className="h-12 w-12 object-contain"
+              className="h-6 w-6 object-contain"
               src="/scoreboard.png"
               alt=""
             />
+            Scoreboard
           </button>
         </div>
       ) : (
-        <div className="flex w-full gap-2">
+        <div className="flex w-full">
           <button
             onClick={handleSubmission}
             disabled={disabled}
-            className={`w-full ${
+            className={`w-full font-light ${
               disabled
                 ? "bg-primaryInactive text-gray-400"
                 : "bg-primaryVariant"
-            } min-h-12 rounded-sm`}
+            } min-h-16`}
           >
             {disabled
               ? `All players must answer (${count}/${playerData.length})`
@@ -117,14 +136,14 @@ export default function GamePage() {
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="px-4 py-1 bg-transparent rounded-sm border border-primary text-primary"
+            className="bg-green-300 w-full text-black flex items-center justify-center gap-2"
           >
-            Score
-            {/* <img
-              className="h-12 w-12 object-contain"
+            <img
+              className="h-6 w-6 object-contain"
               src="/scoreboard.png"
               alt=""
-            /> */}
+            />
+            Scoreboard
           </button>
         </div>
       )}
@@ -132,7 +151,7 @@ export default function GamePage() {
   )
 
   return (
-    <section className="z-1 relative flex h-svh w-full flex-col items-center justify-between gap-2 p-4 text-white">
+    <section className="z-1 relative flex h-svh w-full flex-col items-center justify-between text-white">
       {renderedItems}
     </section>
   )

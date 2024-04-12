@@ -96,7 +96,7 @@ export default function ResultModal() {
               )
             })}
           </div>
-          <div className="skipped">
+          {/* <div className="skipped">
             <h2 className="text-2xl font-bold">Skipped</h2>
             {data.skipped.map((player) => {
               const playerName = Object.keys(player)[0]
@@ -121,7 +121,7 @@ export default function ResultModal() {
                 </div>
               )
             })}
-          </div>
+          </div> */}
           <div className="flex gap-6">
             <button
               onClick={handleBackToMainMenu}
