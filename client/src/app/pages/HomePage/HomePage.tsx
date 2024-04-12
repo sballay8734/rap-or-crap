@@ -10,10 +10,10 @@ import { ImSpinner11 } from "react-icons/im"
 import { showConfirmModal } from "../../redux/features/modals/confirmModalSlice"
 import { useSignoutMutation } from "../../redux/features/auth/authApi"
 import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
-import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { RootState } from "../../redux/store"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
 import AnimatedNotes from "../../components/AnimatedNotes/AnimatedNotes"
+import { addModal } from "../../redux/features/modals/handleModalsSlice"
 
 export default function HomePage() {
   const [signout] = useSignoutMutation()
@@ -46,12 +46,14 @@ export default function HomePage() {
     if (activeGame !== null) {
       navigate("/game")
     } else {
-      dispatch(
-        setResponseMessage({
-          successResult: false,
-          message: "Hmmm... You shouldn't be able to do that..."
-        })
-      )
+      addModal({
+        modalId: "startGame",
+        data: {
+          isVisible: true,
+          isSuccess: false,
+          message: "Hmm... You shouldn't be able to do that."
+        }
+      })
     }
   }
 

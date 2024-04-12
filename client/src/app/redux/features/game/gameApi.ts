@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-import { setResponseMessage } from "../modals/responseModalSlice"
 import { isCustomApiResponse } from "../../../helpers/errorReform"
 import { PlayerSelections } from "../../../pages/GamePage/GamePage"
 import { showResultModal } from "../modals/resultModalSlice"
@@ -172,19 +171,9 @@ export const gameApi = createApi({
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: err.error.data.message
-              })
-            )
+            handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: "Something went wrong updating the game."
-              })
-            )
+            handleErrorAndNotify(dispatch, "Something went wrong.")
           }
         }
       }
@@ -212,19 +201,9 @@ export const gameApi = createApi({
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: err.error.data.message
-              })
-            )
+            handleErrorAndNotify(dispatch, err.error.data.message)
           } else {
-            dispatch(
-              setResponseMessage({
-                successResult: false,
-                message: "Something went wrong searching for an active game."
-              })
-            )
+            handleErrorAndNotify(dispatch, "Something went wrong.")
           }
         }
       }

@@ -8,7 +8,6 @@ import { ChangeEvent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { setResponseMessage } from "../../redux/features/modals/responseModalSlice"
 import { IoIosAdd, IoIosClose } from "react-icons/io"
 import { FaCheckCircle } from "react-icons/fa"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
@@ -105,22 +104,26 @@ export default function GameSetupPage() {
 
   async function handleStartGame() {
     if (players.length < 1) {
-      dispatch(
-        setResponseMessage({
-          successResult: false,
+      addModal({
+        modalId: "startGame",
+        data: {
+          isVisible: true,
+          isSuccess: false,
           message: "At least one player is required."
-        })
-      )
+        }
+      })
       return
     }
 
     if (!userId) {
-      dispatch(
-        setResponseMessage({
-          successResult: false,
-          message: "You must be logged in!"
-        })
-      )
+      addModal({
+        modalId: "startGame",
+        data: {
+          isVisible: true,
+          isSuccess: false,
+          message: "You must be logged in."
+        }
+      })
       return
     }
 
