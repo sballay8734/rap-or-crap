@@ -152,9 +152,9 @@ export default function ResultModal() {
               <>
                 <TbWorld className="text-[#767676]" size={14} />
                 <span className="text-[#767676] font-extralight text-xs flex gap-1">
-                  Don't believe us?
+                  Don't believe it's real?
                   <a
-                    className="text-secondary"
+                    className="text-secondary animate-pulse"
                     target="_blank"
                     href={`${tempUrl}`}
                   >
