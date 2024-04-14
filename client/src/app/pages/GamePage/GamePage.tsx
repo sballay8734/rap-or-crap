@@ -86,8 +86,8 @@ export default function GamePage() {
 
   const renderedItems = (
     <>
-      <PromptCard />
-      <article className="answer-select w-full flex flex-col overflow-auto border-0 flex-grow justify-start items-center p-2 gap-1">
+      <PromptCard playerCount={sortedPlayers.length} answeredCount={count} />
+      <article className="answer-select w-full flex flex-col overflow-auto border-0 flex-grow justify-start items-center p-1 gap-1 pt-7">
         {sortedPlayers.map(([playerName, playerData]) => {
           return (
             <MemoizedSelectionCard
@@ -112,7 +112,7 @@ export default function GamePage() {
             className="bg-green-300 w-1/4 text-black flex items-center justify-center gap-2"
           >
             <img
-              className="h-6 w-6 object-contain"
+              className="h-5 w-5 object-contain"
               src="/scoreboard.png"
               alt=""
             />
@@ -126,20 +126,18 @@ export default function GamePage() {
             disabled={disabled}
             className={`w-3/4 font-light ${
               disabled
-                ? "bg-primaryInactive text-gray-400"
+                ? "bg-primaryInactive text-primary/30"
                 : "bg-primaryVariant"
             } min-h-16`}
           >
-            {disabled
-              ? `All players must answer (${count}/${playerData.length})`
-              : `Submit Answers`}
+            {disabled ? `All players must answer` : `Submit Answers`}
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
             className="bg-green-300 w-1/4 text-black flex items-center justify-center gap-2"
           >
             <img
-              className="h-6 w-6 object-contain"
+              className="h-5 w-5 object-contain"
               src="/scoreboard.png"
               alt=""
             />
@@ -151,7 +149,7 @@ export default function GamePage() {
   )
 
   return (
-    <section className="z-1 relative flex h-svh w-full flex-col items-center justify-between text-white">
+    <section className="flex h-svh w-full flex-col items-center justify-between text-white">
       {renderedItems}
     </section>
   )

@@ -10,7 +10,8 @@ export default {
     fontFamily: {
       display: ["Luckiest Guy"],
       startGame: ["Pixelify Sans"],
-      main: ["Poppins"]
+      main: ["Poppins"],
+      quote: ["Kalam"]
     },
     extend: {
       colors: {
@@ -26,6 +27,7 @@ export default {
         secondaryVariant: "#0392da",
         surface: "#121212",
         lightGray: "#e0e0e0",
+        offWhite: "#f5f5f5",
         surfaceLighter: "#4d4d4d",
         surfaceLightest: "#1e1e1e",
         background: "#121212",
@@ -49,8 +51,8 @@ export default {
       },
       keyframes: {
         skeleton: {
-          "0%, 100%": { transform: "translateX(-100%)" },
-          "50%": { transform: "translateX(100%)" }
+          "0%, 100%": { transform: "translateX(0%)" },
+          "50%": { transform: "translateX(50%)" }
         },
         notes: {
           "0%": { transform: "scale(1) translate(0, 0)", opacity: 0 },

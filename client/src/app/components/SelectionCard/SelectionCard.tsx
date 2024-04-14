@@ -60,7 +60,7 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
   const playerPctRight = (playerRight / (playerRight + playerWrong)) * 100 || 0
 
   return (
-    <article className="w-full bg-surface text-white flex justify-between border-b-2 border-primary flex-grow max-h-16 rounded-sm shadow-main">
+    <article className="w-full bg-primaryInactive border border-primaryDarker text-white flex justify-between flex-grow max-h-16 rounded-sm shadow-main overflow-hidden">
       <div className="py-2 px-4 flex items-center w-[45%] justify-between">
         <h2 className="min-w-24">{formatNameFirstLastName(playerName)}</h2>
         <div
@@ -82,36 +82,31 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
           </p>
         </div>
       </div>
-      <button
-        onClick={() => handleAnswerSelect("crap")}
-        className={`${
-          activeAnswer === "crap"
-            ? "bg-primary text-black"
-            : "bg-primaryInactive text-gray-500"
-        } p-2 flex-grow`}
-      >
-        Crap
-      </button>
-      {/* <button
-        onClick={() => handleAnswerSelect("skip")}
-        className={`${
-          activeAnswer === "skip"
-            ? "bg-slate-700 text-white"
-            : "bg-background text-gray-500"
-        } p-2 flex-grow`}
-      >
-        Skip
-      </button> */}
-      <button
-        onClick={() => handleAnswerSelect("rap")}
-        className={`${
-          activeAnswer === "rap"
-            ? "bg-secondary text-black"
-            : "bg-secondaryInactive text-gray-500"
-        } p-2 flex-grow`}
-      >
-        Rap
-      </button>
+      <div className="buttons w-full h-full flex items-center">
+        <button
+          onClick={() => handleAnswerSelect("crap")}
+          className={`${
+            activeAnswer === "crap"
+              ? "bg-primary text-black"
+              : "bg-black/20 text-primary/20"
+          } p-2 flex-grow h-full`}
+        >
+          Crap
+        </button>
+        <div className="divider w-[1px] bg-black/20 h-full flex items-center justify-center">
+          <div className="h-3/5 bg-primary/20 w-[1px] rounded-full"></div>
+        </div>
+        <button
+          onClick={() => handleAnswerSelect("rap")}
+          className={`${
+            activeAnswer === "rap"
+              ? "bg-secondary text-black"
+              : "bg-black/20 text-primary/20"
+          } p-2 flex-grow h-full`}
+        >
+          Rap
+        </button>
+      </div>
     </article>
   )
 }

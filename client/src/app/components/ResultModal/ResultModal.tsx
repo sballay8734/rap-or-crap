@@ -10,13 +10,16 @@ import {
   useUpdateWithNewPromptMutation
 } from "../../redux/features/game/gameApi"
 import { useNavigate } from "react-router-dom"
+import { TbWorld } from "react-icons/tb"
+import { FaCaretRight } from "react-icons/fa6"
 
 export default function ResultModal() {
   const navigate = useNavigate()
 
-  const { gameId } = useFetchActiveGameQuery("skip", {
+  const { gameId, currentLyric } = useFetchActiveGameQuery("skip", {
     selectFromResult: ({ data }) => ({
-      gameId: data?._id
+      gameId: data?._id,
+      currentLyric: data?.currentLyric
     })
   })
   const dispatch = useDispatch()
@@ -45,6 +48,9 @@ export default function ResultModal() {
     dispatch(hideResultModal())
   }
 
+  // REMOVE: Testing
+  const tempUrl = "https://youtu.be/UimodeZfA9o?t=225"
+
   // Modal to render
   const children = (
     <div
@@ -54,65 +60,91 @@ export default function ResultModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="modal-content relative flex min-w-full flex-col overflow-hidden rounded-3xl bg-white"
+        className="modal-content relative flex min-w-full flex-col overflow-hidden rounded-md bg-[#232323] border border-surfaceLighter"
       >
         {/* HEADER */}
-        <h2 className="modal-header relative w-full min-h-20 bg-surfaceLighter text-4xl flex items-center justify-center">
-          RESULTS
-        </h2>
+        <div className="header p-4 flex flex-col gap-2">
+          <h2 className="text-offWhite text-center text-5xl font-startGame">
+            RAP
+          </h2>
+          <p className="lyric bg-[#3b393d] text-[#9d9d9d] text-xs font-light p-4 pb-2 rounded-md flex flex-col items-center">
+            <span className="text-center">"{currentLyric}"</span>
+            <span className="text-end w-full text-primary">- Eminem</span>
+          </p>
+        </div>
         {/* BODY */}
-        <div className="flex flex-col items-center justify-between">
-          <div className="correct bg-surface w-full flex flex-col items-center py-2 text-white">
-            <h2 className="text-2xl font-bold text-green-500">SAFE</h2>
-            {data.correctPlayers.map((player) => {
-              const playerName = Object.keys(player)[0]
-              return (
-                // TODO: Separate component
-                <div
-                  key={playerName}
-                  className="player-result-card flex items-center justify-center gap-2"
-                >
-                  <h3>{formatNameFirstLastName(playerName)}</h3>
-                  <p className="text-green-500">
-                    {player[playerName].cCorrectStreak}
-                  </p>
-                </div>
-              )
-            })}
+        <div className="body px-4 flex flex-col gap-4 pb-4">
+          <div className="correct flex flex-col items-start gap-2">
+            <h2 className="text-black text-sm font-light text-center w-full bg-primary rounded-sm py-1">
+              Safe
+            </h2>
+            <div className="flex gap-2 flex-wrap justify-center w-full">
+              {data.correctPlayers.map((player) => {
+                const playerName = Object.keys(player)[0]
+                return (
+                  // TODO: Separate component
+                  <div
+                    key={playerName}
+                    className="player-result-card flex items-center justify-center gap-2"
+                  >
+                    <h3 className="text-offWhite font-light">
+                      {formatNameFirstLastName(playerName)}
+                    </h3>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-          <div className="wrong bg-surface w-full flex flex-col items-center py-2 text-white">
-            <h2 className="text-2xl font-bold text-red-500">DRINK UP</h2>
-            {data.wrongPlayers.map((player) => {
-              const playerName = Object.keys(player)[0]
-              return (
-                // TODO: Separate component
-                <div
-                  key={playerName}
-                  className="player-result-card flex items-center justify-center gap-2"
-                >
-                  <h3>{formatNameFirstLastName(playerName)}</h3>
-                  <p className="text-red-500">
-                    {player[playerName].cWrongStreak}
-                  </p>
-                </div>
-              )
-            })}
+          <div className="wrong flex flex-col items-start gap-2">
+            <h2 className="text-black text-sm font-light w-full text-center bg-red-500 rounded-sm py-1">
+              Drink
+            </h2>
+            <div className="flex gap-2 flex-wrap justify-center w-full">
+              {data.wrongPlayers.map((player) => {
+                const playerName = Object.keys(player)[0]
+                return (
+                  // TODO: Separate component
+                  <div
+                    key={playerName}
+                    className="player-result-card flex items-center justify-center gap-2"
+                  >
+                    <h3 className="text-offWhite font-light">
+                      {formatNameFirstLastName(playerName)}
+                    </h3>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
-        {/* BUTTONS */}
-        <div className="flex w-full items-center justify-center">
-          <button
-            onClick={handleBackToMainMenu}
-            className="bg-primaryVariant px-4 py-4 w-full text-white"
-          >
-            Main Menu
-          </button>
-          <button
-            onClick={handleContinueGame}
-            className="bg-green-300 px-4 py-4 w-full"
-          >
-            Next Lyric {">"}
-          </button>
+        <div className="linkToVid bg-[#191919] flex flex-col gap-4">
+          <div className="top flex items-center gap-1 text-white font-light justify-center pt-4">
+            <TbWorld className="text-[#767676]" size={14} />
+            <span className="text-[#767676] font-extralight text-xs flex gap-1">
+              Don't believe us?
+              <a className="text-secondary" target="_blank" href={`${tempUrl}`}>
+                Click here
+              </a>
+            </span>
+          </div>
+          <div className="w-full flex items-center justify-center">
+            <button
+              onClick={handleBackToMainMenu}
+              className="bg-[#3a3a3a] text-white py-4 px-4 w-1/2"
+            >
+              Home
+            </button>
+            <button
+              onClick={handleContinueGame}
+              className="bg-secondary text-black py-4 px-4 w-1/2 flex items-center justify-center"
+            >
+              Next Lyric
+              <FaCaretRight
+                size={20}
+                className="translate-y-[1px] animate-skeleton"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </div>

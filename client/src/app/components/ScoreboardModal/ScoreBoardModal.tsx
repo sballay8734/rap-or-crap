@@ -65,15 +65,16 @@ export default function ScoreboardModal() {
             <RxAvatar size={50} />
           </div>
         </div>
-        <div className="players flex-grow bg-secondaryInactive">
+        <div className="players flex-grow bg-surface flex flex-col gap-1 py-1 overflow-auto px-1">
           {players &&
-            sortPlayers().map((playerKey: string) => {
+            sortPlayers().map((playerKey: string, index) => {
               const playerData = players[playerKey]
               return (
                 <ScoreboardCard
                   key={playerKey}
                   playerName={playerKey}
                   playerData={playerData}
+                  rank={index + 1}
                 />
               )
             })}

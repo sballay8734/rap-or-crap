@@ -14,7 +14,7 @@ function App(): JSX.Element {
   const isUserLoggedIn = user !== null
 
   return (
-    <div className="container flex h-full w-full items-center justify-center">
+    <div className="container flex h-full w-full items-center justify-center relative z-1">
       {isUserLoggedIn ? (
         <>
           <Navigate to="/home" replace />
