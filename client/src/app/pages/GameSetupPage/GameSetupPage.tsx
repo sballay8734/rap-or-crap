@@ -1,5 +1,6 @@
 // TODO: Response messages that are errors, should render the rest of the screen unclickable until it is closed
 // TODO: When there are no more lyrics, a modal should show with the only options being starting a new page (going back to home page)
+// TODO: Counters on leaderboard page are not set up
 
 // TODO: Pressing "back" while in the game brings you back to the GameSetupPage. It should take you to the HomePage
 

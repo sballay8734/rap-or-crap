@@ -99,20 +99,26 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
       <div className="flex flex-col items-center w-full min-w-[60%] justify-between px-2">
         <div className="statsTop flex items-center w-full justify-between bg-secondary/20 px-2 py-1 rounded-md flex-grow">
           <h2 className="flex items-center gap-1">
-            <span className="text-[10px] text-[#c4c4c4]">Correct:</span>
-            <span className="text-[10px] text-green-400 font-bold">
+            <span className="text-[10px] text-[#c4c4c4] font-light">
+              Correct:
+            </span>
+            <span className="text-[10px] text-green-400">
               {playerData.cCorrect}
             </span>
           </h2>
           <h2 className="flex gap-1 items-center">
-            <span className="text-[10px] text-[#c4c4c4]">Wrong:</span>
-            <span className="text-[10px] text-red-400 font-bold">
+            <span className="text-[10px] text-[#c4c4c4] font-light">
+              Wrong:
+            </span>
+            <span className="text-[10px] text-red-400">
               {playerData.cWrong}
             </span>
           </h2>
           <h2 className="flex gap-1 items-center min-w-10">
-            <span className="text-[10px] text-[#c4c4c4]">Rate:</span>
-            <span className={`text-[10px] ${handleColor(pctCorrect).text}`}>
+            <span className="text-[10px] text-[#c4c4c4] font-light">Rate:</span>
+            <span
+              className={`text-[10px] ${handleColor(Number(pctCorrect)).text}`}
+            >
               {Number(pctCorrect).toFixed(1)}%
             </span>
           </h2>
