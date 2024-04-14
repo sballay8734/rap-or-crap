@@ -80,7 +80,7 @@ export default function ScoreboardModal() {
             })}
         </div>
         <button
-          className="bg-secondary min-h-16 text-black"
+          className="bg-secondary min-h-20 text-black"
           onClick={() => dispatch(hideScoreboard())}
         >
           Close

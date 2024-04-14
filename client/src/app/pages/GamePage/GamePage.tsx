@@ -127,16 +127,16 @@ export default function GamePage() {
               disabled
                 ? "bg-primaryInactive text-primary/30 border-t-[#49325e]"
                 : "bg-primaryVariant border-t-primaryVariant"
-            } min-h-16`}
+            } min-h-20`}
           >
             {disabled ? `All players must answer` : `Submit Answers`}
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="bg-secondary text-black flex items-center justify-center gap-2 absolute bottom-0 right-0 p-[0.7rem] rounded-full mr-3 mb-3 shadow-main"
+            className="bg-secondary text-black flex items-center justify-center gap-2 absolute bottom-[3px] right-0 p-[0.7rem] rounded-full mr-3 mb-3 shadow-main"
           >
             <img
-              className="h-5 w-5 object-contain"
+              className="h-7 w-7 object-contain"
               src="/scoreboard.png"
               alt=""
             />

@@ -264,7 +264,7 @@ export default function GameSetupPage() {
         </ul>
       </div>
       {/* INPUT ************************************************************ */}
-      <div className="h-16 bg-surfaceLightest w-full flex border-t-2 border-surfaceLighter items-center flex-shrink-0">
+      <div className="h-20 bg-surfaceLightest w-full flex border-t-2 border-surfaceLighter items-center flex-shrink-0">
         <MdOutlinePersonAddAlt size={20} className="text-surfaceLighter ml-3" />
         <input
           type="text"
@@ -278,7 +278,7 @@ export default function GameSetupPage() {
         />
         <button
           onClick={handleAddPlayer}
-          className="bg-primary h-full min-w-16 flex items-center justify-center text-black"
+          className="bg-primary h-full min-w-20 flex items-center justify-center text-black"
         >
           <IoIosAdd size={40} />
         </button>

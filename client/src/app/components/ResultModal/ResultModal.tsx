@@ -49,9 +49,6 @@ export default function ResultModal() {
     dispatch(hideResultModal())
   }
 
-  // REMOVE: Testing
-  const tempUrl = "https://youtu.be/UimodeZfA9o?t=225"
-
   // Modal to render
   const children = (
     <div
@@ -156,7 +153,7 @@ export default function ResultModal() {
                   <a
                     className="text-secondary animate-pulse"
                     target="_blank"
-                    href={`${tempUrl}`}
+                    href={`${completedPrompt.youtubeUrl}`}
                   >
                     Click here
                   </a>
