@@ -28,6 +28,16 @@ export interface InitializedGameInstance {
   currentPromptId: string
 }
 
+export interface Results {
+  game: InitializedGameInstance
+  completedPrompt: {
+    artistName: string | null
+    lyric: string
+    youtubeUrl: string | null
+    correctAnswer: "rap" | "crap"
+  }
+}
+
 export interface IGameInstance {
   _id?: string // created by mongoDB
   userId: string // the signed in user who initialized the game

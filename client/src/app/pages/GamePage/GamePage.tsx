@@ -87,7 +87,7 @@ export default function GamePage() {
   const renderedItems = (
     <>
       <PromptCard playerCount={sortedPlayers.length} answeredCount={count} />
-      <article className="answer-select w-full flex flex-col overflow-auto border-0 flex-grow justify-start items-center p-1 gap-1 pt-7">
+      <article className="answer-select w-full flex flex-col overflow-auto flex-grow justify-start items-center pt-7 pb-1 px-1 gap-1 bg-primaryInactive">
         {sortedPlayers.map(([playerName, playerData]) => {
           return (
             <MemoizedSelectionCard
@@ -102,21 +102,20 @@ export default function GamePage() {
       {currentLyric === "No more lyrics" ? (
         <div className="flex w-full">
           <button
-            className="bg-primaryVariant w-3/4 min-h-16 rounded-sm text-white"
+            className="bg-primaryVariant w-full min-h-16 rounded-sm text-white"
             onClick={handleNavToMainMenu}
           >
             Main Menu
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="bg-green-300 w-1/4 text-black flex items-center justify-center gap-2"
+            className="bg-secondary text-black flex items-center justify-center gap-2 absolute bottom-0 right-0 p-[0.7rem] rounded-full mr-3 mb-3 shadow-main"
           >
             <img
               className="h-5 w-5 object-contain"
               src="/scoreboard.png"
               alt=""
             />
-            Score
           </button>
         </div>
       ) : (
@@ -124,24 +123,23 @@ export default function GamePage() {
           <button
             onClick={handleSubmission}
             disabled={disabled}
-            className={`w-3/4 font-light ${
+            className={`w-full font-light transition-all border-t border-t-[#49325e] duration-200 ${
               disabled
-                ? "bg-primaryInactive text-primary/30"
-                : "bg-primaryVariant"
+                ? "bg-primaryInactive text-primary/30 border-t-[#49325e]"
+                : "bg-primaryVariant border-t-primaryVariant"
             } min-h-16`}
           >
             {disabled ? `All players must answer` : `Submit Answers`}
           </button>
           <button
             onClick={() => dispatch(showScoreboard())}
-            className="bg-green-300 w-1/4 text-black flex items-center justify-center gap-2"
+            className="bg-secondary text-black flex items-center justify-center gap-2 absolute bottom-0 right-0 p-[0.7rem] rounded-full mr-3 mb-3 shadow-main"
           >
             <img
               className="h-5 w-5 object-contain"
               src="/scoreboard.png"
               alt=""
             />
-            Score
           </button>
         </div>
       )}

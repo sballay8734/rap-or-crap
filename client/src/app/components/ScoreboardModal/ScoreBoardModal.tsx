@@ -65,7 +65,7 @@ export default function ScoreboardModal() {
             <RxAvatar size={50} />
           </div>
         </div>
-        <div className="players flex-grow bg-surface flex flex-col gap-1 py-1 overflow-auto px-1">
+        <div className="players flex-grow bg-[#022424] flex flex-col py-1 overflow-auto px-1">
           {players &&
             sortPlayers().map((playerKey: string, index) => {
               const playerData = players[playerKey]

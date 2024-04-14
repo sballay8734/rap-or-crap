@@ -6,6 +6,7 @@ import { modalCascade } from "../../utils/apiUtils"
 import {
   IGameInstance,
   InitializedGameInstance,
+  Results,
   UpdateGameStateProps
 } from "../../../../types/ClientDataTypes"
 
@@ -97,10 +98,7 @@ export const gameApi = createApi({
         }
       }
     }),
-    updateGameState: builder.mutation<
-      InitializedGameInstance,
-      UpdateGameStateProps
-    >({
+    updateGameState: builder.mutation<Results, UpdateGameStateProps>({
       query: (body) => ({ url: "update-game", method: "PATCH", body }),
       invalidatesTags: ["ActiveGame"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -111,15 +109,21 @@ export const gameApi = createApi({
         try {
           const updatedGame = await queryFulfilled
           if ("data" in updatedGame) {
+            console.log(updatedGame)
             modalCascade().endWithSuccess(dispatch, false, modalId)
             dispatch(
               gameApi.util.upsertQueryData(
                 "fetchActiveGame",
                 "skip",
-                updatedGame.data
+                updatedGame.data.game
               )
             )
-            dispatch(showResultModal(updatedGame.data))
+            dispatch(
+              showResultModal({
+                game: updatedGame.data.game,
+                completedPrompt: updatedGame.data.completedPrompt
+              })
+            )
           }
         } catch (err) {
           if (isCustomApiResponse(err)) {

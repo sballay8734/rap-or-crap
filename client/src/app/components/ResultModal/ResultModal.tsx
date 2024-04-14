@@ -24,9 +24,10 @@ export default function ResultModal() {
   })
   const dispatch = useDispatch()
   const [getNewPrompt] = useUpdateWithNewPromptMutation()
-  const { isVisible, data } = useSelector(
-    (state: RootState) => state.resultModal
-  )
+  const {
+    isVisible,
+    data: { completedPrompt, correctPlayers, wrongPlayers, skipped }
+  } = useSelector((state: RootState) => state.resultModal)
 
   async function handleBackToMainMenu() {
     if (gameId) {
@@ -64,22 +65,48 @@ export default function ResultModal() {
       >
         {/* HEADER */}
         <div className="header p-4 flex flex-col gap-2">
-          <h2 className="text-offWhite text-center text-5xl font-startGame">
-            RAP
+          <h2
+            className={`text-primary text-center text-5xl font-startGame relative ${
+              completedPrompt?.correctAnswer === "crap" ? "text-red-500" : ""
+            }`}
+          >
+            {completedPrompt?.correctAnswer.toLocaleUpperCase()}
+            {completedPrompt?.correctAnswer === "crap" && (
+              <>
+                <img
+                  className="absolute top-0 left-0 h-10 w-10"
+                  src="/poop.png"
+                  alt=""
+                />
+                <img
+                  className="absolute top-0 right-0 h-10 w-10 -scale-x-100"
+                  src="/poop.png"
+                  alt=""
+                />
+              </>
+            )}
           </h2>
-          <p className="lyric bg-[#3b393d] text-[#9d9d9d] text-xs font-light p-4 pb-2 rounded-md flex flex-col items-center">
-            <span className="text-center">"{currentLyric}"</span>
-            <span className="text-end w-full text-primary">- Eminem</span>
+          <p
+            className={`lyric bg-[#3b393d] text-[#9d9d9d] text-xs font-light p-4 rounded-md flex flex-col items-center shadow-main border border-[#616161] ${
+              completedPrompt?.correctAnswer === "rap" && "pb-2"
+            }`}
+          >
+            <span className="text-center">"{completedPrompt?.lyric}"</span>
+            {completedPrompt?.artistName === null ? null : (
+              <span className="text-end w-full text-primary">
+                - {completedPrompt?.artistName}
+              </span>
+            )}
           </p>
         </div>
         {/* BODY */}
         <div className="body px-4 flex flex-col gap-4 pb-4">
-          <div className="correct flex flex-col items-start gap-2">
-            <h2 className="text-black text-sm font-light text-center w-full bg-primary rounded-sm py-1">
+          <div className="correct flex flex-col items-start">
+            <h2 className="text-black text-sm font-light text-center w-full bg-primary rounded-sm py-1 rounded-br-none rounded-bl-none">
               Safe
             </h2>
-            <div className="flex gap-2 flex-wrap justify-center w-full">
-              {data.correctPlayers.map((player) => {
+            <div className="flex gap-2 flex-wrap justify-center w-full bg-primary/20 py-2 rounded-b-lg">
+              {correctPlayers.map((player) => {
                 const playerName = Object.keys(player)[0]
                 return (
                   // TODO: Separate component
@@ -95,12 +122,14 @@ export default function ResultModal() {
               })}
             </div>
           </div>
-          <div className="wrong flex flex-col items-start gap-2">
-            <h2 className="text-black text-sm font-light w-full text-center bg-red-500 rounded-sm py-1">
+          <div className="wrong flex flex-col items-start relative">
+            <h2 className="text-black text-sm font-light w-full text-center bg-red-500 rounded-sm py-1 rounded-br-none rounded-bl-none flex items-center justify-center gap-4">
+              <img src="/cheers.png" alt="" className="h-4 w-4" />
               Drink
+              <img src="/cheers.png" alt="" className="h-4 w-4" />
             </h2>
-            <div className="flex gap-2 flex-wrap justify-center w-full">
-              {data.wrongPlayers.map((player) => {
+            <div className="flex gap-2 flex-wrap justify-center w-full bg-red-500/20 py-2 rounded-b-lg">
+              {wrongPlayers.map((player) => {
                 const playerName = Object.keys(player)[0]
                 return (
                   // TODO: Separate component
@@ -119,13 +148,25 @@ export default function ResultModal() {
         </div>
         <div className="linkToVid bg-[#191919] flex flex-col gap-4">
           <div className="top flex items-center gap-1 text-white font-light justify-center pt-4">
-            <TbWorld className="text-[#767676]" size={14} />
-            <span className="text-[#767676] font-extralight text-xs flex gap-1">
-              Don't believe us?
-              <a className="text-secondary" target="_blank" href={`${tempUrl}`}>
-                Click here
-              </a>
-            </span>
+            {completedPrompt?.correctAnswer === "rap" ? (
+              <>
+                <TbWorld className="text-[#767676]" size={14} />
+                <span className="text-[#767676] font-extralight text-xs flex gap-1">
+                  Don't believe us?
+                  <a
+                    className="text-secondary"
+                    target="_blank"
+                    href={`${tempUrl}`}
+                  >
+                    Click here
+                  </a>
+                </span>
+              </>
+            ) : (
+              <span className="text-[#767676] font-extralight text-xs">
+                That's crap dudes. Thanks for the compliment.
+              </span>
+            )}
           </div>
           <div className="w-full flex items-center justify-center">
             <button
@@ -139,10 +180,7 @@ export default function ResultModal() {
               className="bg-secondary text-black py-4 px-4 w-1/2 flex items-center justify-center"
             >
               Next Lyric
-              <FaCaretRight
-                size={20}
-                className="translate-y-[1px] animate-skeleton"
-              />
+              <FaCaretRight size={20} className="animate-skeleton" />
             </button>
           </div>
         </div>

@@ -55,30 +55,63 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
   }
 
   return (
-    <article className="w-full bg-surface text-white flex justify-between py-2 rounded-sm shadow-main relative border border-[#292929] flex-grow">
+    <article className="w-full bg-[#062b2b] text-white flex justify-between py-2 rounded-sm shadow-main relative border border-[#0c4d4b] flex-grow max-h-[4.5rem] mb-1">
       {/* Avatars */}
-      <div className="flex items-center justify-start pl-4 w-40 gap-1 border-r border-secondaryDarker">
+      <div className="flex items-center justify-start pl-4 w-full gap-1 border-r border-[#0c4d4b] relative">
         {/* <RxAvatar size={20} /> */}
-        <p className="text-sm text-gray-400">{rank}.</p>
-        <h2 className="text-sm">{formatNameFirstLastName(playerName)}</h2>
+        <p className="text-xs text-gray-400 font-light relative">{rank}.</p>
+        <h2
+          className={`text-sm relative ${
+            playerName.length <= 8
+              ? "text-[0.8rem]"
+              : playerName.length <= 10
+              ? "text-[0.7rem]"
+              : playerName.length <= 12
+              ? "text-[0.6rem]"
+              : playerName.length <= 15
+              ? "text-[0.5rem]"
+              : ""
+          }`}
+        >
+          {formatNameFirstLastName(playerName)}
+        </h2>
+        {rank === 1 ? (
+          <img
+            className="h-10 w-10 absolute top-1/2 -translate-y-1/2 right-3 z-1 opacity-30"
+            src="/first.png"
+            alt=""
+          />
+        ) : rank === 2 ? (
+          <img
+            className="h-10 w-10 absolute top-1/2 -translate-y-1/2 right-3 z-1 opacity-30"
+            src="/second.png"
+            alt=""
+          />
+        ) : rank === 3 ? (
+          <img
+            className="h-10 w-10 absolute top-1/2 -translate-y-1/2 right-3 z-1 opacity-30"
+            src="/third.png"
+            alt=""
+          />
+        ) : null}
       </div>
       {/* Stats */}
-      <div className="flex flex-col items-center w-full justify-between px-2">
-        <div className="statsTop flex items-center w-full justify-between bg-gray-800 px-2 py-1 rounded-md flex-grow">
+      <div className="flex flex-col items-center w-full min-w-[60%] justify-between px-2">
+        <div className="statsTop flex items-center w-full justify-between bg-secondary/20 px-2 py-1 rounded-md flex-grow">
           <h2 className="flex items-center gap-1">
-            <span className="text-[10px] text-[#9d9d9d]">Correct:</span>
+            <span className="text-[10px] text-[#c4c4c4]">Correct:</span>
             <span className="text-[10px] text-green-400 font-bold">
               {playerData.cCorrect}
             </span>
           </h2>
           <h2 className="flex gap-1 items-center">
-            <span className="text-[10px] text-[#9d9d9d]">Wrong:</span>
+            <span className="text-[10px] text-[#c4c4c4]">Wrong:</span>
             <span className="text-[10px] text-red-400 font-bold">
               {playerData.cWrong}
             </span>
           </h2>
           <h2 className="flex gap-1 items-center min-w-10">
-            <span className="text-[10px] text-[#9d9d9d]">Rate:</span>
+            <span className="text-[10px] text-[#c4c4c4]">Rate:</span>
             <span className={`text-[10px] ${handleColor(pctCorrect).text}`}>
               {Number(pctCorrect).toFixed(1)}%
             </span>

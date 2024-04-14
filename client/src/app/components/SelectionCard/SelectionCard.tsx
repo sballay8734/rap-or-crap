@@ -7,7 +7,6 @@ import { PlayerStats } from "../../../types/ClientDataTypes"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
 import { setPlayerAnswer } from "../../redux/features/game/gameSlice"
 import { RootState } from "../../redux/store"
-import { Circle } from "rc-progress"
 
 interface SelectionCardProps {
   playerName: string
@@ -23,7 +22,11 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
   )
 
   function handleAnswerSelect(selection: Selection) {
-    dispatch(setPlayerAnswer({ playerName, answer: selection }))
+    if (activeAnswer === selection) {
+      dispatch(setPlayerAnswer({ playerName, answer: null }))
+    } else {
+      dispatch(setPlayerAnswer({ playerName, answer: selection }))
+    }
   }
 
   const colorMap = {
@@ -60,36 +63,46 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
   const playerPctRight = (playerRight / (playerRight + playerWrong)) * 100 || 0
 
   return (
-    <article className="w-full bg-primaryInactive border border-primaryDarker text-white flex justify-between flex-grow max-h-16 rounded-sm shadow-main overflow-hidden">
-      <div className="py-2 px-4 flex items-center w-[45%] justify-between">
-        <h2 className="min-w-24">{formatNameFirstLastName(playerName)}</h2>
-        <div
-          className={`w-10 h-10 bg-[#171717] rounded-full relative flex items-center justify-center shadow-main`}
+    <article
+      className={`w-full bg-[#281938] text-white flex justify-between flex-grow max-h-[4.5rem] shadow-main overflow-hidden border border-[#49325e] rounded-sm transition-all duration-300`}
+    >
+      {/* NAME AND ACC */}
+      <div className="py-2 px-4 flex items-center w-[45%] justify-between relative">
+        <h2
+          className={`text-sm relative min-w-28 flex flex-col leading-5 ${
+            playerName.length <= 8
+              ? "text-[1rem]"
+              : playerName.length <= 10
+              ? "text-[0.9rem]"
+              : playerName.length <= 12
+              ? "text-[0.8rem]"
+              : playerName.length <= 15
+              ? "text-[0.7rem]"
+              : ""
+          }`}
         >
-          <Circle
-            percent={playerPctRight}
-            strokeWidth={8}
-            strokeColor={`${handleColor(playerPctRight).line}`}
-            trailColor="#303030"
-            trailWidth={8}
-          />
-          <p
-            className={`absolute ${
-              handleColor(playerPctRight).text
-            } text-[8px]`}
-          >
-            {playerPctRight.toFixed(1)}%
-          </p>
-        </div>
+          {formatNameFirstLastName(playerName)}
+          <span className="text-[#704b99] text-[8px] gap-1">
+            Accuracy:
+            <span
+              className={`${
+                handleColor(playerPctRight).text
+              } bg-[#1f132c] rounded-sm px-1 py-1 ml-1`}
+            >
+              {playerPctRight.toFixed(1)}%
+            </span>
+          </span>
+        </h2>
       </div>
-      <div className="buttons w-full h-full flex items-center">
+      {/* BUTTONS */}
+      <div className="buttons w-[55%] h-full flex items-center">
         <button
           onClick={() => handleAnswerSelect("crap")}
           className={`${
             activeAnswer === "crap"
               ? "bg-primary text-black"
               : "bg-black/20 text-primary/20"
-          } p-2 flex-grow h-full`}
+          } p-2 flex-grow h-full w-1/2`}
         >
           Crap
         </button>
@@ -102,7 +115,7 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
             activeAnswer === "rap"
               ? "bg-secondary text-black"
               : "bg-black/20 text-primary/20"
-          } p-2 flex-grow h-full`}
+          } p-2 flex-grow h-full w-1/2`}
         >
           Rap
         </button>

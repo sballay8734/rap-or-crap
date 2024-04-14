@@ -197,7 +197,11 @@ export const updateGame = async (
 
     if (!updatedGame) return next(errorHandler(500, "Could not save game."))
 
-    return res.status(200).json(updatedGame)
+    // return res.status(200).json(updatedGame)
+
+    return res
+      .status(200)
+      .json({ game: updatedGame, completedPrompt: promptToCompare })
   } catch (error) {
     next(errorHandler(500, "Something went wrong updating the game."))
   }

@@ -1,7 +1,6 @@
 // TODO: Response messages that are errors, should render the rest of the screen unclickable until it is closed
-// TODO: Need to refactor how response modals are rendered (Dispatching an initalize action is not ideal)
+// TODO: When there are no more lyrics, a modal should show with the only options being starting a new page (going back to home page)
 
-// TODO: Colored shadows are way to bright
 // TODO: Pressing "back" while in the game brings you back to the GameSetupPage. It should take you to the HomePage
 
 import { ChangeEvent, useEffect, useState } from "react"
@@ -189,10 +188,10 @@ export default function GameSetupPage() {
           <div className="flex flex-grow">
             <div className="flex flex-col justify-between flex-grow">
               <button
-                onClick={() => navigate(-1)}
-                className="flex gap-2 items-center text-primaryLightest"
+                // onClick={() => navigate(-1)}
+                className="flex gap-2 items-center text-primaryLightest flex-shrink"
               >
-                <FaArrowLeftLong size={20} />
+                <FaArrowLeftLong onClick={() => navigate(-1)} size={20} />
               </button>
               <h2 className="text-2xl font-main font-bold text-lightGray">
                 Let's go! Add players to begin.
@@ -274,6 +273,7 @@ export default function GameSetupPage() {
           onKeyDown={handleKeyDown}
           value={input}
           minLength={2}
+          maxLength={15}
         />
         <button
           onClick={handleAddPlayer}

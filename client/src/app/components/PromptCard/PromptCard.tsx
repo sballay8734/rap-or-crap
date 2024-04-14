@@ -62,8 +62,8 @@ export default function PromptCard({
           </div>
         )}
       </div>
-      <div className="absolute w-full h-10 px-4 -bottom-5">
-        <div className="w-full h-full bg-primaryInactive rounded-full flex items-center justify-between px-4 shadow-md shadow-[#634687]">
+      <div className="absolute h-10 px-4 -bottom-5">
+        <div className="w-full h-full bg-primaryInactive rounded-full flex items-center justify-center gap-4 px-5 shadow-sm shadow-[#634687]">
           {renderAvatars()}
         </div>
       </div>
