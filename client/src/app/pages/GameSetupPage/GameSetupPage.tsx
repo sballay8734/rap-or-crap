@@ -2,7 +2,20 @@
 
 // TODO: When there are no more lyrics, a modal should show with the only options being starting a new page (going back to home page)
 
-// TODO: Pressing "back" while in the game brings you back to the GameSetupPage. It should take you to the HomePage
+// TODO: Pressing "back" while in the game brings you back to the GameSetupPage. It should take you to the HomePage (Might be able to solve this by adjusting routes in index.tsx and main.tsx and protecting the game setup page) SEE BELOW
+
+/* 
+Stack 1 {
+  Home
+  GamePage
+  Scoreboard
+}
+Stack 2 {
+  GameSetupPage
+}
+
+Takeaway: GameSetupPage should be "taken out" of normal flow and like signin/signup, only be available if a user chooses to go there. From there, you navigate back to Home or GamePage
+*/
 
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
