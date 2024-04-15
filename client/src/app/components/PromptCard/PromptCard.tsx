@@ -50,7 +50,7 @@ export default function PromptCard({
                 className="text-primaryInactive opacity-30"
               />
             </span>
-            <span className="font-quote text-xl font-semibold relative z-2 text-primaryInactive">
+            <span className="font-quote text-lg font-semibold relative z-2 text-primaryInactive">
               {lyric}
             </span>
             <span className="absolute z-1 right-0 bottom-0 p-4">

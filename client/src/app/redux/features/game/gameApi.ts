@@ -185,18 +185,6 @@ export const {
 
 // MINOR: Start button needs to be preloaded
 
-// MINOR: Style resultModal
-
-// MINOR: Style Scoreboard
-
-// MINOR: Style Game Setup Page
-
-// MINOR: Style Game Page
-
 // MINOR: Add Nav to home on Game Page
-
-// MINOR: RAP OR CRAP LOGO
-
-// MINOR: Dark mode warning modal (confirmModal)
 
 // MINOR: Add functionality to "Rules" button

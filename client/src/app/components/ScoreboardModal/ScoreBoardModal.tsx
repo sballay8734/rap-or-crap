@@ -8,8 +8,6 @@ import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 import ScoreboardCard from "../ScoreboardCard/ScoreboardCard"
 import { RxAvatar } from "react-icons/rx"
 
-// NOTE: % Correct, # Correct, # Wrong, Best streak, Worst streak
-
 export default function ScoreboardModal() {
   const dispatch = useDispatch()
   const scoreboardIsShown = useSelector(
@@ -24,7 +22,6 @@ export default function ScoreboardModal() {
     })
   })
 
-  // TODO: Sort players by best score
   function sortPlayers() {
     if (!players) return []
 

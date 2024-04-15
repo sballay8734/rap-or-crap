@@ -1,4 +1,3 @@
-// TODO: Shrink text and icons to fit on smaller screens
 // TODO: Musical note raining animation
 
 import { useNavigate } from "react-router-dom"

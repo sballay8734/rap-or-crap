@@ -8,8 +8,6 @@ const initialState: ScoreboardModalState = {
   isVisible: false
 }
 
-// TODO:
-// ! Make sure to use currentLyric and YT link in modal as well
 const scoreboardModalSlice = createSlice({
   name: "scoreboardModalSlice",
   initialState,

@@ -32,8 +32,6 @@ const initialState: ResultModalState = {
   isVisible: false
 }
 
-// TODO:
-// ! Make sure to use currentLyric and YT link in modal as well
 const resultModalSlice = createSlice({
   name: "resultModalSlice",
   initialState,

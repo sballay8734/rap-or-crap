@@ -1,5 +1,3 @@
-// TODO: Modals need to be managed here and rendered as a list
-// Instead of rendering a specific modal, you will push the modals to this list and render the entire list
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { clearUser } from "../user/userSlice"
 

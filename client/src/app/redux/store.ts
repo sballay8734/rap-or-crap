@@ -17,7 +17,6 @@ import storage from "redux-persist/lib/storage"
 import { setupListeners } from "@reduxjs/toolkit/query"
 
 import confirmModalReducer from "./features/modals/confirmModalSlice"
-// TODO: Change to "requestModalReducer" (should handle err AND success)
 import userReducer from "./features/user/userSlice"
 import resultModalReducer from "./features/modals/resultModalSlice"
 import loadingModalReducer from "./features/modals/loadingModalSlice"

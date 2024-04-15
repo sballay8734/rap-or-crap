@@ -30,7 +30,7 @@ export default function SigninPage() {
       const res = await signin(signinData)
       // * if ("data" in res) then it was successful
       if ("data" in res) {
-        const activeGame = await getActiveGame({ gameId: null, flag: "run" })
+        const activeGame = await getActiveGame("run")
         if ("data" in activeGame) {
           navigate("/home")
         }
@@ -42,7 +42,6 @@ export default function SigninPage() {
 
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white">
-      {/* TODO: Replace this with logo */}
       <div className="top-8 flex h-1/5 items-center text-center text-7xl font-display tracking-wider mt-10 text-white">
         RAP OR CRAP
       </div>

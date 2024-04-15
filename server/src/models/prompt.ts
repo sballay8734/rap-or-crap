@@ -1,5 +1,3 @@
-// TODO: Use a music database to look up the songs and add them that way. This will make it easier to check for a duplicate song before submitting
-
 import mongoose, { Schema } from "mongoose"
 
 interface IPrompt {

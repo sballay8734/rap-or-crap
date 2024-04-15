@@ -11,7 +11,7 @@ export default function CBtn({
   className = "",
   color
 }: CBtnProps) {
-  // FIXME: You should not generate tailwind classes like this (See source)
+  // REMEMBER: You should not generate tailwind classes like this (See source)
   // https://tailwindcss.com/docs/content-configuration
   const bgClass = `bg-[${color}]`
 

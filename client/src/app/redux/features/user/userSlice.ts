@@ -18,7 +18,6 @@ const initialState: UserState = {
   user: null
 }
 
-// TODO: TEST THIS BEFORE MOVING ON
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
