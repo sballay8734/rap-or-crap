@@ -109,7 +109,6 @@ export const gameApi = createApi({
         try {
           const updatedGame = await queryFulfilled
           if ("data" in updatedGame) {
-            console.log(updatedGame)
             modalCascade().endWithSuccess(dispatch, false, modalId)
             dispatch(
               gameApi.util.upsertQueryData(

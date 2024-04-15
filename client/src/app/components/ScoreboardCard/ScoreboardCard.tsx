@@ -50,8 +50,6 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
 
   const history = playerData.history
 
-  // TODO: Memoize HistoryCounter
-
   return (
     <article className="w-full bg-[#062b2b] text-white flex justify-between py-2 rounded-sm shadow-main relative border border-[#0c4d4b] flex-grow max-h-[4.5rem] mb-1">
       {/* Avatars */}
