@@ -1,0 +1,14 @@
+import { FaCheckCircle } from "react-icons/fa"
+import { IoMdCloseCircle } from "react-icons/io"
+
+interface HistoryCounterProps {
+  result: boolean
+}
+
+export default function HistoryCounter({ result }: HistoryCounterProps) {
+  if (result === false) {
+    return <IoMdCloseCircle className="text-red-500 rounded-full" size={10} />
+  } else {
+    return <FaCheckCircle className="text-green-500 rounded-full" size={8} />
+  }
+}

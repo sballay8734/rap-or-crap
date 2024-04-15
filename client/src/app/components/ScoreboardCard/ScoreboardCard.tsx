@@ -1,10 +1,6 @@
-import { useDispatch } from "react-redux"
-
 import { PlayerStats } from "../../../types/ClientDataTypes"
 import { formatNameFirstLastName } from "../../helpers/formattingStrings"
-import { RxAvatar } from "react-icons/rx"
-import { FaCircle } from "react-icons/fa6"
-import { FaRegCircle } from "react-icons/fa"
+import HistoryCounter from "../HistoryCounter/HistoryCounter"
 
 interface ScoreboardCardProps {
   playerName: string
@@ -13,8 +9,6 @@ interface ScoreboardCardProps {
 }
 
 function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
-  const dispatch = useDispatch()
-
   // If no answers yet, return 0 to avoid NaN (divide by 0) error
   const pctCorrect =
     playerData.cCorrect + playerData.cWrong === 0
@@ -52,6 +46,20 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
     } else {
       return colorMap.youreCheating
     }
+  }
+
+  // REMOVE: DB will be restructured to include this field for each player
+  const testHistory: { [key: string]: boolean } = {
+    "1": false,
+    "2": true,
+    "3": true,
+    "4": false,
+    "5": false,
+    "6": false,
+    "7": true,
+    "8": false,
+    "9": false,
+    "10": false
   }
 
   return (
@@ -124,46 +132,9 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
           </h2>
         </div>
         <div className="tracker px-1 flex gap-1 w-full items-center pt-2">
-          <FaRegCircle
-            className="bg-green-500 text-green-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-red-500 text-red-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-green-500 text-green-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-green-500 text-green-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-green-500 text-green-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-green-500 text-green-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-red-500 text-red-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-red-500 text-red-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-green-500 text-green-500 rounded-full"
-            size={8}
-          />
-          <FaRegCircle
-            className="bg-red-500 text-red-500 rounded-full"
-            size={8}
-          />
+          {Object.keys(testHistory).map((round) => {
+            return <HistoryCounter key={round} result={testHistory[round]} />
+          })}
         </div>
       </div>
     </article>

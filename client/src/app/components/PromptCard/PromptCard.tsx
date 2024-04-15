@@ -47,7 +47,7 @@ export default function PromptCard({
             <span className="absolute z-1 top-0 left-0 p-4">
               <FaQuoteLeft
                 size={100}
-                className="text-primaryInactive opacity-10"
+                className="text-primaryInactive opacity-30"
               />
             </span>
             <span className="font-quote text-xl font-semibold relative z-2 text-primaryInactive">
@@ -56,7 +56,7 @@ export default function PromptCard({
             <span className="absolute z-1 right-0 bottom-0 p-4">
               <FaQuoteRight
                 size={100}
-                className="text-primaryInactive opacity-10"
+                className="text-primaryInactive opacity-30"
               />
             </span>
           </div>
