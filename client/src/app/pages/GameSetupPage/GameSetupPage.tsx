@@ -143,7 +143,8 @@ export default function GameSetupPage() {
           cCorrectStreak: 0,
           cWrongStreak: 0,
           lastQSkipped: false,
-          lastQCorrect: false
+          lastQCorrect: false,
+          history: { "1": false }
         }
       ])
     )

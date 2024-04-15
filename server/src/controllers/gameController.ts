@@ -42,6 +42,7 @@ export const initializeGame = async (
       playersObject: gameData.playersObject,
       userId: gameData.userId,
       currentLyric: lyric,
+      currentRound: 1,
       currentPromptId: _id.valueOf()
     }
 
@@ -160,44 +161,55 @@ export const updateGame = async (
     }
     // * Compare Answers
     const correctAnswer = promptToCompare.correctAnswer
-    for (const [key, value] of Object.entries(answersObject)) {
-      // TODO: Update total number of skips also (1 or 2 per game)
+    const currentRound = gameToUpdate.currentRound.toString()
 
+    // Flatten the playersObject map
+    const flattenedPlayersObject = Object.fromEntries(
+      gameToUpdate.playersObject
+    )
+
+    for (const [key, value] of Object.entries(answersObject)) {
       // Update each player
-      const playerData = gameToUpdate.playersObject.get(key)
-      if (!playerData) return // SHOULD always exist (intialized with game)
+      const playerData = flattenedPlayersObject[key]
+      if (!playerData) return // SHOULD always exist (initialized with game)
 
       if (value === "skip") {
-        // intentionally NOT resetting wrong OR correct streak
         playerData.lastQSkipped = true
         playerData.lastQCorrect = false
       } else if (value === correctAnswer) {
+        // They got it right
         playerData.cCorrect += 1
         playerData.cCorrectStreak += 1
         playerData.lastQCorrect = true
         playerData.lastQSkipped = false
+        playerData.history[currentRound] = true
         // reset wrong streak on correct answer
         playerData.cWrongStreak = 0
       } else {
+        // They got it wrong
         playerData.cWrong += 1
         playerData.cWrongStreak += 1
         playerData.lastQCorrect = false
         playerData.lastQSkipped = false
+        playerData.history[currentRound] = false
         // reset correct streak on wrong answer
         playerData.cCorrectStreak = 0
       }
-      gameToUpdate.playersObject.set(key, playerData)
+      flattenedPlayersObject[key] = playerData
     }
+
+    // Update the playersObject with the flattened object
+    gameToUpdate.playersObject = new Map(Object.entries(flattenedPlayersObject))
 
     // ! add promptId to list of "seen" prompts
     gameToUpdate.seenPromptIds.push(promptId)
+
+    console.log(gameToUpdate)
 
     // * Update Game
     const updatedGame = await gameToUpdate.save()
 
     if (!updatedGame) return next(errorHandler(500, "Could not save game."))
-
-    // return res.status(200).json(updatedGame)
 
     return res
       .status(200)
@@ -240,11 +252,10 @@ export const getNewPrompt = async (
 
     const { lyric, _id } = newPrompt[0]
 
-    // * update gameInstance (currentLyric, currentPromptId)
+    // * update gameInstance (currentLyric, currentPromptId, round)
     currentGame.currentLyric = lyric
     currentGame.currentPromptId = _id
-
-    logServer(lyric, _id)
+    currentGame.currentRound += 1
 
     await currentGame.save()
 

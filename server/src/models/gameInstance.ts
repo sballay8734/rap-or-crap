@@ -9,7 +9,12 @@ interface IGameInstance extends Document {
   playersObject: Map<string, PlayerStats>
   currentLyric: string
   currentPromptId: string
+  currentRound: number
   seenPromptIds: string[]
+}
+
+interface History {
+  [key: string]: boolean
 }
 
 const PlayerStatsSchema = new Schema<PlayerStats>({
@@ -20,13 +25,11 @@ const PlayerStatsSchema = new Schema<PlayerStats>({
   cCorrectStreak: { type: Number, default: 0 },
   cWrongStreak: { type: Number, default: 0 },
   lastQSkipped: { type: Boolean },
-  lastQCorrect: { type: Boolean }
+  lastQCorrect: { type: Boolean },
+  history: { type: Schema.Types.Mixed }
 })
 
 const GameInstanceSchema = new Schema({
-  // Use the game instance to continue game rather than dealing with local storage.
-  // you can have an "active game" field for each user. When they select new game, you clear this field and replace it with the new one.
-  // Delete the game instance when a new one is created
   userId: { type: String, required: true },
   gameStartDate: {
     type: Date,
@@ -41,6 +44,7 @@ const GameInstanceSchema = new Schema({
   },
   currentLyric: { type: String },
   currentPromptId: { type: String },
+  currentRound: { type: Number },
   seenPromptIds: { type: [String] }
 })
 

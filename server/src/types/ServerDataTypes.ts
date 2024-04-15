@@ -7,6 +7,11 @@ export interface PlayerStats {
   cWrongStreak: number
   lastQSkipped: boolean
   lastQCorrect: boolean
+  history: History
+}
+
+interface History {
+  [key: string]: boolean
 }
 
 export interface PlayersObject {
@@ -20,4 +25,5 @@ export interface IGameInstance {
   playersObject: Map<string, PlayerStats>
   currentLyric: string
   currentPromptId: string
+  currentRound: number
 }
