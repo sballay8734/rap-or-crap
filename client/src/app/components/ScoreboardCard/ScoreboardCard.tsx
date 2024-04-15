@@ -48,19 +48,9 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
     }
   }
 
-  // REMOVE: DB will be restructured to include this field for each player
-  const testHistory: { [key: string]: boolean } = {
-    "1": false,
-    "2": true,
-    "3": true,
-    "4": false,
-    "5": false,
-    "6": false,
-    "7": true,
-    "8": false,
-    "9": false,
-    "10": false
-  }
+  const history = playerData.history
+
+  // TODO: Memoize HistoryCounter
 
   return (
     <article className="w-full bg-[#062b2b] text-white flex justify-between py-2 rounded-sm shadow-main relative border border-[#0c4d4b] flex-grow max-h-[4.5rem] mb-1">
@@ -132,8 +122,8 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
           </h2>
         </div>
         <div className="tracker px-1 flex gap-1 w-full items-center pt-2">
-          {Object.keys(testHistory).map((round) => {
-            return <HistoryCounter key={round} result={testHistory[round]} />
+          {Object.keys(history).map((round) => {
+            return <HistoryCounter key={round} result={history[round]} />
           })}
         </div>
       </div>

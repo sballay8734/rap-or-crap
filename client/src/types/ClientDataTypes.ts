@@ -7,6 +7,9 @@ export interface PlayerStats {
   cWrongStreak: number
   lastQSkipped: boolean
   lastQCorrect: boolean
+  history: {
+    [key: string]: boolean
+  }
 }
 
 type Selection = "rap" | "crap" | "skip" | null
