@@ -60,7 +60,6 @@ input:focus {
   outline: none;
   border: none;
 }
-/* TODO: Add these comment starters to todotree config */
 #modal-container {
   position: fixed;
   top: 0;

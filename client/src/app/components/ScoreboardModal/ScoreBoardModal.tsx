@@ -1,3 +1,5 @@
+// TODO: Handle players having the same score (maybe go by best streak?)
+
 import { createPortal } from "react-dom"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
