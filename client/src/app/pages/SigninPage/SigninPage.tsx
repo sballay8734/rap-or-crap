@@ -90,10 +90,13 @@ export default function SigninPage() {
           className="mt-10 flex items-center justify-center rounded-sm bg-primary text-black py-3 h-12"
           type="submit"
         >
-          LOG IN
+          SIGN IN
         </button>
       </form>
-      <Link to="/signup" className="absolute bottom-8 flex-grow font-light">
+      <Link
+        to="/auth/signup"
+        className="absolute bottom-8 flex-grow font-light"
+      >
         Don't have an account? <span className="text-primary">Sign up</span>
       </Link>
     </div>

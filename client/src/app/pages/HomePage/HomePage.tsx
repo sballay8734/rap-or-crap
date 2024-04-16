@@ -34,7 +34,7 @@ export default function HomePage() {
 
   function handleResumeGame() {
     if (activeGame !== null) {
-      navigate("/game")
+      navigate("/game/play")
     } else {
       addModal({
         modalId: "startGame",
@@ -59,14 +59,14 @@ export default function HomePage() {
     }
 
     // If active game is null/undefined go to game setup, don't show modal
-    navigate("/game-setup")
+    navigate("/game/setup")
   }
 
   async function handleSignout() {
     try {
       const res = await signout()
       if ("data" in res) {
-        navigate("/signin")
+        navigate("/auth/signin")
       }
     } catch (error) {
       console.error("Something went wrong")

@@ -23,24 +23,34 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "signin",
-        element: <SigninPage />
-      },
-      {
-        path: "signup",
-        element: <SignupPage />
+        path: "auth",
+        children: [
+          {
+            path: "signin",
+            element: <SigninPage />
+          },
+          {
+            path: "signup",
+            element: <SignupPage />
+          }
+        ]
       },
       {
         path: "home",
         element: <HomePage />
       },
       {
-        path: "game-setup",
-        element: <GameSetupPage />
-      },
-      {
         path: "game",
-        element: <GamePage />
+        children: [
+          {
+            path: "setup",
+            element: <GameSetupPage />
+          },
+          {
+            path: "play",
+            element: <GamePage />
+          }
+        ]
       }
     ]
   }

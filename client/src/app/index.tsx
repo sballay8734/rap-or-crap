@@ -22,7 +22,7 @@ function App(): JSX.Element {
         </>
       ) : (
         <>
-          <Navigate to="/signin" replace />
+          <Navigate to="/auth/signin" replace />
           <Outlet />
         </>
       )}

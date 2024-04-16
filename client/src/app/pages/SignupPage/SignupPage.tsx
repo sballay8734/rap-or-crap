@@ -41,7 +41,9 @@ export default function SignupPage() {
 
   return (
     <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white">
-      <div className="flex h-1/6 items-start text-center text-4xl">Sign Up</div>
+      <div className="top-8 flex h-1/5 items-center text-center text-7xl font-display tracking-wider mt-10 text-white">
+        RAP OR CRAP
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex h-3/6 w-full flex-col"
@@ -146,7 +148,7 @@ export default function SignupPage() {
       </form>
       <p className="absolute bottom-8 flex-grow font-light">
         Already have an account?{" "}
-        <Link to="/signin" className="text-primary">
+        <Link to="/auth/signin" className="text-primary">
           Sign in
         </Link>
       </p>

@@ -28,7 +28,7 @@ export default function ConfirmModal() {
   async function handleInitializeGame() {
     try {
       await deleteGame()
-      navigate("/game-setup")
+      navigate("/game/setup")
       closeModal()
     } catch (error) {
       console.error(error)
@@ -50,7 +50,7 @@ export default function ConfirmModal() {
         <div
           className="modal-header relative w-full flex-[2_0_33%] bg-warning"
           style={{
-            backgroundImage: "url('warning.png')",
+            backgroundImage: "url('/warning.png')",
             backgroundPosition: "center",
             backgroundSize: "50px 50px",
             backgroundRepeat: "no-repeat"

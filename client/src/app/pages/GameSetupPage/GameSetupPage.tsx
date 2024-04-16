@@ -172,7 +172,7 @@ export default function GameSetupPage() {
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
-        navigate("/game")
+        navigate("/game/play", { replace: true })
         return
       }
     } catch (error) {
