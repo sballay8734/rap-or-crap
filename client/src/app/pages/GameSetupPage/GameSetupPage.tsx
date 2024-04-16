@@ -1,21 +1,6 @@
 // TODO: Response messages that are errors, should render the rest of the screen unclickable until it is closed
 
-// TODO: When there are no more lyrics, a modal should show with the only options being starting a new page (going back to home page)
-
-// TODO: Pressing "back" while in the game brings you back to the GameSetupPage. It should take you to the HomePage (Might be able to solve this by adjusting routes in index.tsx and main.tsx and protecting the game setup page) SEE BELOW
-
-/* 
-Stack 1 {
-  Home
-  GamePage
-  Scoreboard
-}
-Stack 2 {
-  GameSetupPage
-}
-
-Takeaway: GameSetupPage should be "taken out" of normal flow and like signin/signup, only be available if a user chooses to go there. From there, you navigate back to Home or GamePage
-*/
+// TODO: When there are no more lyrics, a modal should show with the only options being clearing the cache or going home
 
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -172,6 +157,7 @@ export default function GameSetupPage() {
     try {
       const newGame = await initializeGame(fullGameObject)
       if ("data" in newGame) {
+        // REMEMBER: Using "replace" prevents this page (/game/setup) from entering browser hisory. So pressing back when at /game/play will take you to /home (which is what you want) and NOT back to /game/setup
         navigate("/game/play", { replace: true })
         return
       }

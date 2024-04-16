@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 
 export default function NoMoreLyricsModal() {
   const navigate = useNavigate()
+
   // REMOVE: Testing only
   const modalIsShown = false
 
