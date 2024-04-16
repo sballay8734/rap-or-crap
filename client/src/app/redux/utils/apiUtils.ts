@@ -57,7 +57,7 @@ const failMsgMap: { [key: string]: string } = {
 const defaultErr = "Something went wrong."
 
 // NOTE: Modal is initialized before this function is called.
-// NOTE: addModal handles removing the modal on it's own which is why you ONLY need to call removeModal here if you are NOT showing the result to the user
+// !TODO: addModal handles HIDING the modal on it's own but does NOT remove it. Some modals are currently not being removed
 export function modalCascade(): ModalCascadeProps {
   return {
     start: (dispatch, shouldShowLoadingModal, modalKey) => {

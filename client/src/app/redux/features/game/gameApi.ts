@@ -9,6 +9,7 @@ import {
   Results,
   UpdateGameStateProps
 } from "../../../../types/ClientDataTypes"
+import { removeModal } from "../modals/handleModalsSlice"
 
 export const gameApi = createApi({
   reducerPath: "gameApi",
@@ -183,7 +184,7 @@ export const {
 // FIXME: START HERE *************************************
 // MINOR: logging out too quickly causes error (you've disabled the button while loading for now but might not be best)
 
-// MINOR: Start button needs to be preloaded
+// mTODO: Preload fonts, imgs, icons, etc
 
 // MINOR: Add Nav to home on Game Page
 

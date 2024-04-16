@@ -2,7 +2,7 @@
 
 // TODO: When there are no more lyrics, a modal should show with the only options being clearing the cache or going home
 
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 

@@ -204,8 +204,6 @@ export const updateGame = async (
     // ! add promptId to list of "seen" prompts
     gameToUpdate.seenPromptIds.push(promptId)
 
-    console.log(gameToUpdate)
-
     // * Update Game
     const updatedGame = await gameToUpdate.save()
 

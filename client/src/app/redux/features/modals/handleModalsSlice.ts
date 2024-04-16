@@ -36,31 +36,6 @@ const notifyModalsSlice = createSlice({
         index
       }
     },
-    // addModal: (
-    //   state,
-    //   action: PayloadAction<{
-    //     modalId: string
-    //     data: Omit<NotifyModal, "index">
-    //   }>
-    // ) => {
-    //   const { modalId, data } = action.payload
-    //   const currentModalIds = Object.keys(state.modalsToRender)
-    //   const index = currentModalIds.indexOf(modalId)
-
-    //   if (index === -1) {
-    //     // If the modal hasn't been added yet, set the index to the end of the array
-    //     state.modalsToRender[modalId] = {
-    //       ...data,
-    //       index: currentModalIds.length
-    //     }
-    //   } else {
-    //     // If the modal has already been added, update the index
-    //     state.modalsToRender[modalId] = {
-    //       ...data,
-    //       index
-    //     }
-    //   }
-    // },
     addModal: (
       state,
       action: PayloadAction<{
