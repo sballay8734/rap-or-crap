@@ -58,7 +58,7 @@ export default function ResultModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="modal-content relative flex min-w-full flex-col overflow-hidden rounded-md bg-[#232323] border border-surfaceLighter"
+        className="modal-content relative flex flex-col overflow-hidden rounded-md bg-[#232323] border border-surfaceLighter max-w-[700px]"
       >
         {/* HEADER */}
         <div className="header p-4 flex flex-col gap-2">

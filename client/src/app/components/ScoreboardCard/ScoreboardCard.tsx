@@ -51,7 +51,7 @@ function ScoreboardCard({ playerName, playerData, rank }: ScoreboardCardProps) {
   const history = playerData.history
 
   return (
-    <article className="w-full bg-[#062b2b] text-white flex justify-between py-2 rounded-sm shadow-main relative border border-[#0c4d4b] flex-grow max-h-[4.5rem] mb-1">
+    <article className="w-full bg-[#062b2b] text-white flex justify-between py-2 rounded-sm shadow-main relative border border-[#0c4d4b] flex-grow max-h-[4.5rem] mb-1 max-w-[700px]">
       {/* Avatars */}
       <div className="flex items-center justify-start pl-4 w-full gap-1 border-r border-[#0c4d4b] relative">
         {/* <RxAvatar size={20} /> */}

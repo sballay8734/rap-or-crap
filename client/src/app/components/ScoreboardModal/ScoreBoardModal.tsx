@@ -54,7 +54,7 @@ export default function ScoreboardModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`modal-content abosolute flex min-h-full min-w-full flex-col overflow-hidden bg-white`}
+        className={`modal-content abosolute flex min-h-full min-w-full flex-col overflow-hidden bg-[#022424]`}
       >
         <div className="header flex flex-col items-center justify-center gap-2 h-1/5 bg-secondary">
           <h1 className="text-2xl">LEADERBOARD</h1>
@@ -64,7 +64,7 @@ export default function ScoreboardModal() {
             <RxAvatar size={50} />
           </div>
         </div>
-        <div className="players flex-grow bg-[#022424] flex flex-col py-1 overflow-auto px-1">
+        <div className="players flex-grow bg-[#022424] flex flex-col py-1 overflow-auto px-1 items-center">
           {players &&
             sortPlayers().map((playerKey: string, index) => {
               const playerData = players[playerKey]

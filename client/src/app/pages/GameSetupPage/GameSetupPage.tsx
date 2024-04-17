@@ -181,10 +181,10 @@ export default function GameSetupPage() {
   }
 
   return (
-    <div className="z-1 relative flex h-screen w-full flex-col items-center justify-between text-white bg-primaryInactive">
-      <div className="header-and-list-wrapper flex flex-col flex-grow w-full bg-surface items-center overflow-auto">
+    <div className="z-1 relative flex h-screen w-full flex-col items-center justify-between text-white bg-surface">
+      <div className="header-and-list-wrapper flex flex-col flex-grow w-full bg-surface items-center overflow-auto max-w-[700px]">
         {/* HEADER ********************************************************* */}
-        <div className="bg-transparent pt-8 px-6 pb-6 h-1/3 flex flex-col justify-betweenf flex-shrink-0">
+        <div className="bg-transparent pt-8 px-6 pb-6 h-1/3 flex flex-col justify-between flex-shrink-0 min-w-full">
           <div className="flex flex-grow">
             <div className="flex flex-col justify-between flex-grow">
               <button
@@ -198,7 +198,7 @@ export default function GameSetupPage() {
               </h2>
               <div
                 onClick={handleStartGame}
-                className={`buttonWrapper flex gap-2 items-center p-2 rounded-md transition-all duration-200 ${
+                className={`buttonWrapper flex gap-2 items-center p-2 rounded-md transition-all duration-200 cursor-pointer hover:opacity-90 active:opacity-80 ${
                   players.length > 1 ? "bg-primary" : "bg-disabledBtnBg"
                 }`}
               >
@@ -263,12 +263,12 @@ export default function GameSetupPage() {
         </ul>
       </div>
       {/* INPUT ************************************************************ */}
-      <div className="h-20 bg-surfaceLightest w-full flex border-t-2 border-surfaceLighter items-center flex-shrink-0">
+      <div className="h-20 bg-surfaceLightest w-full flex border-t-2 border-surfaceLighter items-center flex-shrink-0 justify-between">
         <MdOutlinePersonAddAlt size={20} className="text-surfaceLighter ml-3" />
         <input
           type="text"
           placeholder="Add player"
-          className="ml-3 mr-auto bg-transparent font-semibold tracking-wide placeholder:text-primary placeholder:font-normal placeholder:opacity-30 text-primary font-main"
+          className="ml-3 bg-transparent font-semibold tracking-wide placeholder:text-primary placeholder:font-normal placeholder:opacity-30 text-primary font-main w-full h-full"
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           value={input}

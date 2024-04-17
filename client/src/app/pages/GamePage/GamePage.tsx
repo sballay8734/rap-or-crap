@@ -87,7 +87,7 @@ export default function GamePage() {
   const renderedItems = (
     <>
       <PromptCard playerCount={sortedPlayers.length} answeredCount={count} />
-      <article className="answer-select w-full flex flex-col overflow-auto flex-grow justify-start items-center pt-7 pb-1 px-1 gap-1 bg-primaryInactive">
+      <article className="answer-select w-full flex flex-col overflow-auto flex-grow justify-start items-center pt-7 pb-1 px-1 gap-1 bg-primaryInactive max-w-[700px]">
         {sortedPlayers.map(([playerName, playerData]) => {
           return (
             <MemoizedSelectionCard
@@ -147,7 +147,7 @@ export default function GamePage() {
   )
 
   return (
-    <section className="flex h-svh w-full flex-col items-center justify-between text-white">
+    <section className="flex h-svh w-full flex-col items-center justify-between text-white bg-primaryInactive">
       {renderedItems}
     </section>
   )

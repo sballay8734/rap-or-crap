@@ -75,7 +75,7 @@ export default function HomePage() {
 
   // TODO: Refactor this entire section and add transitions/animations
   return (
-    <div className="z-1 relative flex h-screen w-full flex-col items-center px-6 py-8 text-white">
+    <div className="z-1 relative flex h-screen w-full flex-col items-center px-6 py-8 text-white max-w-[530px]">
       <div className="flex h-3/4 flex-col items-center">
         <p className="text-xl font-extralight tracking-wider text-heroP">
           Hi {user?.displayName}!
