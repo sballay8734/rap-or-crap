@@ -3,8 +3,6 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../redux/store"
 import NotificationModal from "../reusable/NotificationModal"
 
-// !TODO: When logging in, if active game exists, fetchActiveGame modal will not be removed from modalsToRender (YOU'RE NEVER REMOVING IT. REMOVE IT AFTER 2000ms in NotificationModal Component after hiding it)
-
 export function RenderModals() {
   const notifyModals = useSelector(
     (state: RootState) => state.notifyModals.modalsToRender

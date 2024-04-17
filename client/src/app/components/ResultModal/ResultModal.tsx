@@ -106,7 +106,7 @@ export default function ResultModal() {
               {correctPlayers.map((player) => {
                 const playerName = Object.keys(player)[0]
                 return (
-                  // TODO: Separate component
+                  // mTODO: Separate component
                   <div
                     key={playerName}
                     className="player-result-card flex items-center justify-center gap-2"
@@ -129,7 +129,7 @@ export default function ResultModal() {
               {wrongPlayers.map((player) => {
                 const playerName = Object.keys(player)[0]
                 return (
-                  // TODO: Separate component
+                  // mTODO: Separate component
                   <div
                     key={playerName}
                     className="player-result-card flex items-center justify-center gap-2"

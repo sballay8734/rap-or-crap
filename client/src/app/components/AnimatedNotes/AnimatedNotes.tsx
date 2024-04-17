@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom"
 
-// TODO: Remove conditional render (use opacity and pointer-events-none)
+// mTODO: Remove conditional render (use opacity and pointer-events-none)
 export default function AnimatedNotes() {
   const children = (
     <div className="absolute flex items-center justify-center pointer-events-none top-0 left-0 w-full h-full z-[1000]">

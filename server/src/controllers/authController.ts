@@ -9,6 +9,8 @@ import User from "../models/user"
 import { fieldsAreNotValid, passwordsMatch } from "../helpers/authHelpers"
 import { logServer } from "../helpers/logFormatter"
 
+const SALT = process.env.SALT
+
 export const signup = async (
   req: Request,
   res: Response,
@@ -36,8 +38,7 @@ export const signup = async (
     const newUser = await User.create({
       email,
       displayName,
-      // TODO: Move salt value to dotenv file
-      password: bcrypt.hashSync(password, 13)
+      password: bcrypt.hashSync(password, SALT!)
     })
 
     if (!newUser) return next(errorHandler(500, "Could not create user."))

@@ -30,6 +30,7 @@ export default function SigninPage() {
       const res = await signin(signinData)
       // * if ("data" in res) then it was successful
       if ("data" in res) {
+        console.log("ABOUT TO RUN")
         const activeGame = await getActiveGame("run")
         if ("data" in activeGame) {
           navigate("/home")

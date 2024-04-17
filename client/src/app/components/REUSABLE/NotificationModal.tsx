@@ -36,21 +36,25 @@ const NotificationModal = memo(
       }
     }
 
-    // Hides modal for smooth transition
-    // !TODO: Modals are not being removed
+    // Hides AND REMOVES modal for smooth transition
     useEffect(() => {
-      if (isVisible && isSuccess) {
+      if (isVisible) {
         const timeoutId = setTimeout(() => {
           dispatch(hideModal(modalId))
+          // REVIEW: This might not be ideal but it does work.
+          setTimeout(() => {
+            console.log("Running remove...", modalId)
+            dispatch(removeModal(modalId))
+          }, 500)
         }, 1500)
 
         return () => clearTimeout(timeoutId)
       }
-    }, [isVisible, isSuccess])
+    }, [isVisible])
 
     const modal = (
       <div
-        // REMEMBER: onTransitionEnd is a godsend for smooth transitions
+        // REMEMBER: onTransitionEnd CAN be good for smooth transitions but also can be a bit tricky to deal with
         onTransitionEnd={handleTransitionEnd}
         onClick={(e) => e.stopPropagation()}
         style={{

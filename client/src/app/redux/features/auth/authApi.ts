@@ -1,4 +1,4 @@
-// FIXME: According to redux documentation, you should only have ONE createApi call per application. You need to refactor your store config
+// !TODO: According to redux documentation, you should only have ONE createApi call per application. You need to refactor your store config
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {

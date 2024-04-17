@@ -24,7 +24,14 @@ export const gameApi = createApi({
       providesTags: ["ActiveGame"],
       async onQueryStarted(flag, { dispatch, queryFulfilled }) {
         const modalId = "fetchActiveGame"
-        if (flag === "skip") return
+
+        console.log(flag, modalId)
+
+        if (flag === "skip") {
+          console.log(flag, "SKIPPED")
+          dispatch(removeModal(modalId))
+          return
+        }
 
         modalCascade().start(dispatch, true, modalId)
 
@@ -186,6 +193,6 @@ export const {
 
 // mTODO: Preload fonts, imgs, icons, etc
 
-// MINOR: Add Nav to home on Game Page
+// mTODO: Add Nav to home on Game Page
 
-// MINOR: Add functionality to "Rules" button
+// mTODO: Add functionality to "Rules" button

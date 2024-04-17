@@ -1,5 +1,5 @@
 // WARNING: memo is doing nothing right now because of the passed function.
-// FIXME: Updates to a single card re-render ALL cards (Not good)
+// OPTIMIZE: Updates to a single card re-render ALL cards (Not good)
 import { memo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
