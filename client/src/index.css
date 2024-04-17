@@ -1,7 +1,6 @@
-/* !TODO: Increase y padding as screen gets bigger */
-/* !TODO: Increase font-size (for most things) as screen gets bigger */
 /* !TODO: Check mouse hover transitions */
-/* !TODO: Back button on setup page */
+/* !TODO: Remove back button on setup page on desktop */
+/* !TODO: Move scoreboard toggle and home nav to top left of GamePage */
 
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");

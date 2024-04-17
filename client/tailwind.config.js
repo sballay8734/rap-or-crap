@@ -15,7 +15,7 @@ export default {
     },
     extend: {
       screens: {
-        short: { raw: "(max-height: 800px)" },
+        short: { raw: "(max-height: 750px)" },
         skinny: { raw: "(max-width: 360px)" },
         wide: "1201px"
       },

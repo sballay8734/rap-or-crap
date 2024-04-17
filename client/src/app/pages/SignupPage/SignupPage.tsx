@@ -40,13 +40,13 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="z-1 relative flex h-full w-full flex-col items-center justify-center gap-4 px-8 text-white max-w-[700px]">
+    <div className="z-1 relative flex h-full w-full flex-col items-center justify-center gap-4 px-8 text-white max-w-[600px] wide:py-20">
       <div className="top-8 flex h-1/5 items-center text-center text-7xl font-display tracking-wider mt-10 text-white">
         RAP OR CRAP
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex h-3/6 w-full flex-col"
+        className="flex h-3/6 w-full flex-col wide:mb-20"
       >
         {/* EMAIL */}
         <div
@@ -146,7 +146,7 @@ export default function SignupPage() {
           SIGN UP
         </button>
       </form>
-      <p className="absolute bottom-8 flex-grow font-light">
+      <p className="absolute bottom-8 flex-grow font-light wide:bottom-16">
         Already have an account?{" "}
         <Link to="/auth/signin" className="text-primary">
           Sign in

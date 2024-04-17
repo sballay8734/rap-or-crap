@@ -45,7 +45,7 @@ export default function ConfirmModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="modal-content relative flex min-h-72 flex-col overflow-hidden rounded-3xl bg-surface border border-warning max-w-[700px]"
+        className="modal-content relative flex min-h-72 flex-col overflow-hidden rounded-3xl bg-surface border border-warning max-w-[500px]"
       >
         <div
           className="modal-header relative w-full flex-[2_0_33%] bg-warning"

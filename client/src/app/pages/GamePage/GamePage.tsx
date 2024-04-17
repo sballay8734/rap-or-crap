@@ -11,6 +11,8 @@ import { clearPlayerAnswers } from "../../redux/features/game/gameSlice"
 import { RootState } from "../../redux/store"
 import { useNavigate } from "react-router-dom"
 import { showScoreboard } from "../../redux/features/modals/scoreboardModalSlice"
+import { useEffect } from "react"
+import { showCacheModal } from "../../redux/features/modals/clearCacheModalSlice"
 
 export default function GamePage() {
   const navigate = useNavigate()
@@ -83,6 +85,12 @@ export default function GamePage() {
   const disabled = playerData && count < playerData.length
 
   const sortedPlayers = sortPlayers()
+
+  useEffect(() => {
+    if (currentLyric === "No more lyrics") {
+      dispatch(showCacheModal("Clear the cache and start again?"))
+    }
+  }, [currentLyric])
 
   const renderedItems = (
     <>

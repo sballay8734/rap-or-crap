@@ -1,32 +1,39 @@
 import { createPortal } from "react-dom"
+import { useSelector } from "react-redux"
 
 import { useNavigate } from "react-router-dom"
+import { RootState } from "../../redux/store"
+import { useDispatch } from "react-redux"
+import { hideCacheModal } from "../../redux/features/modals/clearCacheModalSlice"
 
 // TODO: slice for vis/notVis, cache clear (seenPrompts)
 
 export default function NoMoreLyricsModal() {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // REMOVE: Testing only
-  const modalIsShown = false
+  const modalIsShown = useSelector(
+    (state: RootState) => state.cacheModal.isVisible
+  )
+  const modalMessage = useSelector(
+    (state: RootState) => state.cacheModal.message
+  )
 
   function goHome() {
-    console.log("Close Modal")
+    dispatch(hideCacheModal())
     navigate("/home")
   }
-
-  const modalMessage = "Clear the cache and start again?"
 
   // Modal to render
   const children = (
     <div
-      className={`confirm-modal-container fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
+      className={`cache-modal-container fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-black/80 px-4 transition-opacity duration-200 ${
         modalIsShown ? "opacity-100" : "opacity-0 pointer-events-none"
       } `}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="modal-content relative flex min-h-72 min-w-full flex-col overflow-hidden rounded-3xl bg-surface border border-warning"
+        className="modal-content relative flex min-h-72 flex-col overflow-hidden rounded-3xl bg-surface border border-warning max-w-[500px]"
       >
         <div
           className="modal-header relative w-full flex-[2_0_33%] bg-warning"
@@ -39,7 +46,7 @@ export default function NoMoreLyricsModal() {
         ></div>
         <div className="flex flex-[1_0_67%] flex-col items-center justify-between px-4 py-4">
           <h2 className="text-2xl font-bold text-warning">Out of lyrics!</h2>
-          <p className="text-[#4b4b4b] text-[0.6rem] text-center py-2">
+          <p className="text-[#4b4b4b] text-[0.6rem] text-center py-2 max-w-[300px]">
             Don't worry, we're working on more. If you'd like, you can clear the
             cache and play again with lyrics you've already seen.
           </p>

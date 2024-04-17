@@ -37,30 +37,26 @@ export default function PromptCard({
 
   return (
     <article className="lyric-card flex h-1/5 w-full items-center justify-center bg-[url('/lyricCardBg.jpg')] bg-cover relative z-1">
-      <div className="w-full text-center h-full bg-primary/60 flex items-center p-6 flex-col justify-center relative">
-        {!lyric ? (
-          "Loading..."
-        ) : lyric === "No more lyrics" ? (
-          "No more lyrics"
-        ) : (
-          <div className="flex">
-            <span className="absolute z-1 top-0 left-0 p-4">
-              <FaQuoteLeft
-                size={100}
-                className="text-primaryInactive opacity-30"
-              />
-            </span>
-            <span className="font-quote text-lg font-semibold relative z-2 text-primaryInactive">
-              {lyric}
-            </span>
-            <span className="absolute z-1 right-0 bottom-0 p-4">
-              <FaQuoteRight
-                size={100}
-                className="text-primaryInactive opacity-30"
-              />
-            </span>
-          </div>
-        )}
+      <div className="bg-primary/60 w-full h-full flex items-center justify-center">
+        <div className="w-full text-center h-full bg-primary/40 flex items-center p-6 flex-col justify-center relative max-w-[700px]">
+          {!lyric ? (
+            "Loading..."
+          ) : lyric === "No more lyrics" ? (
+            "No more lyrics"
+          ) : (
+            <div className="flex">
+              <span className="absolute z-1 top-0 left-0 p-4">
+                <FaQuoteLeft className="text-primaryInactive opacity-30 h-[6rem] w-[6rem]" />
+              </span>
+              <span className="font-quote text-lg font-semibold relative z-2 text-primaryInactive max-w-[400px]">
+                {lyric}
+              </span>
+              <span className="absolute z-1 right-0 bottom-0 p-4">
+                <FaQuoteRight className="text-primaryInactive opacity-30 h-[6rem] w-[6rem]" />
+              </span>
+            </div>
+          )}
+        </div>
       </div>
       <div className="absolute h-10 px-4 -bottom-5 flex justify-center">
         <div className="w-full h-full bg-primaryInactive rounded-full flex items-center justify-center gap-4 px-5 shadow-sm shadow-[#634687] max-w-[93%]">

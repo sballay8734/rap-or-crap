@@ -23,6 +23,7 @@ import loadingModalReducer from "./features/modals/loadingModalSlice"
 import notifyModalsReducer from "./features/modals/handleModalsSlice"
 import gameReducer from "./features/game/gameSlice"
 import scoreboardReducer from "./features/modals/scoreboardModalSlice"
+import cacheModalReducer from "./features/modals/clearCacheModalSlice"
 import { gameApi } from "./features/game/gameApi"
 import { authApi } from "./features/auth/authApi"
 
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   notifyModals: notifyModalsReducer,
   game: gameReducer,
   scoreboard: scoreboardReducer,
+  cacheModal: cacheModalReducer,
   [gameApi.reducerPath]: gameApi.reducer,
   [authApi.reducerPath]: authApi.reducer
 })
