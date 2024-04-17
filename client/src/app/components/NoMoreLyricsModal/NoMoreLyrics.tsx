@@ -39,7 +39,7 @@ export default function NoMoreLyricsModal() {
         ></div>
         <div className="flex flex-[1_0_67%] flex-col items-center justify-between px-4 py-4">
           <h2 className="text-2xl font-bold text-warning">Out of lyrics!</h2>
-          <p className="text-[#4b4b4b] text-[10px] text-center py-2">
+          <p className="text-[#4b4b4b] text-[0.6rem] text-center py-2">
             Don't worry, we're working on more. If you'd like, you can clear the
             cache and play again with lyrics you've already seen.
           </p>

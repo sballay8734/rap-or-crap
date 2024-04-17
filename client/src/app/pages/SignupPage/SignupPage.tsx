@@ -40,7 +40,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white max-w-[700px]">
+    <div className="z-1 relative flex h-full w-full flex-col items-center justify-center gap-4 px-8 text-white max-w-[700px]">
       <div className="top-8 flex h-1/5 items-center text-center text-7xl font-display tracking-wider mt-10 text-white">
         RAP OR CRAP
       </div>
@@ -50,7 +50,7 @@ export default function SignupPage() {
       >
         {/* EMAIL */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
+          className={`mb-4 flex h-16 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.email ? "border-error" : "border-gray-800"
           }`}
         >
@@ -65,7 +65,7 @@ export default function SignupPage() {
         </div>
         {/* WHAT SHOULD WE CALL YOU? */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
+          className={`mb-4 flex h-16 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.displayName ? "border-error" : "border-gray-800"
           }`}
         >
@@ -83,7 +83,7 @@ export default function SignupPage() {
         </div>
         {/* PASSWORD */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
+          className={`mb-4 flex h-16 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.password ? "border-error" : "border-gray-800"
           }`}
         >
@@ -104,7 +104,7 @@ export default function SignupPage() {
         </div>
         {/* CONFIRM PASSWORD */}
         <div
-          className={`mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
+          className={`mb-4 flex h-16 w-full items-center gap-3 rounded-sm border-[2px] bg-gray-900/20 pl-3 text-sm font-light text-gray-700 transition-all duration-300 focus-within:border-primary focus-within:text-primary ${
             errors.confirmPassword ? "border-error" : "border-gray-800"
           }`}
         >
@@ -140,7 +140,7 @@ export default function SignupPage() {
           )}
         </div>
         <button
-          className="mt-2 flex items-center justify-center rounded-sm bg-primary text-black py-3 h-12"
+          className="mt-2 flex items-center justify-center rounded-sm bg-primary text-black py-3 h-16"
           type="submit"
         >
           SIGN UP

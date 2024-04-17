@@ -14,6 +14,11 @@ export default {
       quote: ["Kalam"]
     },
     extend: {
+      screens: {
+        short: { raw: "(max-height: 800px)" },
+        skinny: { raw: "(max-width: 360px)" },
+        wide: "1201px"
+      },
       colors: {
         primary: "#BB86FC",
         primaryLighter: "#d5b3ff",

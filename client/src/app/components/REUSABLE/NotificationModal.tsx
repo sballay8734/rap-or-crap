@@ -43,7 +43,6 @@ const NotificationModal = memo(
           dispatch(hideModal(modalId))
           // REVIEW: This might not be ideal but it does work.
           setTimeout(() => {
-            console.log("Running remove...", modalId)
             dispatch(removeModal(modalId))
           }, 500)
         }, 1500)
@@ -63,7 +62,8 @@ const NotificationModal = memo(
           right: 0,
           top: `${11 + modalIndex * 72}px`,
           margin: "0 auto",
-          maxWidth: "500px"
+          maxWidth: "500px",
+          minHeight: "65px"
         }}
         className={`notify-modal flex h-16 w-[95%] overflow-hidden items-center rounded-md bg-test text-gray-200 -translate-x-96 transition-translate duration-200 z-[1003] ${
           isVisible
@@ -82,7 +82,7 @@ const NotificationModal = memo(
             <IoIosCloseCircleOutline size={35} color={"#FFFFFF"} />
           )}
         </div>
-        <div className="message flex flex-col leading-tight justify-center w-full pl-3">
+        <div className="message flex flex-col justify-center w-full pl-3">
           <h2
             className={`text-md text-black font-light ${
               isSuccess ? "text-success" : "text-error"
@@ -94,7 +94,7 @@ const NotificationModal = memo(
         </div>
         <button
           onClick={() => dispatch(hideModal(modalId))}
-          className="close text-[9px] min-w-16 flex items-center justify-center text-faded font-light tracking-wider border-l border-[#2b2b2b] h-[75%]"
+          className="close text-[0.6rem] min-w-20 flex items-center justify-center text-faded font-light tracking-wider border-l border-[#2b2b2b] h-[75%]"
         >
           CLOSE
         </button>

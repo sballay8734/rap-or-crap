@@ -25,10 +25,7 @@ export const gameApi = createApi({
       async onQueryStarted(flag, { dispatch, queryFulfilled }) {
         const modalId = "fetchActiveGame"
 
-        console.log(flag, modalId)
-
         if (flag === "skip") {
-          console.log(flag, "SKIPPED")
           dispatch(removeModal(modalId))
           return
         }

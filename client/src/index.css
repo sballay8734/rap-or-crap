@@ -25,6 +25,13 @@ html {
   width: 100%;
   margin: 0;
   padding: 0;
+
+  @media screen and (max-width: 350px) {
+    font-size: 0.7rem;
+  }
+  @media screen and (max-height: 799px) {
+    font-size: 0.7rem;
+  }
 }
 
 body {

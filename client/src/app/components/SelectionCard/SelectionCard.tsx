@@ -82,7 +82,7 @@ function SelectionCard({ playerName, playerData }: SelectionCardProps) {
           }`}
         >
           {formatNameFirstLastName(playerName)}
-          <span className="text-[#704b99] text-[8px] gap-1">
+          <span className="text-[#704b99] text-[0.6rem] gap-1">
             Accuracy:
             <span
               className={`${

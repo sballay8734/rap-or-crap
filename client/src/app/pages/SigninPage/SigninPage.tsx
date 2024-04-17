@@ -30,7 +30,6 @@ export default function SigninPage() {
       const res = await signin(signinData)
       // * if ("data" in res) then it was successful
       if ("data" in res) {
-        console.log("ABOUT TO RUN")
         const activeGame = await getActiveGame("run")
         if ("data" in activeGame) {
           navigate("/home")
@@ -42,28 +41,28 @@ export default function SigninPage() {
   }
 
   return (
-    <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-4 px-8 text-white max-w-[800px]">
+    <div className="z-1 relative flex h-full w-full flex-col items-center justify-center gap-4 px-8 text-white max-w-[800px] wide:py-20">
       <div className="top-8 flex h-1/5 items-center text-center text-7xl font-display tracking-wider mt-10 text-white">
         RAP OR CRAP
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex h-2/5 w-full flex-col max-w-[530px]"
+        className="flex h-2/5 w-full flex-col max-w-[530px] wide:mb-16"
       >
-        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-700 bg-gray-900/20 pl-3 text-sm font-light text-gray-500 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
+        <div className="mb-4 flex h-16 w-full items-center gap-3 rounded-sm border-[2px] border-gray-700 bg-gray-900/20 pl-3 text-sm font-light text-gray-500 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
           <MdOutlineMail size={20} />
           <input
-            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-500 min-h-12"
+            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-500 min-h-16"
             placeholder="Email"
             type="email"
             autoComplete="off"
             {...register("email", { required: "Email is required" })}
           />
         </div>
-        <div className="mb-4 flex h-12 w-full items-center gap-3 rounded-sm border-[2px] border-gray-700 bg-gray-900/20 pl-3 text-sm font-light text-gray-500 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
+        <div className="mb-4 flex h-16 w-full items-center gap-3 rounded-sm border-[2px] border-gray-700 bg-gray-900/20 pl-3 text-sm font-light text-gray-500 transition-all duration-300 focus-within:border-primary focus-within:text-primary">
           <CiLock size={20} />
           <input
-            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-500 min-h-12"
+            className="h-full w-full bg-transparent tracking-wider placeholder:text-xs placeholder:text-gray-500 min-h-16"
             placeholder="Password"
             type="password"
             {...register("password", { required: "Password is required" })}
@@ -88,7 +87,7 @@ export default function SigninPage() {
           )}
         </div>
         <button
-          className="mt-10 flex items-center justify-center rounded-sm bg-primary text-black py-3 h-12"
+          className="mt-10 flex items-center justify-center rounded-sm bg-primary text-black py-3 h-16"
           type="submit"
         >
           SIGN IN
@@ -96,7 +95,7 @@ export default function SigninPage() {
       </form>
       <Link
         to="/auth/signup"
-        className="absolute bottom-8 flex-grow font-light"
+        className="absolute bottom-8 flex-grow font-light wide:bottom-16"
       >
         Don't have an account? <span className="text-primary">Sign up</span>
       </Link>

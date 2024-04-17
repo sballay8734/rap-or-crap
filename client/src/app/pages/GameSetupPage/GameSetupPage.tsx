@@ -49,7 +49,7 @@ export default function GameSetupPage() {
 
   if (!userId) {
     return (
-      <div className="z-1 relative flex h-screen w-full flex-col items-center justify-center gap-8 px-6 py-8 text-white">
+      <div className="z-1 relative flex h-full w-full flex-col items-center justify-center gap-8 px-6 py-8 text-white">
         <h1 className="text-4xl text-center">You must be logged in!</h1>
       </div>
     )
@@ -181,7 +181,7 @@ export default function GameSetupPage() {
   }
 
   return (
-    <div className="z-1 relative flex h-screen w-full flex-col items-center justify-between text-white bg-surface">
+    <div className="z-1 relative flex h-full w-full flex-col items-center justify-between text-white bg-surface">
       <div className="header-and-list-wrapper flex flex-col flex-grow w-full bg-surface items-center overflow-auto max-w-[700px]">
         {/* HEADER ********************************************************* */}
         <div className="bg-transparent pt-8 px-6 pb-6 h-1/3 flex flex-col justify-between flex-shrink-0 min-w-full">
@@ -203,7 +203,7 @@ export default function GameSetupPage() {
                 }`}
               >
                 <button
-                  className={`flex items-center rounded-full justify-center p-2 w-[44px] h-[44px] transition-all duration-200 ${
+                  className={`flex items-center rounded-full justify-center p-2 w-[2.75rem] h-[2.75rem] transition-all duration-200 ${
                     players.length > 1
                       ? "animate-pulse bg-surface shadow-lg"
                       : ""

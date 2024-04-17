@@ -7,8 +7,13 @@ interface HistoryCounterProps {
 
 export default function HistoryCounter({ result }: HistoryCounterProps) {
   if (result === false) {
-    return <IoMdCloseCircle className="text-red-500 rounded-full" size={10} />
+    return <IoMdCloseCircle className="text-red-500 rounded-full h-[0.7rem]" />
   } else {
-    return <FaCheckCircle className="text-green-500 rounded-full" size={8} />
+    return (
+      <FaCheckCircle
+        className="text-green-500 rounded-full h-[0.6rem]"
+        size={8}
+      />
+    )
   }
 }

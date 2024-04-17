@@ -168,13 +168,13 @@ export default function ResultModal() {
           <div className="w-full flex items-center justify-center">
             <button
               onClick={handleBackToMainMenu}
-              className="bg-[#3a3a3a] text-white py-4 px-4 w-1/2"
+              className="bg-[#3a3a3a] text-white py-4 px-4 w-1/2 h-full"
             >
               Home
             </button>
             <button
               onClick={handleContinueGame}
-              className="bg-secondary text-black py-4 px-4 w-1/2 flex items-center justify-center"
+              className="bg-secondary text-black py-4 px-4 w-1/2 flex items-center justify-center h-full"
             >
               Next Lyric
               <FaCaretRight size={20} className="animate-skeleton" />
