@@ -27,7 +27,8 @@ const mongoose_1 = __importStar(require("mongoose"));
 const PromptSchema = new mongoose_1.Schema({
     artistName: String,
     lyric: String,
-    youtubeUrl: String
+    youtubeUrl: String,
+    correctAnswer: String
 });
 const Prompt = mongoose_1.default.model("prompt", PromptSchema);
 exports.default = Prompt;

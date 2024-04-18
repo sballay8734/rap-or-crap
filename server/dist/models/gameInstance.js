@@ -30,19 +30,28 @@ const PlayerStatsSchema = new mongoose_1.Schema({
     cDrinksTaken: { type: Number, default: 0 },
     cDrinksGiven: { type: Number, default: 0 },
     cCorrectStreak: { type: Number, default: 0 },
-    cWrongStreak: { type: Number, default: 0 }
+    cWrongStreak: { type: Number, default: 0 },
+    lastQSkipped: { type: Boolean },
+    lastQCorrect: { type: Boolean },
+    history: { type: mongoose_1.Schema.Types.Mixed }
 });
 const GameInstanceSchema = new mongoose_1.Schema({
-    // Use the game instance to continue game rather than dealing with local storage.
-    // you can have an "active game" field for each user. When they select new game, you clear this field and replace it with the new one.
-    // Delete the game instance when a new one is created
     userId: { type: String, required: true },
     gameStartDate: {
         type: Date,
         required: true,
         default: Date.now
     },
-    playersObject: { type: Map, of: PlayerStatsSchema, required: true }
+    playersObject: {
+        type: Map,
+        of: PlayerStatsSchema,
+        required: true,
+        default: new Map()
+    },
+    currentLyric: { type: String },
+    currentPromptId: { type: String },
+    currentRound: { type: Number },
+    seenPromptIds: { type: [String] }
 });
 const Game = mongoose_1.default.model("game", GameInstanceSchema);
 exports.default = Game;

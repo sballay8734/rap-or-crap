@@ -28,7 +28,7 @@ const UserSchema = new mongoose_1.Schema({
     email: { type: String, required: true, unique: true },
     displayName: { type: String, required: true },
     password: { type: String, required: true },
-    activeGameId: { type: String, default: "" },
+    activeGameId: { type: String, default: "" }
 });
 const User = mongoose_1.default.model("user", UserSchema);
 exports.default = User;

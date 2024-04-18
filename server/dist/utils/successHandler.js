@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.successHandler = void 0;
+const logFormatter_1 = require("../helpers/logFormatter");
 function successHandler(res, statusCode, message, payload) {
     if (message.length > 50)
-        console.log(`RES MSG IS TOO LONG! MSG: ${message}`);
+        (0, logFormatter_1.logServer)(`RES MSG IS TOO LONG! MSG: ${message}`);
     return res.status(statusCode).json({ success: true, message, payload });
 }
 exports.successHandler = successHandler;
