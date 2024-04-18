@@ -67,3 +67,8 @@ export const createServer = (): Express => {
 
   return app
 }
+
+// REMEMBER: Need to serve dist from server in monorepo.
+// Build the front-end so that you get a build or dist folder with your react front-end.
+
+// Serve that in your express app, something like app.use('/', express.static('dist')) so that index.html is served and all the js bundle with it.
