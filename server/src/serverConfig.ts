@@ -12,7 +12,8 @@ import authRouter from "./routes/authRoute"
 import gameRouter from "./routes/gameRoute"
 import { Err } from "./types/error"
 import cookieParser from "cookie-parser"
-import { logServer, errorServer, warnServer } from "./helpers/logFormatter"
+import { logServer } from "./helpers/logFormatter"
+import path from "path"
 
 const uri = process.env.MONGO_URI
 
@@ -42,6 +43,9 @@ export const createServer = (): Express => {
   app.use("/api/prompts", promptsRouter)
   app.use("/api/auth", authRouter)
   app.use("/api/game", gameRouter)
+
+  const clientDistPath = path.join(__dirname, "../../client/dist")
+  app.use("/", express.static(clientDistPath))
 
   app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
     const statusCode = err.statusCode || 500
