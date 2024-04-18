@@ -6,6 +6,8 @@
 
 // TODO: Test branch is working
 
+// TODO: SIGN UP is not working
+
 import * as React from "react"
 import { createRoot } from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
