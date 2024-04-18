@@ -1,7 +1,7 @@
-// TODO: Change color of top bar (where battery is)
-// TODO: No zoom when inputs are selected
 // TODO: Add ability to easily switch to dev and prod mode on client (Server is already handled)
+
 // TODO: Text is a bit to small on your phone
+
 // TODO: Refreshing on signin results in cannot GET /auth/signin ???
 
 import * as React from "react"
