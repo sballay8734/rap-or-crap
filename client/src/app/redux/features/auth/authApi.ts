@@ -7,9 +7,7 @@ import {
 } from "../../../../types/ClientAuthTypes"
 import { CreatedUser } from "../../../../types/responsesFromServer"
 import { isCustomApiResponse } from "../../../helpers/errorReform"
-import { showLoadingModal } from "../modals/loadingModalSlice"
 import { gameApi } from "../game/gameApi"
-import { initializeModal } from "../modals/handleModalsSlice"
 import { clearUser, setUser } from "../user/userSlice"
 import { modalCascade } from "../../utils/apiUtils"
 

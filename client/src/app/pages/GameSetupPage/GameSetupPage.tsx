@@ -21,10 +21,7 @@ import { addModal } from "../../redux/features/modals/handleModalsSlice"
 
 import { IoPerson } from "react-icons/io5"
 import { IoPersonOutline } from "react-icons/io5"
-import {
-  useFetchActiveGameQuery,
-  useInitializeGameMutation
-} from "../../redux/features/game/gameApi"
+import { useInitializeGameMutation } from "../../redux/features/game/gameApi"
 import { IGameInstance } from "../../../types/ClientDataTypes"
 
 const MAX_PLAYERS = 10
@@ -34,11 +31,6 @@ export default function GameSetupPage() {
 
   const userId = useSelector((state: RootState) => state.user.user?._id)
   const players = useSelector((state: RootState) => state.game.playerList)
-  const gameId = useFetchActiveGameQuery("skip", {
-    selectFromResult: ({ data }) => ({
-      gameId: data?._id
-    })
-  })
 
   const navigate = useNavigate()
   const dispatch = useDispatch()

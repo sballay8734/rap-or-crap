@@ -50,10 +50,6 @@ const sucMsgMap: { [key: string]: string } = {
   signout: "You are signed out!"
 }
 
-const failMsgMap: { [key: string]: string } = {
-  fetchActiveGame: ""
-}
-
 const defaultErr = "Something went wrong."
 
 // NOTE: Modal is initialized before this function is called.

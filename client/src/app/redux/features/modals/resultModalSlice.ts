@@ -38,7 +38,7 @@ const resultModalSlice = createSlice({
   reducers: {
     showResultModal: (state, action: PayloadAction<Results>) => {
       const {
-        game: { playersObject, currentLyric },
+        game: { playersObject },
         completedPrompt: { artistName, lyric, youtubeUrl, correctAnswer }
       } = action.payload
       // clear existing information first (propbably unecessary)

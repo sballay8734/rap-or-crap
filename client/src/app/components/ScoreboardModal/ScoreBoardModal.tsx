@@ -16,8 +16,6 @@ export default function ScoreboardModal() {
     (state: RootState) => state.scoreboard.isVisible
   )
 
-  const user = useSelector((state: RootState) => state.user.user)
-
   const { players } = useFetchActiveGameQuery("skip", {
     selectFromResult: ({ data }) => ({
       players: data?.playersObject

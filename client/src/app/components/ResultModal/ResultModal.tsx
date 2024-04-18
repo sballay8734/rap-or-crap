@@ -16,17 +16,16 @@ import { FaCaretRight } from "react-icons/fa6"
 export default function ResultModal() {
   const navigate = useNavigate()
 
-  const { gameId, currentLyric } = useFetchActiveGameQuery("skip", {
+  const { gameId } = useFetchActiveGameQuery("skip", {
     selectFromResult: ({ data }) => ({
-      gameId: data?._id,
-      currentLyric: data?.currentLyric
+      gameId: data?._id
     })
   })
   const dispatch = useDispatch()
   const [getNewPrompt] = useUpdateWithNewPromptMutation()
   const {
     isVisible,
-    data: { completedPrompt, correctPlayers, wrongPlayers, skipped }
+    data: { completedPrompt, correctPlayers, wrongPlayers }
   } = useSelector((state: RootState) => state.resultModal)
 
   async function handleBackToMainMenu() {

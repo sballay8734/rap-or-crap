@@ -61,7 +61,7 @@ export default function GamePage() {
   function sortPlayers() {
     if (!players) return []
 
-    return Object.entries(players).sort(([a, aData], [b, bData]) => {
+    return Object.entries(players).sort(([_, aData], [__, bData]) => {
       const aTotalAnswers = aData.cCorrect + aData.cWrong
       const aPctCorrect =
         aTotalAnswers > 0 ? (aData.cCorrect / aTotalAnswers) * 100 : 0

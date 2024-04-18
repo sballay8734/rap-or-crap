@@ -15,7 +15,7 @@ interface FormData {
 }
 
 export default function SigninPage() {
-  const [getActiveGame, result] = useLazyFetchActiveGameQuery()
+  const [getActiveGame] = useLazyFetchActiveGameQuery()
   const [signin] = useSigninMutation()
   // const [fetchActiveGame] = useLazyFetchActiveGameQuery()
   const navigate = useNavigate()
