@@ -51,7 +51,13 @@ export const createServer = (): Express => {
   app.use("/api/game", gameRouter)
 
   const clientDistPath = path.join(__dirname, "../../client/dist")
-  app.use("*", express.static(clientDistPath))
+  app.use(express.static(clientDistPath))
+
+  // NOTE: Needed to handle page refreshes
+  const indexPath = path.join(__dirname, clientDistPath)
+  app.get("*", (req: Request, res: Response) => {
+    res.sendFile(indexPath)
+  })
 
   app.use((err: Err, req: Request, res: Response, next: NextFunction) => {
     const statusCode = err.statusCode || 500
