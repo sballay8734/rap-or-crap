@@ -1,5 +1,7 @@
 // TODO: Change color of top bar (where battery is)
 // TODO: No zoom when inputs are selected
+// TODO: Add ability to easily switch to dev and prod mode on client (Server is already handled)
+// TODO: Text is a bit to small on your phone
 
 import * as React from "react"
 import { createRoot } from "react-dom/client"

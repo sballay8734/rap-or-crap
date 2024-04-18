@@ -39,6 +39,8 @@ body {
   height: 100svh;
   margin: 0;
   padding: 0;
+  /* NOTE: This background color is mainly to handle status and url bars */
+  background-color: "#121212";
 }
 
 #root {
