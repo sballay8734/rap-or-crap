@@ -1,4 +1,5 @@
-// !TODO: MAKE WEBSITE RESPONSIVE! (FINAL THING FOR MVP)
+// TODO: Change color of top bar (where battery is)
+// TODO: No zoom when inputs are selected
 
 import * as React from "react"
 import { createRoot } from "react-dom/client"
