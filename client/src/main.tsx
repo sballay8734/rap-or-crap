@@ -2,7 +2,7 @@
 
 // TODO: Text is a bit to small on your phone
 
-// TODO: Refreshing on signin results in cannot GET /auth/signin ???
+// TODO: Input/signin errors should appear under form
 
 import * as React from "react"
 import { createRoot } from "react-dom/client"
