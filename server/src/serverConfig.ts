@@ -16,6 +16,7 @@ import { logServer } from "./helpers/logFormatter"
 import path from "path"
 
 const uri = process.env.MONGO_URI
+const DEPLOYMENT_URL = "https://rap-or-crap.onrender.com"
 
 // Connect to mongodb
 async function run() {
@@ -37,7 +38,12 @@ export const createServer = (): Express => {
     // .use(morgan("dev"))
     .use(urlencoded({ extended: true }))
     .use(json())
-    .use(cors({ credentials: true, origin: "http://localhost:5173" }))
+    .use(
+      cors({
+        credentials: true,
+        origin: ["http://localhost:5173", DEPLOYMENT_URL]
+      })
+    )
     .use(cookieParser())
 
   app.use("/api/prompts", promptsRouter)

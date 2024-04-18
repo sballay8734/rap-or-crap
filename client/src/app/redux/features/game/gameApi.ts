@@ -10,11 +10,12 @@ import {
   UpdateGameStateProps
 } from "../../../../types/ClientDataTypes"
 import { removeModal } from "../modals/handleModalsSlice"
+import { DEPLOYMENT_URL } from "../../../../config/url"
 
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5001/api/game/",
+    baseUrl: `${DEPLOYMENT_URL}/api/game/`,
     credentials: "include"
   }),
   tagTypes: ["ActiveGame"],
