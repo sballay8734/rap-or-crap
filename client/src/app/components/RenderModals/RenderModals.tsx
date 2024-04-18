@@ -38,3 +38,12 @@ export function RenderModals() {
     )
   })
 }
+
+/*
+  npm run build (RENDER COMMAND)
+  "npm install && npm ci --prefix client && cd server && tsc"
+
+  npm start (RENDER COMMAND)
+  "start": "node server/index.js"
+
+*/

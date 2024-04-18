@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run dev --prefix client & npm run dev --prefix server"
+    "dev": "npm run dev --prefix client & npm run dev --prefix server",
+    "build": "npm run build --prefix client && cd server && npm run build",
+    "start": "cd server && npm run start"
   },
   "keywords": [],
   "author": "",
