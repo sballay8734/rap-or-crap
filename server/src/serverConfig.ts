@@ -54,7 +54,7 @@ export const createServer = (): Express => {
   app.use(express.static(clientDistPath))
 
   // NOTE: Needed to handle page refreshes
-  const indexPath = path.join(__dirname, clientDistPath)
+  const indexPath = path.join(__dirname, "../../client/dist/index.html")
   app.get("*", (req: Request, res: Response) => {
     res.sendFile(indexPath)
   })
@@ -78,3 +78,5 @@ export const createServer = (): Express => {
 // Build the front-end so that you get a build or dist folder with your react front-end.
 
 // Serve that in your express app, something like app.use('/', express.static('dist')) so that index.html is served and all the js bundle with it.
+
+// REMEMBER: https://ui.dev/react-router-cannot-get-url-refresh
