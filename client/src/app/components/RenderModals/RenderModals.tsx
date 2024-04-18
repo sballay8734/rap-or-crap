@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 
 import { RootState } from "../../redux/store"
 // CAN'T FIND NOTIFICATION MODAL
-import NotificationModal from "../reusable/NotificationModal"
+import NotificationModal from "../Reusable/NotificationModal"
 
 export function RenderModals() {
   const notifyModals = useSelector(

@@ -8,7 +8,7 @@ import ResultModal from "./components/ResultModal/ResultModal"
 import ConfirmModal from "./components/ConfirmModal/ConfirmModal"
 import ScoreboardModal from "./components/ScoreboardModal/ScoreBoardModal"
 import NoMoreLyricsModal from "./components/NoMoreLyricsModal/NoMoreLyrics"
-import IsLoadingModal from "./components/reusable/IsLoadingModal"
+import IsLoadingModal from "./components/Reusable/IsLoadingModal"
 
 // TODO: This logic needs to be refactored <AuthView /> : <UnAuthView />
 
