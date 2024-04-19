@@ -1,12 +1,12 @@
-// TODO: Input/signin errors should appear under form
+// TODO: Add play as guest option?
 
-// TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
+// TODO: When lyrics run out you should be able to view the scoreboard
 
-/* TODO: Check mouse hover transitions */
+// mTODO: Show round somewhere on gamepage
 
-/* TODO: Maybe center the leaderboard on desktop? */
+/* mTODO: Maybe vertically center the leaderboard on desktop? */
 
-// TODO: Still need to clear cache when user selects it
+/* mTODO: Check mouse hover transitions */
 
 // mTODO: Preload assets
 

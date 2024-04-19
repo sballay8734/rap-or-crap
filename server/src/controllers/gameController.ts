@@ -267,3 +267,44 @@ export const getNewPrompt = async (
     )
   }
 }
+
+// export const clearSeenIds = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   const gameId = req.params.gameId
+
+//   // * get game
+//   const currentGame = await Game.findById(gameId)
+//   if (!currentGame) return next(errorHandler(400, "Game not found."))
+
+//   // * get a new prompt where the new promptId is not in seenPromptIds
+//   try {
+//     // clear ids
+//     currentGame.seenPromptIds = []
+
+//     // gets a random lyric to initialize game with
+//     const randomPrompt = await Prompt.aggregate().sample(1)
+//     if (!randomPrompt)
+//       return next(errorHandler(400, "Could not find random lyric."))
+
+//     const { lyric, _id } = randomPrompt[0]
+
+//     currentGame.currentLyric = lyric
+//     currentGame.currentRound = 1
+//     currentGame.currentPromptId = _id.valueOf()
+//     currentGame.playersObject =
+
+//     await currentGame.save()
+
+//     return res.status(200).json(currentGame)
+//   } catch (error) {
+//     next(
+//       errorHandler(
+//         500,
+//         "Something weird happened while trying to clear the cache"
+//       )
+//     )
+//   }
+// }

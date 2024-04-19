@@ -172,6 +172,41 @@ export const gameApi = createApi({
           }
         }
       }
+    }),
+    clearSeenIds: builder.mutation<InitializedGameInstance, string>({
+      query: (gameId) => ({
+        url: `clearSeenIds/${gameId}`,
+        method: "PATCH",
+        gameId
+      }),
+      invalidatesTags: ["ActiveGame"],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        console.log("STARTED QUERY...")
+        const modalId = "clearIds"
+
+        modalCascade().start(dispatch, true, modalId)
+
+        try {
+          const updatedGame = await queryFulfilled
+          if ("data" in updatedGame) {
+            modalCascade().endWithSuccess(dispatch, false, modalId)
+            dispatch(
+              gameApi.util.upsertQueryData(
+                "fetchActiveGame",
+                "run",
+                updatedGame.data
+              )
+            )
+          }
+        } catch (err) {
+          if (isCustomApiResponse(err)) {
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
+          } else {
+            modalCascade().endWithError(dispatch, false, modalId)
+          }
+        }
+      }
     })
   })
 })
@@ -182,7 +217,8 @@ export const {
   useLazyFetchActiveGameQuery,
   useDeleteGameMutation,
   useUpdateGameStateMutation,
-  useUpdateWithNewPromptMutation
+  useUpdateWithNewPromptMutation,
+  useClearSeenIdsMutation
 } = gameApi
 
 // FIXME: START HERE *************************************

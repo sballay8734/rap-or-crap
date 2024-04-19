@@ -29,6 +29,8 @@ export interface InitializedGameInstance {
   playersObject: PlayersObject
   currentLyric: string
   currentPromptId: string
+  currentRound: number
+  seenPromptIds: string[]
 }
 
 export interface Results {

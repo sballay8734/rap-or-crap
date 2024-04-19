@@ -42,7 +42,7 @@ export default function PromptCard({
           {!lyric ? (
             "Loading..."
           ) : lyric === "No more lyrics" ? (
-            "No more lyrics"
+            <span className="text-primaryInactive">No more lyrics</span>
           ) : (
             <div className="flex">
               <span className="absolute z-1 top-0 left-0 p-4">
