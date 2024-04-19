@@ -38,7 +38,7 @@ const NotificationModal = memo(
 
     // Hides AND REMOVES modal for smooth transition
     useEffect(() => {
-      if (isVisible) {
+      if (isVisible && isSuccess) {
         const timeoutId = setTimeout(() => {
           dispatch(hideModal(modalId))
           // REVIEW: This might not be ideal but it does work.
@@ -57,10 +57,10 @@ const NotificationModal = memo(
         onTransitionEnd={handleTransitionEnd}
         onClick={(e) => e.stopPropagation()}
         style={{
-          position: "absolute",
+          position: "fixed",
           left: 0,
           right: 0,
-          top: `${11 + modalIndex * 72}px`,
+          bottom: `${11 + modalIndex * 72}px`,
           margin: "0 auto",
           maxWidth: "500px",
           minHeight: "65px"
@@ -79,13 +79,17 @@ const NotificationModal = memo(
           {isSuccess ? (
             <IoIosCheckmarkCircleOutline size={35} color={"#FFFFFF"} />
           ) : (
-            <IoIosCloseCircleOutline size={35} color={"#FFFFFF"} />
+            <IoIosCloseCircleOutline
+              size={35}
+              color={"#FFFFFF"}
+              className={`${!isSuccess && "animate-pulse"}`}
+            />
           )}
         </div>
         <div className="message flex flex-col justify-center w-full pl-3">
           <h2
             className={`text-md text-black font-light ${
-              isSuccess ? "text-success" : "text-error"
+              isSuccess ? "text-success" : "text-error animate-pulse"
             }`}
           >
             {isSuccess ? "Success!" : "Error"}

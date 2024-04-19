@@ -184,12 +184,3 @@ export const {
   useUpdateGameStateMutation,
   useUpdateWithNewPromptMutation
 } = gameApi
-
-// FIXME: START HERE *************************************
-// MINOR: logging out too quickly causes error (you've disabled the button while loading for now but might not be best)
-
-// mTODO: Preload fonts, imgs, icons, etc
-
-// mTODO: Add Nav to home on Game Page
-
-// mTODO: Add functionality to "Rules" button

@@ -1,20 +1,16 @@
-// TODO: Input/signin errors should appear under form
+// !TODO: Add play as guest option? (FIRST TODO FOR SATURDAY)
 
-// TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
+// TODO: Handle players having the same score (maybe go by best streak?)
 
-/* TODO: Check mouse hover transitions */
+// mTODO: Show the round somewhere on gamepage
 
-/* !TODO: Remove back button on setup page on desktop */
+/* mTODO: Maybe vertically center the leaderboard on desktop? */
 
-/* TODO: Move scoreboard toggle and home nav to top left of GamePage */
-
-/* TODO: Maybe center the leaderboard on desktop? */
-
-// mTODO: Preload assets
+/* mTODO: Check mouse hover transitions */
 
 // mTODO: Attribution for icons
 
-// mTODO: maybe move notifications to bottom of screen
+// mTODO: Preload fonts, imgs, icons, etc
 
 import * as React from "react"
 import { createRoot } from "react-dom/client"

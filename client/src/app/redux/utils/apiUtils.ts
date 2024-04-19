@@ -31,10 +31,11 @@ interface ModalCascadeProps {
 
 const startMsgMap: { [key: string]: string } = {
   fetchActiveGame: "Checking for existing game...",
-  deleteGame: "Deleting your old game...",
+  deleteGame: "Clearing your old data...",
   initializeGame: "Initializing a new game...",
   updateGame: "Checking your answers...",
   gettingNewLyric: "Getting new lyric...",
+  clearSeenIds: "Clearing cache...",
   signup: "Signing you up...",
   signin: "Signing you in...",
   signout: "Signing out..."
@@ -42,8 +43,9 @@ const startMsgMap: { [key: string]: string } = {
 
 const sucMsgMap: { [key: string]: string } = {
   fetchActiveGame: "Existing game found!",
-  deleteGame: "Game deleted!",
+  deleteGame: "Data cleared!",
   initializeGame: "Game initialized!",
+  clearSeenIds: "Cache cleared!",
   updateGame: "",
   signup: "Account creation successful!",
   signin: "You are logged in!",

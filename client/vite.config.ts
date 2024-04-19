@@ -18,3 +18,5 @@ export default defineConfig(({ mode }) => {
     plugins: [react()]
   }
 })
+
+// REMEMBER: Unfortunately, due to Render limitations, you have to load the env variables under "process.env" from node instead of using VITE_VAR_NAME. You then have to also include the production URL inside of the environment variables on Render also.

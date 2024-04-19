@@ -1,12 +1,15 @@
+import { useSelector } from "react-redux"
+import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { Link, useNavigate } from "react-router-dom"
+
+import { useSigninMutation } from "../../redux/features/auth/authApi"
+import { useLazyFetchActiveGameQuery } from "../../redux/features/game/gameApi"
+import { RootState } from "../../redux/store"
 
 import { MdOutlineMail } from "react-icons/md"
 import { CiLock } from "react-icons/ci"
 import { IoIosClose } from "react-icons/io"
-import { Link } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
-import { useSigninMutation } from "../../redux/features/auth/authApi"
-import { useLazyFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 
 interface FormData {
   email: string
@@ -17,6 +20,10 @@ interface FormData {
 export default function SigninPage() {
   const [getActiveGame] = useLazyFetchActiveGameQuery()
   const [signin] = useSigninMutation()
+  const [error, setError] = useState<string | null>(null)
+  const customError = useSelector(
+    (state: RootState) => state.notifyModals.modalsToRender["signin"]
+  )
   // const [fetchActiveGame] = useLazyFetchActiveGameQuery()
   const navigate = useNavigate()
   const {
@@ -26,6 +33,7 @@ export default function SigninPage() {
   } = useForm<FormData>()
 
   const onSubmit: SubmitHandler<FormData> = async (signinData: FormData) => {
+    setError(null)
     try {
       const res = await signin(signinData)
       // * if ("data" in res) then it was successful
@@ -83,6 +91,11 @@ export default function SigninPage() {
           {errors.password && (
             <span className="flex items-center">
               <IoIosClose size={16} /> {errors.password.message?.toString()}
+            </span>
+          )}
+          {error && (
+            <span className="flex items-center">
+              <IoIosClose size={16} /> {customError.message}
             </span>
           )}
         </div>
