@@ -15,7 +15,6 @@ export const signup = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.body)
   const { email, displayName, password, confirmPassword } = req.body
 
   // if a field is blank
