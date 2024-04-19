@@ -1,6 +1,18 @@
-// TODO: Text is a bit to small on your phone
-
 // TODO: Input/signin errors should appear under form
+
+// TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
+
+/* TODO: Check mouse hover transitions */
+
+/* !TODO: Remove back button on setup page on desktop */
+
+/* TODO: Move scoreboard toggle and home nav to top left of GamePage */
+
+/* TODO: Maybe center the leaderboard on desktop? */
+
+// mTODO: Preload assets
+
+// mTODO: Attribution for icons
 
 import * as React from "react"
 import { createRoot } from "react-dom/client"
@@ -17,8 +29,6 @@ import GamePage from "./app/pages/GamePage/GamePage"
 import HomePage from "./app/pages/HomePage/HomePage"
 import GameSetupPage from "./app/pages/GameSetupPage/GameSetupPage"
 import "./index.css"
-
-// TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
 
 const router = createBrowserRouter([
   {

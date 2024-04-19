@@ -15,7 +15,9 @@ const authRoute_1 = __importDefault(require("./routes/authRoute"));
 const gameRoute_1 = __importDefault(require("./routes/gameRoute"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const logFormatter_1 = require("./helpers/logFormatter");
+const path_1 = __importDefault(require("path"));
 const uri = process.env.MONGO_URI;
+const DEPLOYMENT_URL = "https://rap-or-crap.onrender.com";
 // Connect to mongodb
 async function run() {
     try {
@@ -36,11 +38,21 @@ const createServer = () => {
         // .use(morgan("dev"))
         .use((0, body_parser_1.urlencoded)({ extended: true }))
         .use((0, body_parser_1.json)())
-        .use((0, cors_1.default)({ credentials: true, origin: "http://localhost:5173" }))
+        .use((0, cors_1.default)({
+        credentials: true,
+        origin: ["http://localhost:5173", DEPLOYMENT_URL]
+    }))
         .use((0, cookie_parser_1.default)());
     app.use("/api/prompts", promptsRoute_1.default);
     app.use("/api/auth", authRoute_1.default);
     app.use("/api/game", gameRoute_1.default);
+    const clientDistPath = path_1.default.join(__dirname, "../../client/dist");
+    app.use(express_1.default.static(clientDistPath));
+    // NOTE: Needed to handle page refreshes
+    const indexPath = path_1.default.join(__dirname, "../../client/dist/index.html");
+    app.get("*", (req, res) => {
+        res.sendFile(indexPath);
+    });
     app.use((err, req, res, next) => {
         const statusCode = err.statusCode || 500;
         const message = err.message || "Internal server error";
@@ -54,3 +66,7 @@ const createServer = () => {
     return app;
 };
 exports.createServer = createServer;
+// REMEMBER: Need to serve dist from server in monorepo.
+// Build the front-end so that you get a build or dist folder with your react front-end.
+// Serve that in your express app, something like app.use('/', express.static('dist')) so that index.html is served and all the js bundle with it.
+// REMEMBER: https://ui.dev/react-router-cannot-get-url-refresh
