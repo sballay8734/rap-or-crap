@@ -7,7 +7,6 @@ import { successHandler } from "../utils/successHandler"
 import { IUserResponse } from "../types/ServerAuthTypes"
 import User from "../models/user"
 import { fieldsAreNotValid, passwordsMatch } from "../helpers/authHelpers"
-import { logServer } from "../helpers/logFormatter"
 
 const SALT = Number(process.env.SALT)
 
