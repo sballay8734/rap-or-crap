@@ -1,7 +1,3 @@
-// TODO: Response messages that are errors, should render the rest of the screen unclickable until it is closed
-
-// TODO: When there are no more lyrics, a modal should show with the only options being clearing the cache or going home
-
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"

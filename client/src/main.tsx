@@ -1,6 +1,6 @@
-// TODO: Add play as guest option?
+// !TODO: Add play as guest option? (FIRST TODO FOR SATURDAY)
 
-// TODO: When lyrics run out you should be able to view the scoreboard
+// TODO: Handle players having the same score (maybe go by best streak?)
 
 // mTODO: Show round somewhere on gamepage
 
@@ -13,6 +13,8 @@
 // mTODO: Attribution for icons
 
 // mTODO: maybe move notifications to bottom of screen
+
+// mTODO: Preload fonts, imgs, icons, etc
 
 import * as React from "react"
 import { createRoot } from "react-dom/client"

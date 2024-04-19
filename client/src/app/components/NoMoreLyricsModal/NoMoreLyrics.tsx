@@ -5,13 +5,10 @@ import { useNavigate } from "react-router-dom"
 import { RootState } from "../../redux/store"
 import { hideCacheModal } from "../../redux/features/modals/clearCacheModalSlice"
 import {
-  useClearSeenIdsMutation,
   useDeleteGameMutation,
   useFetchActiveGameQuery
 } from "../../redux/features/game/gameApi"
 import { showScoreboard } from "../../redux/features/modals/scoreboardModalSlice"
-
-// TODO: slice for vis/notVis, cache clear (seenPrompts)
 
 export default function NoMoreLyricsModal() {
   const [deleteGame] = useDeleteGameMutation()
