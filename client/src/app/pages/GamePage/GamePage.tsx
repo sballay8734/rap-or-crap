@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom"
 import { showScoreboard } from "../../redux/features/modals/scoreboardModalSlice"
 import { useEffect } from "react"
 import { showCacheModal } from "../../redux/features/modals/clearCacheModalSlice"
+import { AiOutlineHome } from "react-icons/ai"
 
 export default function GamePage() {
   const navigate = useNavigate()
@@ -148,6 +149,12 @@ export default function GamePage() {
               src="/scoreboard.png"
               alt=""
             />
+          </button>
+          <button
+            onClick={() => navigate("/home")}
+            className="bg-secondary text-black flex items-center justify-center gap-2 absolute bottom-[3px] left-0 p-[0.7rem] rounded-full ml-3 mb-3 shadow-main"
+          >
+            <AiOutlineHome className="h-7 w-7 object-contain" />
           </button>
         </div>
       )}

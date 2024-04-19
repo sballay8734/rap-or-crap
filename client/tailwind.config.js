@@ -17,7 +17,9 @@ export default {
       screens: {
         short: { raw: "(max-height: 750px)" },
         skinny: { raw: "(max-width: 360px)" },
-        wide: "1201px"
+        wide: "1201px",
+        tablet: "800px",
+        tabletLg: "1200px"
       },
       colors: {
         primary: "#BB86FC",

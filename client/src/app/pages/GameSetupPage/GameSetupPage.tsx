@@ -2,7 +2,7 @@
 
 // TODO: When there are no more lyrics, a modal should show with the only options being clearing the cache or going home
 
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
@@ -28,6 +28,7 @@ const MAX_PLAYERS = 10
 
 export default function GameSetupPage() {
   const [initializeGame] = useInitializeGameMutation()
+  const [width, setWidth] = useState<number>(window.innerWidth)
 
   const userId = useSelector((state: RootState) => state.user.user?._id)
   const players = useSelector((state: RootState) => state.game.playerList)
@@ -172,6 +173,18 @@ export default function GameSetupPage() {
     return avatars
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth)
+    }
+
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
   return (
     <div className="z-1 relative flex h-full w-full flex-col items-center justify-between text-white bg-surface">
       <div className="header-and-list-wrapper flex flex-col flex-grow w-full bg-surface items-center overflow-auto max-w-[700px]">
@@ -180,10 +193,14 @@ export default function GameSetupPage() {
           <div className="flex flex-grow">
             <div className="flex flex-col justify-between flex-grow">
               <button
-                // onClick={() => navigate(-1)}
-                className="flex gap-2 items-center text-primaryLightest flex-shrink"
+                onClick={() => navigate(-1)}
+                className="flex gap-2 items-center justify-start w-fit  text-primaryLightest flex-shrink tablet:fixed top-0 left-0 tablet:p-8 animate-pulse"
               >
-                <FaArrowLeftLong onClick={() => navigate(-1)} size={20} />
+                <FaArrowLeftLong
+                  // onClick={() => navigate(-1)}
+                  className="text-[1.3rem] tablet:text-[1.5rem] tabletLg:text-[1.8rem]"
+                />
+                {width > 1200 ? <span className="text-lg">Go Home</span> : ""}
               </button>
               <h2 className="text-2xl font-main font-bold text-lightGray">
                 Let's go! Add players to begin.

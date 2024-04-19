@@ -1,14 +1,8 @@
-// !TODO: Hook up rules modal
-
-/* !TODO: Remove back button on setup page on desktop */
-
 // TODO: Input/signin errors should appear under form
 
 // TODO: ErrorPage will not be hit if there is an error navigating to login, signup, home, etc... I think they need to be nested inside of the root path
 
 /* TODO: Check mouse hover transitions */
-
-/* TODO: Move scoreboard toggle and home nav to top left of GamePage */
 
 /* TODO: Maybe center the leaderboard on desktop? */
 
