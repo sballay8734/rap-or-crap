@@ -2,8 +2,6 @@
 
 // TODO: Input/signin errors should appear under form
 
-// TODO: SIGN UP is not working in production
-
 import * as React from "react"
 import { createRoot } from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
