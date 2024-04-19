@@ -9,13 +9,14 @@ import User from "../models/user"
 import { fieldsAreNotValid, passwordsMatch } from "../helpers/authHelpers"
 import { logServer } from "../helpers/logFormatter"
 
-const SALT = process.env.SALT
+const SALT = Number(process.env.SALT)
 
 export const signup = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  console.log(req.body)
   const { email, displayName, password, confirmPassword } = req.body
 
   // if a field is blank
@@ -31,8 +32,9 @@ export const signup = async (
   // if email already exists
   // !FIXME: Need to lowercase email!
   const existingUser = await User.findOne({ email })
-  logServer("authController/signup", existingUser)
   if (existingUser) return next(errorHandler(409, "That user already exists."))
+
+  console.log("SALT:", process.env.SALT)
 
   try {
     const newUser = await User.create({
