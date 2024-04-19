@@ -14,7 +14,7 @@ import { removeModal } from "../modals/handleModalsSlice"
 export const gameApi = createApi({
   reducerPath: "gameApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_URL}/api/game/`,
+    baseUrl: `${process.env.URL}/api/game/`,
     credentials: "include"
   }),
   tagTypes: ["ActiveGame"],

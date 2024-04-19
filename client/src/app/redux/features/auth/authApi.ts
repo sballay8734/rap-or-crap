@@ -14,7 +14,7 @@ import { modalCascade } from "../../utils/apiUtils"
 const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_URL}/api/auth/`,
+    baseUrl: `${process.env.URL}/api/auth/`,
     credentials: "include"
   }),
   tagTypes: ["User"],
