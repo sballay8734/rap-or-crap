@@ -3,17 +3,22 @@
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
-import { IoMdSettings } from "react-icons/io"
-import { FaPlay } from "react-icons/fa"
-import { ImSpinner11 } from "react-icons/im"
-import { showConfirmModal } from "../../redux/features/modals/confirmModalSlice"
+import { RootState } from "../../redux/store"
+
+import HowToPlayModal from "../../components/HowToPlayModal/HowToPlayModal"
+
 import { useSignoutMutation } from "../../redux/features/auth/authApi"
 import { useFetchActiveGameQuery } from "../../redux/features/game/gameApi"
-import { RootState } from "../../redux/store"
-import { AiOutlineLoading3Quarters } from "react-icons/ai"
-import AnimatedNotes from "../../components/AnimatedNotes/AnimatedNotes"
+
+import { showConfirmModal } from "../../redux/features/modals/confirmModalSlice"
 import { addModal } from "../../redux/features/modals/handleModalsSlice"
 import { showCacheModal } from "../../redux/features/modals/clearCacheModalSlice"
+import { showRules } from "../../redux/features/modals/howToPlayModalSlice"
+
+import { FaPlay } from "react-icons/fa"
+import { ImSpinner11 } from "react-icons/im"
+import { FaQuestion } from "react-icons/fa"
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 export default function HomePage() {
   const [signout] = useSignoutMutation()
@@ -116,8 +121,11 @@ export default function HomePage() {
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14">
-            Rules <IoMdSettings size={18} className="absolute right-4" />
+          <button
+            onClick={() => dispatch(showRules())}
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14"
+          >
+            How to Play <FaQuestion size={18} className="absolute right-4" />
           </button>
           <button
             onClick={handleSignout}
@@ -142,8 +150,11 @@ export default function HomePage() {
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14">
-            Rules <IoMdSettings size={18} className="absolute right-4" />
+          <button
+            onClick={() => dispatch(showRules())}
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14"
+          >
+            How to Play <FaQuestion size={18} className="absolute right-4" />
           </button>
           <button
             onClick={handleSignout}
@@ -161,7 +172,7 @@ export default function HomePage() {
           </button>
         </div>
       )}
-      <AnimatedNotes />
+      <HowToPlayModal />
     </div>
   )
 }
