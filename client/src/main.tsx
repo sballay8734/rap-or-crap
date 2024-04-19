@@ -2,17 +2,13 @@
 
 // TODO: Handle players having the same score (maybe go by best streak?)
 
-// mTODO: Show round somewhere on gamepage
+// mTODO: Show the round somewhere on gamepage
 
 /* mTODO: Maybe vertically center the leaderboard on desktop? */
 
 /* mTODO: Check mouse hover transitions */
 
-// mTODO: Preload assets
-
 // mTODO: Attribution for icons
-
-// mTODO: maybe move notifications to bottom of screen
 
 // mTODO: Preload fonts, imgs, icons, etc
 
