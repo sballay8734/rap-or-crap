@@ -15,8 +15,6 @@ import AnimatedNotes from "../../components/AnimatedNotes/AnimatedNotes"
 import { addModal } from "../../redux/features/modals/handleModalsSlice"
 import { showCacheModal } from "../../redux/features/modals/clearCacheModalSlice"
 
-console.log(process.env.URL)
-
 export default function HomePage() {
   const [signout] = useSignoutMutation()
   const user = useSelector((state: RootState) => state.user.user)
@@ -98,7 +96,7 @@ export default function HomePage() {
           <img
             src="/musicNote.png"
             alt=""
-            className="w-40 h-40 flex items-center justify-center brightness-50"
+            className="w-32 h-32 flex items-center justify-center brightness-50"
           />
         </div>
       </div>
@@ -108,22 +106,22 @@ export default function HomePage() {
         <div className="flex flex-grow w-full flex-col items-center gap-4 justify-end">
           <button
             onClick={handleResumeGame}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14"
           >
             Resume Game <ImSpinner11 className="absolute right-4" />
           </button>
           <button
             onClick={handleNewGame}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14"
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black">
+          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14">
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
           <button
             onClick={handleSignout}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3 h-12"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3 h-12 min-h-14"
             type="submit"
             disabled={modalVisible}
           >
@@ -140,16 +138,16 @@ export default function HomePage() {
         <div className="flex flex-grow w-full flex-col items-center gap-4 justify-end">
           <button
             onClick={handleNewGame}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14"
           >
             New Game <FaPlay className="absolute right-4" />
           </button>
-          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black">
+          <button className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-primary text-primary px-4 py-3 bg-black min-h-14">
             Rules <IoMdSettings size={18} className="absolute right-4" />
           </button>
           <button
             onClick={handleSignout}
-            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3 h-12"
+            className="relative flex w-full items-center justify-center rounded-sm border-[1px] border-transparent text-black bg-error px-4 py-3 h-12 min-h-14"
             type="submit"
             disabled={modalVisible}
           >
