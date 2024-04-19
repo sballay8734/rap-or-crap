@@ -7,3 +7,4 @@ const server = (0, serverConfig_1.createServer)();
 server.listen(port, () => {
     (0, logFormatter_1.logServer)(`Api running on port ${port}`);
 });
+//  /auth/undefined/api/auth/signin

@@ -10,9 +10,9 @@ const errorHandler_1 = require("../utils/errorHandler");
 const successHandler_1 = require("../utils/successHandler");
 const user_1 = __importDefault(require("../models/user"));
 const authHelpers_1 = require("../helpers/authHelpers");
-const logFormatter_1 = require("../helpers/logFormatter");
-const SALT = process.env.SALT;
+const SALT = Number(process.env.SALT);
 const signup = async (req, res, next) => {
+    console.log(req.body);
     const { email, displayName, password, confirmPassword } = req.body;
     // if a field is blank
     if ((0, authHelpers_1.fieldsAreNotValid)(email, displayName, password, confirmPassword)) {
@@ -25,9 +25,9 @@ const signup = async (req, res, next) => {
     // if email already exists
     // !FIXME: Need to lowercase email!
     const existingUser = await user_1.default.findOne({ email });
-    (0, logFormatter_1.logServer)("authController/signup", existingUser);
     if (existingUser)
         return next((0, errorHandler_1.errorHandler)(409, "That user already exists."));
+    console.log("SALT:", process.env.SALT);
     try {
         const newUser = await user_1.default.create({
             email,
