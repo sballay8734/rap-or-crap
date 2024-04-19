@@ -10,12 +10,11 @@ import { isCustomApiResponse } from "../../../helpers/errorReform"
 import { gameApi } from "../game/gameApi"
 import { clearUser, setUser } from "../user/userSlice"
 import { modalCascade } from "../../utils/apiUtils"
-import { DEPLOYMENT_URL } from "../../../../config/url"
 
 const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${DEPLOYMENT_URL}/api/auth/`,
+    baseUrl: `${import.meta.env.VITE_URL}/api/auth/`,
     credentials: "include"
   }),
   tagTypes: ["User"],
