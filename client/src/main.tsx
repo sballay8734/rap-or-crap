@@ -1,5 +1,3 @@
-// TODO: Add ability to easily switch to dev and prod mode on client (Server is already handled)
-
 // TODO: Text is a bit to small on your phone
 
 // TODO: Input/signin errors should appear under form

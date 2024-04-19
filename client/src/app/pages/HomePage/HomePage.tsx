@@ -15,6 +15,9 @@ import AnimatedNotes from "../../components/AnimatedNotes/AnimatedNotes"
 import { addModal } from "../../redux/features/modals/handleModalsSlice"
 import { showCacheModal } from "../../redux/features/modals/clearCacheModalSlice"
 
+const URL = import.meta.env.VITE_URL
+console.log(URL)
+
 export default function HomePage() {
   const [signout] = useSignoutMutation()
   const user = useSelector((state: RootState) => state.user.user)
