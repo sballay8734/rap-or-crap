@@ -3,13 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNewPrompt = exports.updateGame = exports.deleteOldActiveGame = exports.fetchActiveGame = exports.initializeGame = void 0;
+exports.initializeGuestGame = exports.getNewPrompt = exports.updateGame = exports.deleteOldActiveGame = exports.fetchActiveGame = exports.initializeGame = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const errorHandler_1 = require("../utils/errorHandler");
 const gameInstance_1 = __importDefault(require("../models/gameInstance"));
 const user_1 = __importDefault(require("../models/user"));
 const logFormatter_1 = require("../helpers/logFormatter");
 const prompt_1 = __importDefault(require("../models/prompt"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const initializeGame = async (req, res, next) => {
     const gameData = req.body;
     const userId = req.userId;
@@ -94,8 +94,6 @@ const deleteOldActiveGame = async (req, res, next) => {
     return res.status(200).json(null);
 };
 exports.deleteOldActiveGame = deleteOldActiveGame;
-// ! Don't send correct answer back when fetching prompts... Minor for this use case but could be very important security consideration for another app
-// ! ACTUALLY: ONLY send the lyric
 const updateGame = async (req, res, next) => {
     const answersObject = req.body.answersObject;
     const gameId = req.body.gameId;
@@ -206,3 +204,30 @@ const getNewPrompt = async (req, res, next) => {
     }
 };
 exports.getNewPrompt = getNewPrompt;
+const initializeGuestGame = async (req, res, next) => {
+    console.log(req.body);
+    const gameData = req.body;
+    try {
+        // gets a random lyric to initialize game with
+        const randomPrompt = await prompt_1.default.aggregate().sample(1);
+        if (!randomPrompt)
+            return next((0, errorHandler_1.errorHandler)(400, "Could not find random lyric."));
+        const { lyric, _id } = randomPrompt[0];
+        const finalizedGameData = {
+            playersObject: gameData.playersObject,
+            userId: gameData.userId,
+            currentLyric: lyric,
+            currentRound: 1,
+            currentPromptId: _id.valueOf()
+        };
+        // Creates game with finializedGameData
+        const newGame = await gameInstance_1.default.create(finalizedGameData);
+        if (!newGame)
+            next((0, errorHandler_1.errorHandler)(400, "Could not initialize game."));
+        return res.status(200).json(newGame);
+    }
+    catch (error) {
+        next((0, errorHandler_1.errorHandler)(500, "Could not initialize game."));
+    }
+};
+exports.initializeGuestGame = initializeGuestGame;

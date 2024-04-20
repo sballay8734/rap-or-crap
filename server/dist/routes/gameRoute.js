@@ -12,4 +12,6 @@ router.get("/active-game", authenticateUser_1.authenticateUser, gameController_1
 router.delete("/delete-game", authenticateUser_1.authenticateUser, gameController_1.deleteOldActiveGame);
 router.patch("/update-game", authenticateUser_1.authenticateUser, gameController_1.updateGame);
 router.patch("/get-new-prompt/:gameId", authenticateUser_1.authenticateUser, gameController_1.getNewPrompt);
+// Not authenticating user for guest game
+router.post("/intialize-guest-game", gameController_1.initializeGuestGame);
 exports.default = router;

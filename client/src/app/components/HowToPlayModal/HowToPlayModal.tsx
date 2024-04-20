@@ -26,23 +26,27 @@ export default function HowToPlayModal() {
         <div className="header flex flex-col items-center justify-center gap-2 h-1/5 bg-secondary">
           <h1 className="text-2xl">How to Play</h1>
         </div>
-        <div className="flex gap-2 flex-col w-full items-center text-white">
+        <div className="flex gap-2 flex-col w-full items-center text-white py-2 px-2">
           {suggestions.map((suggestion) => {
+            // TODO: If suggestion.type === "list" return ....
+            // else return below...
             return (
               <div
-                className="bg-[#1f1f1f] rounded-md max-w-[95%] p-2 border border-[#333333]"
+                className="bg-[#1f1f1f] rounded-md p-2 border border-[#333333] w-full"
                 key={suggestion.number}
               >
                 {/* WARNING: Make sure to use full tailwind classes here */}
                 <h2
-                  className={`label text-xl text-red-500 relative w-full mb-2`}
+                  className={`label text-lg text-red-500 relative w-full mb-1`}
                 >
                   {suggestion.label}
                   <span className="absolute p-1 top-0 right-0 text-xs text-blue-300">
                     {suggestion.type}
                   </span>
                 </h2>
-                <p className="description">{suggestion.description}</p>
+                <p className="description text-sm font-light text-[#c4c4c4]">
+                  {suggestion.description}
+                </p>
               </div>
             )
           })}

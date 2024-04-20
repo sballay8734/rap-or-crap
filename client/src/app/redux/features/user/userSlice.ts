@@ -25,11 +25,20 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
+    setGuestUser: (state, action: PayloadAction<string>) => {
+      state.user = {
+        _id: action.payload,
+        email: "guest@guestmail.com",
+        displayName: "Guest",
+        activeGameId: "",
+        isNewUser: false
+      }
+    },
     clearUser: (state) => {
       state.user = null
     }
   }
 })
 
-export const { setUser, clearUser } = userSlice.actions
+export const { setUser, setGuestUser, clearUser } = userSlice.actions
 export default userSlice.reducer

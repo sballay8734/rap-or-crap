@@ -3,13 +3,17 @@ import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
 
-import { useSigninMutation } from "../../redux/features/auth/authApi"
+import {
+  useSigninMutation,
+  useSignupGuestMutation
+} from "../../redux/features/auth/authApi"
 import { useLazyFetchActiveGameQuery } from "../../redux/features/game/gameApi"
 import { RootState } from "../../redux/store"
 
 import { MdOutlineMail } from "react-icons/md"
 import { CiLock } from "react-icons/ci"
 import { IoIosClose } from "react-icons/io"
+import { FaArrowAltCircleRight } from "react-icons/fa"
 
 interface FormData {
   email: string
@@ -20,6 +24,7 @@ interface FormData {
 export default function SigninPage() {
   const [getActiveGame] = useLazyFetchActiveGameQuery()
   const [signin] = useSigninMutation()
+  const [signupGuest] = useSignupGuestMutation()
   const [error, setError] = useState<string | null>(null)
   const customError = useSelector(
     (state: RootState) => state.notifyModals.modalsToRender["signin"]
@@ -45,6 +50,23 @@ export default function SigninPage() {
       }
     } catch (error) {
       console.error("Something went wrong!")
+    }
+  }
+
+  async function startGameAsGuest() {
+    const signupData = {
+      email: "guest@guest.com",
+      displayName: "Guest",
+      password: "guestpassword",
+      confirmPassword: "guestPassword"
+    }
+    try {
+      const res = await signupGuest(signupData)
+      if ("data" in res) {
+        navigate("/home")
+      }
+    } catch (error) {
+      console.error("Something went wrong.")
     }
   }
 
@@ -112,6 +134,12 @@ export default function SigninPage() {
       >
         Don't have an account? <span className="text-primary">Sign up</span>
       </Link>
+      <button
+        onClick={startGameAsGuest}
+        className="absolute top-0 right-0 m-4 flex items-center gap-2 bg-primaryVariant p-2 px-4 rounded-md animate-pulse"
+      >
+        PLAY AS GUEST <FaArrowAltCircleRight />
+      </button>
     </div>
   )
 }

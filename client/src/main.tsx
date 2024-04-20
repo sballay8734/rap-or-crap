@@ -1,5 +1,3 @@
-// !TODO: Add play as guest option? (FIRST TODO FOR SATURDAY)
-
 // TODO: Handle players having the same score (maybe go by best streak?)
 
 // mTODO: Show the round somewhere on gamepage
