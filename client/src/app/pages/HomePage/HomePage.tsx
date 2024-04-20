@@ -93,7 +93,7 @@ export default function HomePage() {
         </h1>
         <p className="text-center font-light text-sm max-w-[80%] text-heroP">
           A game that might just convince you that you've got what it takes to
-          be a rapper.
+          be a rapper. <span className="font-bold">Wrong answers drink!</span>
         </p>
         <div className="flex flex-grow items-center">
           <img

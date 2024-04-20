@@ -136,7 +136,7 @@ export default function SigninPage() {
       </Link>
       <button
         onClick={startGameAsGuest}
-        className="absolute top-0 right-0 m-4 flex items-center gap-2 bg-primaryVariant p-2 px-4 rounded-md animate-pulse"
+        className="absolute top-0 right-0 m-4 flex items-center gap-2 bg-primaryVariant p-2 px-4 rounded-md animate-pulse tablet:fixed tablet:top-0 tablet:right-0 tablet:w-52 tablet:py-4 justify-center"
       >
         PLAY AS GUEST <FaArrowAltCircleRight />
       </button>
