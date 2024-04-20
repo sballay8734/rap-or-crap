@@ -1,6 +1,8 @@
-// TODO: Handle players having the same score (maybe go by best streak?)
+// TODO: ADD MORE LYRICS!!!
 
-// TODO: Play as guest button on desktop location
+// TODO: REFACTOR & OPTIMIZE
+
+// mTODO: Handle players having the same score (maybe go by best streak?)
 
 // mTODO: Show the round somewhere on gamepage
 

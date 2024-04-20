@@ -42,7 +42,6 @@ export default function HowToPlayModal() {
         </div>
         <div className="flex gap-2 flex-col w-full items-center text-white py-2 px-2 flex-grow max-w-[800px] justify-center">
           {suggestions.map((suggestion) => {
-            // TODO: If suggestion.type === "list" return ....
             if (suggestion.type === "list" && suggestion.elements) {
               return (
                 <div
