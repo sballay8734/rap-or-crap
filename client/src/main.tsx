@@ -1,5 +1,7 @@
 // TODO: Handle players having the same score (maybe go by best streak?)
 
+// TODO: Play as guest button on desktop location
+
 // mTODO: Show the round somewhere on gamepage
 
 /* mTODO: Maybe vertically center the leaderboard on desktop? */
