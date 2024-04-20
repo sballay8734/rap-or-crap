@@ -44,6 +44,30 @@ const authApi = createApi({
         }
       }
     }),
+    signupGuest: builder.mutation<CreatedUser, SignUpFormData>({
+      query: (body) => ({ url: "signup-guest", method: "POST", body }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        const modalId = "signup"
+
+        modalCascade().start(dispatch, true, modalId)
+
+        try {
+          const res = await queryFulfilled
+          const data = { ...res.data, isNewUser: false }
+
+          dispatch(setUser(data))
+
+          modalCascade().endWithSuccess(dispatch, true, modalId)
+        } catch (err) {
+          if (isCustomApiResponse(err)) {
+            const errorMsg = err.error.data.message
+            modalCascade().endWithError(dispatch, true, modalId, errorMsg)
+          } else {
+            modalCascade().endWithError(dispatch, true, modalId)
+          }
+        }
+      }
+    }),
     signin: builder.mutation<CreatedUser, SignInFormData>({
       query: (body) => ({ url: "signin", method: "POST", body }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -97,6 +121,10 @@ const authApi = createApi({
   })
 })
 
-export const { useSignupMutation, useSigninMutation, useSignoutMutation } =
-  authApi
+export const {
+  useSignupMutation,
+  useSigninMutation,
+  useSignoutMutation,
+  useSignupGuestMutation
+} = authApi
 export { authApi }

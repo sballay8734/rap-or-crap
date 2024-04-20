@@ -5,8 +5,13 @@ import { MdOutlineMail } from "react-icons/md"
 import { CiLock } from "react-icons/ci"
 import { IoIosClose } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
-import { FaRegUser } from "react-icons/fa"
-import { useSignupMutation } from "../../redux/features/auth/authApi"
+import { FaArrowAltCircleRight, FaRegUser } from "react-icons/fa"
+import {
+  useSignupGuestMutation,
+  useSignupMutation
+} from "../../redux/features/auth/authApi"
+import { useDispatch } from "react-redux"
+import { addModal } from "../../redux/features/modals/handleModalsSlice"
 
 interface FormData {
   email: string
@@ -17,7 +22,9 @@ interface FormData {
 
 // !FIXME: Form validation is not quite working properly. It only works after form has been submitted but not initially.
 export default function SignupPage() {
+  const dispatch = useDispatch()
   const [signup] = useSignupMutation()
+  const [signupGuest] = useSignupGuestMutation()
   const navigate = useNavigate()
   const {
     watch,
@@ -29,8 +36,33 @@ export default function SignupPage() {
   const watchPassword = watch("password", undefined)
 
   const onSubmit: SubmitHandler<FormData> = async (signupData: FormData) => {
+    if (signupData.displayName.trim().toLocaleLowerCase() === "guest") {
+      const data = {
+        isSuccess: false,
+        message: '"Guest" as a display name is not allowed'
+      }
+      dispatch(addModal({ modalId: "signup", data }))
+      return
+    }
     try {
       const res = await signup(signupData)
+      if ("data" in res) {
+        navigate("/home")
+      }
+    } catch (error) {
+      console.error("Something went wrong.")
+    }
+  }
+
+  async function startGameAsGuest() {
+    const signupData = {
+      email: "guest@guest.com",
+      displayName: "Guest",
+      password: "guestpassword",
+      confirmPassword: "guestPassword"
+    }
+    try {
+      const res = await signupGuest(signupData)
       if ("data" in res) {
         navigate("/home")
       }
@@ -152,6 +184,12 @@ export default function SignupPage() {
           Sign in
         </Link>
       </p>
+      <button
+        onClick={startGameAsGuest}
+        className="absolute top-0 right-0 m-4 flex items-center gap-2 bg-primaryVariant p-2 px-4 rounded-md animate-pulse"
+      >
+        PLAY AS GUEST <FaArrowAltCircleRight />
+      </button>
     </div>
   )
 }

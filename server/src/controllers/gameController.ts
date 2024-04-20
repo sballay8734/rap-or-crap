@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express"
+import mongoose from "mongoose"
 
 import { errorHandler } from "../utils/errorHandler"
 import Game from "../models/gameInstance"
 import User from "../models/user"
-import { logServer, warnServer } from "../helpers/logFormatter"
+import { logServer } from "../helpers/logFormatter"
 import Prompt from "../models/prompt"
 import { IGameInstance } from "../types/ServerDataTypes"
-import mongoose from "mongoose"
 
 export const initializeGame = async (
   req: Request,
@@ -123,9 +123,6 @@ export const deleteOldActiveGame = async (
 
   return res.status(200).json(null)
 }
-
-// ! Don't send correct answer back when fetching prompts... Minor for this use case but could be very important security consideration for another app
-// ! ACTUALLY: ONLY send the lyric
 
 export const updateGame = async (
   req: Request,
@@ -268,43 +265,36 @@ export const getNewPrompt = async (
   }
 }
 
-// export const clearSeenIds = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const gameId = req.params.gameId
+export const initializeGuestGame = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log(req.body)
+  const gameData: IGameInstance = req.body
 
-//   // * get game
-//   const currentGame = await Game.findById(gameId)
-//   if (!currentGame) return next(errorHandler(400, "Game not found."))
+  try {
+    // gets a random lyric to initialize game with
+    const randomPrompt = await Prompt.aggregate().sample(1)
+    if (!randomPrompt)
+      return next(errorHandler(400, "Could not find random lyric."))
 
-//   // * get a new prompt where the new promptId is not in seenPromptIds
-//   try {
-//     // clear ids
-//     currentGame.seenPromptIds = []
+    const { lyric, _id } = randomPrompt[0]
 
-//     // gets a random lyric to initialize game with
-//     const randomPrompt = await Prompt.aggregate().sample(1)
-//     if (!randomPrompt)
-//       return next(errorHandler(400, "Could not find random lyric."))
+    const finalizedGameData = {
+      playersObject: gameData.playersObject,
+      userId: gameData.userId,
+      currentLyric: lyric,
+      currentRound: 1,
+      currentPromptId: _id.valueOf()
+    }
 
-//     const { lyric, _id } = randomPrompt[0]
+    // Creates game with finializedGameData
+    const newGame = await Game.create(finalizedGameData)
+    if (!newGame) next(errorHandler(400, "Could not initialize game."))
 
-//     currentGame.currentLyric = lyric
-//     currentGame.currentRound = 1
-//     currentGame.currentPromptId = _id.valueOf()
-//     currentGame.playersObject =
-
-//     await currentGame.save()
-
-//     return res.status(200).json(currentGame)
-//   } catch (error) {
-//     next(
-//       errorHandler(
-//         500,
-//         "Something weird happened while trying to clear the cache"
-//       )
-//     )
-//   }
-// }
+    return res.status(200).json(newGame)
+  } catch (error) {
+    next(errorHandler(500, "Could not initialize game."))
+  }
+}
