@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid"
 
 import { MdOutlineMail } from "react-icons/md"
 import { CiLock } from "react-icons/ci"
@@ -56,7 +57,7 @@ export default function SignupPage() {
 
   async function startGameAsGuest() {
     const signupData = {
-      email: "guest@guest.com",
+      email: `${uuidv4()}@guest.com`,
       displayName: "Guest",
       password: "guestpassword",
       confirmPassword: "guestPassword"

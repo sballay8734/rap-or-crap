@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid"
 
 import {
   useSigninMutation,
@@ -55,7 +56,7 @@ export default function SigninPage() {
 
   async function startGameAsGuest() {
     const signupData = {
-      email: "guest@guest.com",
+      email: `${uuidv4()}@guest.com`,
       displayName: "Guest",
       password: "guestpassword",
       confirmPassword: "guestPassword"
