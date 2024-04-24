@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { v4 as uuidv4 } from "uuid"
 
 export interface User {
   _id: string
@@ -28,7 +29,7 @@ const userSlice = createSlice({
     setGuestUser: (state, action: PayloadAction<string>) => {
       state.user = {
         _id: action.payload,
-        email: "guest@guestmail.com",
+        email: `${uuidv4()}@guestmail.com`,
         displayName: "Guest",
         activeGameId: "",
         isNewUser: false
