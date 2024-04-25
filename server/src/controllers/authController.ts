@@ -41,8 +41,6 @@ export const signup = async (
   const existingUser = await User.findOne({ email })
   if (existingUser) return next(errorHandler(409, "That user already exists."))
 
-  console.log("SALT:", process.env.SALT)
-
   try {
     const newUser = await User.create({
       email,
@@ -91,8 +89,6 @@ export const signupGuest = async (
   // !FIXME: Need to lowercase email!
   const existingUser = await User.findOne({ email })
   if (existingUser) return next(errorHandler(409, "That user already exists."))
-
-  console.log("SALT:", process.env.SALT)
 
   try {
     const newUser = await User.create({
@@ -162,15 +158,11 @@ export const signout = async (
     if (!userId) return next(errorHandler(401, "Unauthorized."))
 
     const user = await User.findById(userId)
-    console.log(user) // WORKING
 
     if (!user) return next(errorHandler(400, "User not found."))
-    console.log("User Found") // WORKING
 
     if (user.displayName === "Guest") {
-      console.log("RUNNING") // WORKING
       await User.deleteOne({ _id: userId })
-      console.log("DELETED GUEST!")
     }
     // return next(errorHandler(500, "TEST"))
     res.clearCookie("access_token")
